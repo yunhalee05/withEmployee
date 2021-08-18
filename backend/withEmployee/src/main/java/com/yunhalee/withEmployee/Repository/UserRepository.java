@@ -13,6 +13,9 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Integer> {
     User findByName(String name);
 
+    @Query(value = "SELECT u FROM User u INNER JOIN FETCH u.role r LEFT JOIN FETCH u.teams t")
+    List<User> findAllUsers();
+
     List<User> findByTeams(Team team);
 
     List<User> findByRole(Role role);

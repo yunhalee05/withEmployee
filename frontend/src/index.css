@@ -18,3 +18,6 @@ code {
 
 /* Header */
 @import url('./styles/header.css');
+
+/* List */
+@import url('./styles/List.css');

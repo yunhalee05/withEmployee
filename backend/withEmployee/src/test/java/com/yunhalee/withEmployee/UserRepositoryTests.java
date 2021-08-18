@@ -119,6 +119,7 @@ public class UserRepositoryTests {
 
     @Test
     public void testListAllUserWithTeams(){
-        List<User> users = (List<User>) repo.findAll();
+        List<User> users = repo.findAllUsers();
+        System.out.println(users);
     }
 }

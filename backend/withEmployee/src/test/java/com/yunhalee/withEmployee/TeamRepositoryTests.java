@@ -46,8 +46,8 @@ public class TeamRepositoryTests {
 
     @Test
     public void testUpdateTeam(){
-        Team team = repo.findById(4).get();
-        Company company = entityManager.find(Company.class,9);
+        Team team = repo.findById(7).get();
+        Company company = entityManager.find(Company.class,5);
 
         team.setCompany(company);
         Team savedteam = repo.save(team);
