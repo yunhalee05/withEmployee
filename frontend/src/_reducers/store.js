@@ -1,5 +1,6 @@
 import{combineReducers, createStore, compose, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
+import { companylistReducer } from './companyReducers';
 import { teamlistReducer } from './teamReducers';
 import { userlistReducer } from './userReducers';
 
@@ -10,6 +11,7 @@ const initialState={
 const reducer = combineReducers({
     userlist : userlistReducer,
     teamlist : teamlistReducer,
+    companylist : companylistReducer,
 
 })
 

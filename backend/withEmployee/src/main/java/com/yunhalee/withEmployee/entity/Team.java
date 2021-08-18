@@ -45,4 +45,9 @@ public class Team {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    @Transient
+    public Integer getTotalNumber(){
+        return this.users.size();
+    }
 }

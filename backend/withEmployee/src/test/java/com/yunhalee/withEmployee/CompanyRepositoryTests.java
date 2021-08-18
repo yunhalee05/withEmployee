@@ -9,6 +9,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
+
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -63,6 +66,13 @@ public class CompanyRepositoryTests {
         Iterable<Company> companies = repo.findAll();
 
         companies.forEach(c-> System.out.println(c));
+    }
+
+    @Test
+    public void testListAllCompanyWithTeam(){
+        List<Company> companyList = repo.findAllCompanies();
+
+        System.out.println(companyList);
     }
 
 }
