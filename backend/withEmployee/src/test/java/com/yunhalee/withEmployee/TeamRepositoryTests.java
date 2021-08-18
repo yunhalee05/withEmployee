@@ -73,4 +73,10 @@ public class TeamRepositoryTests {
         }
 
     }
+
+    @Test
+    public void testListAllTeamsWithUser(){
+        List<Team> teams = repo.findAllTeams();
+        System.out.println(teams);
+    }
 }
