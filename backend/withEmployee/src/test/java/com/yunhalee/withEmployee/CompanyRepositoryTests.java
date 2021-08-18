@@ -24,7 +24,7 @@ public class CompanyRepositoryTests {
 
     @Test
     public void testCreateCompany(){
-        Company company = new Company("Delete", "Make electronics");
+        Company company = new Company("RG", "Make electronics");
 
         Company savedcompany = repo.save(company);
 

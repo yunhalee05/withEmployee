@@ -1,5 +1,6 @@
 package com.yunhalee.withEmployee.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,14 +10,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="member")
+@Table(name="user")
 @Getter
 @Setter
-public class Member {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="member_id")
+    @Column(name="user_id")
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 40)
@@ -46,15 +47,15 @@ public class Member {
     )
     private Set<Team> teams = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name="role_id")
     private Role role;
 
-    public Member(){
+    public User(){
         super();
     }
 
-    public Member(String name, String email, String password) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -62,7 +63,7 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Member{" +
+        return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +

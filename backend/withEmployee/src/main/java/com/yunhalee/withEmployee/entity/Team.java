@@ -24,7 +24,7 @@ public class Team {
     private String name;
 
     @ManyToMany(mappedBy = "teams", cascade = CascadeType.ALL)
-    private Set<Member> members= new HashSet<>();
+    private Set<User> users= new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")

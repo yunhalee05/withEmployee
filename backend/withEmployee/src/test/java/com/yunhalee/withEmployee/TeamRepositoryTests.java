@@ -2,8 +2,8 @@ package com.yunhalee.withEmployee;
 
 import com.yunhalee.withEmployee.Repository.TeamRepository;
 import com.yunhalee.withEmployee.entity.Company;
-import com.yunhalee.withEmployee.entity.Member;
 import com.yunhalee.withEmployee.entity.Team;
+import com.yunhalee.withEmployee.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -28,7 +28,7 @@ public class TeamRepositoryTests {
 
     @Test
     public void testCreateTeam(){
-        Team team = new Team("delete");
+        Team team = new Team("team 7");
         Team savedteam = repo.save(team);
 
         assertThat(savedteam.getId()).isNotNull();
@@ -36,8 +36,8 @@ public class TeamRepositoryTests {
 
     @Test
     public void testListAllByMember(){
-        Member member = entityManager.find(Member.class,5);
-        List<Team> teams= repo.findByMembers(member);
+        User member = entityManager.find(User.class,5);
+        List<Team> teams= repo.findByUsers(member);
 
        teams.forEach(t-> System.out.println(t));
 

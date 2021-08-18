@@ -1,9 +1,9 @@
 package com.yunhalee.withEmployee;
 
-import com.yunhalee.withEmployee.Repository.MemberRepository;
-import com.yunhalee.withEmployee.entity.Member;
+import com.yunhalee.withEmployee.Repository.UserRepository;
 import com.yunhalee.withEmployee.entity.Role;
 import com.yunhalee.withEmployee.entity.Team;
+import com.yunhalee.withEmployee.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -19,43 +19,43 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(false)
-public class MemberRepositoryTests {
+public class UserRepositoryTests {
 
     @Autowired
-    private MemberRepository repo;
+    private UserRepository repo;
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Test
     public void testCreateMember(){
-        Role rolemember = entityManager.find(Role.class, 3);
-        Member member = new Member("delete", "memberdelete@example.com","12345");
+        Role rolemember = entityManager.find(Role.class, 2);
+        User member = new User("member7", "member7@example.com","12345");
 
         member.setRole(rolemember);
 
-        Member savedMember = repo.save(member);
+        User savedMember = repo.save(member);
         assertThat(savedMember.getId()).isNotNull();
 
     }
 
     @Test
     public void testListAllMember(){
-        Iterable<Member> listAll = repo.findAll();
+        Iterable<User> listAll = repo.findAll();
 
         listAll.forEach(m-> System.out.println(m));
     }
 
     @Test
     public void testGetMemberById(){
-        Member member = repo.findById(1).get();
+        User member = repo.findById(1).get();
         System.out.println(member);
         assertThat(member.getId()).isNotNull();
     }
 
     @Test
     public void testUpdateMember(){
-        Member member = repo.findById(3).get();
+        User member = repo.findById(3).get();
 
         member.setName("member1");
         repo.save(member);
@@ -65,7 +65,7 @@ public class MemberRepositoryTests {
 
     @Test
     public void testUpdateMemberRole(){
-        Member member = repo.findById(5).get();
+        User member = repo.findById(5).get();
 
         Role role = entityManager.find(Role.class, 3);
         member.setRole(role);
@@ -83,11 +83,11 @@ public class MemberRepositoryTests {
 
     @Test
     public void testAddTeam(){
-        Member member = repo.findById(10).get();
-        Team team = entityManager.find(Team.class, 2);
+        User member = repo.findById(8).get();
+        Team team = entityManager.find(Team.class, 7);
         member.addTeam(team);
 
-        Member savedmember = repo.save(member);
+        User savedmember = repo.save(member);
 
         System.out.println(savedmember);
     }
@@ -96,9 +96,9 @@ public class MemberRepositoryTests {
     public void testListMemberByTeam(){
         Team team = entityManager.find(Team.class, 1);
 
-        List<Member> members=repo.findByTeams(team);
+        List<User> members=repo.findByTeams(team);
 
-        for (Member member : members) {
+        for (User member : members) {
             System.out.println(member);
         }
 
@@ -109,7 +109,7 @@ public class MemberRepositoryTests {
     public void testListMemberByRole(){
         Role role = entityManager.find(Role.class, 3);
 
-        List<Member> members= repo.findByRole(role);
+        List<User> members= repo.findByRole(role);
 
         members.forEach(m-> System.out.println(m));
 
@@ -117,4 +117,8 @@ public class MemberRepositoryTests {
 
     }
 
+    @Test
+    public void testListAllUserWithTeams(){
+        List<User> users = (List<User>) repo.findAll();
+    }
 }
