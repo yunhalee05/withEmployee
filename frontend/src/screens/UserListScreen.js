@@ -1,36 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { getuserlist } from '../_actions/userActions'
+import { useDispatch, useSelector } from 'react-redux'
+
 
 
 function UserListScreen() {
 
     const [users, setUsers] = useState([])
 
-    const getUsers=async()=>{
-        const res = await axios.get('/api/users')
+    const userlist = useSelector(state => state.userlist)
+
+    // const getUsers=async()=>{
+    //     const res = await axios.get('/user/userlist')
                                 
-        console.log(res)
-        setUsers(res.data._embedded.users)
-    }
+    //     setUsers(res.data)
 
-    const getRole= async(user)=>{
-        const res = await axios.get(`${user._links.role.href}`)
-        console.log(res)
-    }
+    // }
 
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        getUsers()
-    }, [])
+        dispatch(getuserlist())
+        // setUsers(userlist.users)
+
+    }, [dispatch])
     return (
         <div>
-            {
-                users.map((user,index)=>(
-                    <div key={index}>
-                        {getRole(user)}
-                    </div>
-                ))
-            }
+            <div className="list-name">
+                UserList
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -38,16 +37,20 @@ function UserListScreen() {
                         <th>E-mail</th>
                         <th>Phone</th>
                         <th>Description</th>
+                        <th>Team</th>
+                        <th>Company</th>
                     </tr>
                 </thead>
                 <tbody>
             {
-                users.map((user,index)=>(
+                userlist.users.map((user,index)=>(
                     <tr key={index}>
                         <td>{user.name}</td>
                         <td>{user.email}</td>
                         <td>{user.phoneNumber}</td>
                         <td>{user.description}</td>
+                        <td>{user.teams.map(t=>t.name)}</td>
+                        <td>{user.teams.map(t=>t.company)}</td>
                     </tr>
                 ))
             }

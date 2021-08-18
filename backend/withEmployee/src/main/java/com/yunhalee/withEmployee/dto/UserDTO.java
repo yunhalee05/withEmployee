@@ -1,13 +1,11 @@
 package com.yunhalee.withEmployee.dto;
 
-import com.yunhalee.withEmployee.entity.Role;
 import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,9 +25,10 @@ public class UserDTO {
 
     private String phoneNumber;
 
-    private List<String> teams;
+    private List<UserTeam> teams;
 
     private String role;
+
 
     public UserDTO(User user){
         this.id = user.getId();
@@ -39,5 +38,30 @@ public class UserDTO {
         this.imageUrl = user.getImageUrl();
         this.phoneNumber = user.getPhoneNumber();
         this.role = user.getRole().getName();
+        this.teams = UserTeam.TeamList(user.getTeams());
+    }
+
+    @Getter
+    static class UserTeam{
+        private String name;
+
+        private String company;
+
+        static List<UserTeam> TeamList(Set<Team> teams){
+            List<UserTeam> list = new ArrayList<>();
+            teams.forEach(team->{
+                list.add(new UserTeam(team));
+            });
+
+            return list;
+        }
+
+        public UserTeam(Team team){
+            this.name = team.getName();
+            if(team.getCompany()!=null){
+                this.company = team.getCompany().getName();
+            }
+        }
+
     }
 }
