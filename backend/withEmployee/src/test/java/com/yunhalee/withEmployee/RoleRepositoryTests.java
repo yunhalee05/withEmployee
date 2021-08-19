@@ -28,4 +28,12 @@ public class RoleRepositoryTests {
         assertThat(savedRole.getId()).isGreaterThan(0);
     }
 
+    @Test
+    public void testGetRoleByName(){
+        String name = "Member";
+        Role role = repo.findByName(name);
+
+        System.out.println(role);
+    }
+
 }

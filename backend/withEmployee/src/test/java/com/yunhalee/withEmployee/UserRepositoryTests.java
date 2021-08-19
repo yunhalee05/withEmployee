@@ -122,4 +122,12 @@ public class UserRepositoryTests {
         List<User> users = repo.findAllUsers();
         System.out.println(users);
     }
+
+    @Test
+    public void testListUserByEmail(){
+        String email = "admin@example.com";
+        User user = repo.findByEmail(email);
+
+        System.out.println(user);
+    }
 }

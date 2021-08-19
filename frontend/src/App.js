@@ -7,6 +7,8 @@ import TeamListScreen from './screens/TeamListScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
 import UserListScreen from './screens/UserListScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import HomeScreen from './screens/HomeScreen';
 
 
 function App() {
@@ -14,12 +16,14 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Route exact path="/login" component={LoginScreen}/>
+        <Route exact path="/register" component={RegisterScreen}/>
         <Header/>
 
+        <Route exact path="/home" component={HomeScreen}/>
         <Route exact path="/company" component={CompanyListScreen}/>
         <Route exact path="/team" component={TeamListScreen}/>
         <Route exact path="/users" component={UserListScreen}/>
-        <Route exact path="/profile" component={ProfileScreen}/>
+        <Route exact path="/user/:id" component={ProfileScreen}/>
       </div>
     </BrowserRouter>
   );
