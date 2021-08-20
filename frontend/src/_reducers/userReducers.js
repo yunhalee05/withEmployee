@@ -18,7 +18,7 @@ export const userReducer = (state={}, action)=>{
         case GET_USER_REQUEST:
             return {...state, loading:true}
         case GET_USER_SUCCESS:
-            return {loading:false, user:action.payload}
+            return {loading:false, ...action.payload}
         case GET_USER_FAIL:
             return {...state, loading:false, error:action.payload}
         default:
