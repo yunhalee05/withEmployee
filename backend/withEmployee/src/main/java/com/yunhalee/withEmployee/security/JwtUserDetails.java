@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 public class JwtUserDetails implements UserDetails {
+
     private User user;
 
     public JwtUserDetails(User user) {

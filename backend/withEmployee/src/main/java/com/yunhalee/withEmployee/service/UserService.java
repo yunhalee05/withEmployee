@@ -40,6 +40,16 @@ public class UserService {
 
     }
 
+    public UserDTO getByEmail(String email) throws UserNotFoundException{
+        try{
+            User user = repo.findByEmail(email);
+            UserDTO userDTO = new UserDTO(user);
+            return userDTO;
+        }catch (NoSuchElementException ex){
+            throw new UserNotFoundException("This User doesn't exist");
+        }
+    }
+
     public UserDTO save(UserDTO userDTO) {
         User existingUser = repo.findByEmail(userDTO.getEmail());
 

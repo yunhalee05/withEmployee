@@ -52,4 +52,10 @@ public class UserController {
         return service.isEmailUnique(id, email)? "OK" : "Duplicated";
     }
 
+    @PostMapping("/user/login")
+    public ResponseEntity<UserDTO> login(@RequestBody String email, @RequestBody String password){
+        UserDTO user = service.getByEmail(email);
+        return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
+    }
+
 }
