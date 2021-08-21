@@ -6,12 +6,24 @@ export const login =({email, password}) => async(dispatch, getState)=>{
         type:LOGIN_REQUEST
     })
 
+    const body= {
+        username:email,
+        password:password
+    }
+
     try{
-        const res = await axios.post('/user/login', )
+        const res1 = await axios.post('/user/login', body)
+        const res2 = await axios.post('authenticate',body)
+
         dispatch({
             type:LOGIN_SUCCESS,
-            payload:res.data
+            payload:{
+                user:res1.data,
+                token:res2.data
+            }
         })
+
+        localStorage.setItem("auth", JSON.stringify({user:res1.data, token:res2.data}))
     }catch(error){
         dispatch({
             type:LOGIN_FAIL,
@@ -40,11 +52,19 @@ export const register =({name, email, password, description, imageURL, phoneNumb
     }
 
     try{
-        const res = await axios.post('/user/save',userDTO )
+        const res1 = await axios.post('/user/register',userDTO )
+        const res2 = await axios.post('authenticate',{username:email, password:password})
+
         dispatch({
             type:REGISTER_SUCCESS,
-            payload:res.data
+            payload:{
+                user: res1.data,
+                token:res2.data
+            }
         })
+
+        localStorage.setItem("auth", JSON.stringify({user:res1.data, token:res2.data}))
+
     }catch(error){
         dispatch({
             type:REGISTER_FAIL,

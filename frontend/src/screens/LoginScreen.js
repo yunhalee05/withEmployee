@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import {Link} from 'react-router-dom'
+import { login } from '../_actions/authActions'
 
 function LoginScreen() {
     const [email, setEmail] = useState('')
@@ -7,8 +10,11 @@ function LoginScreen() {
 
     const [typePass, setTypePass] = useState(false)
 
+    const dispatch = useDispatch()
+
     const handleSubmit= (e) =>{
         e.preventDefault();
+        dispatch(login({email, password}))
     }
     return (
         <div className="form">

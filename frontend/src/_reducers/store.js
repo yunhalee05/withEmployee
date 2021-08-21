@@ -6,7 +6,9 @@ import { teamlistReducer } from './teamReducers';
 import { userlistReducer, userReducer } from './userReducers';
 
 const initialState={
-
+    auth : {
+        ...localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')):null
+    }
 }
 
 const reducer = combineReducers({

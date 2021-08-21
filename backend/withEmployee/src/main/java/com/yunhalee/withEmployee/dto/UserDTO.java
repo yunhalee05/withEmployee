@@ -31,16 +31,22 @@ public class UserDTO {
 
     private String role;
 
-    public UserDTO(String name, String email, String password) {
+
+
+    public UserDTO(String name, String email, String password, String description, String imageUrl, String phoneNumber) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.phoneNumber = phoneNumber;
     }
 
     public UserDTO(User user){
         this.id = user.getId();
         this.name=user.getName();
         this.email = user.getEmail();
+        this.password= user.getPassword();
         this.description = user.getDescription();
         this.imageUrl = user.getImageUrl();
         this.phoneNumber = user.getPhoneNumber();
