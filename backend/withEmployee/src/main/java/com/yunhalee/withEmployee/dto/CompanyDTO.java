@@ -24,6 +24,8 @@ public class CompanyDTO {
 
     private Integer totalNumber;
 
+    private List<String> users;
+
 
     public CompanyDTO(Company company) {
         this.id = company.getId();
@@ -31,13 +33,13 @@ public class CompanyDTO {
         this.description = company.getDescription();
         this.teams = CompanyTeam.TeamList(company.getTeams());
         this.totalNumber = company.getTotalNumber();
+        this.users = company.getUsers();
     }
 
     @Getter
     static class CompanyTeam{
 
         private String name;
-
 
         static List<CompanyDTO.CompanyTeam> TeamList(Set<Team> teams){
             List<CompanyDTO.CompanyTeam> list = new ArrayList<>();

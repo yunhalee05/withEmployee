@@ -76,6 +76,7 @@ public class User {
         this.teams.add(team);
     }
 
+    @Transient
     public String getRoleName(){
         return this.role.getName();
     }

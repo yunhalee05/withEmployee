@@ -5,6 +5,7 @@ import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -26,5 +27,12 @@ public class CompanyController {
             companyDTOS.add(new CompanyDTO(company));
         });
         return companyDTOS;
+    }
+
+    @GetMapping("/company/{id}")
+    public CompanyDTO getByName(@PathVariable("id") Integer id){
+        Company company = service.findById(id);
+        System.out.println(company);
+        return new CompanyDTO(company);
     }
 }

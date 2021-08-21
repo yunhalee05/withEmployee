@@ -23,7 +23,7 @@ function TeamScreen(props) {
                             {t.name}
                         </div>
                         <div className="team-card-company">
-                            <Link to={`/company/${t.company}`}>{t.company}</Link>
+                            <Link to={`/company/${t.companyId}`}>{t.company}</Link>
                         </div>
 
                         {

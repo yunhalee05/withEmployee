@@ -1,7 +1,7 @@
 import  {BrowserRouter ,Route} from 'react-router-dom'
 import React, { useEffect, useState } from 'react';
 import Header from './components/Header';
-import CompanyScreen from './screens/CompanyListScreen';
+import CompanyScreen from './screens/CompanyScreen';
 import CompanyListScreen from './screens/CompanyListScreen';
 import TeamListScreen from './screens/TeamListScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -10,7 +10,6 @@ import UserListScreen from './screens/UserListScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
-import AdminRouter from './customRouter/PrivateRouter';
 import PrivateRouter from './customRouter/PrivateRouter';
 import { useSelector } from 'react-redux';
 import TeamScreen from './screens/TeamScreen';
@@ -41,7 +40,7 @@ function App() {
         <PrivateRouter exact path="/user/:id" component={ProfileScreen}/>
         <PrivateRouter exact path="/user/edit/:id" component={EditProfileScreen}/>
 
-        <PrivateRouter exact path="/company/:name" component={CompanyScreen}/>
+        <PrivateRouter exact path="/company/:id" component={CompanyScreen}/>
         <PrivateRouter exact path="/team/:id" component={TeamScreen}/>
         
       </div>

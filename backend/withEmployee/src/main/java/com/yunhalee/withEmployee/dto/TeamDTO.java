@@ -21,11 +21,15 @@ public class TeamDTO {
 
     private List<TeamUser> users;
 
+    private Integer companyId;
+
     public TeamDTO(Team team){
         this.id = team.getId();
         this.name=team.getName();
         this.company = team.getCompany().getName();
         this.users = TeamDTO.TeamUser.UserList(team.getUsers());
+        this.companyId = team.getCompanyId();
+
     }
 
 

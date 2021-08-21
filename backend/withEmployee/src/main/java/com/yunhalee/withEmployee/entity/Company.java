@@ -58,5 +58,16 @@ public class Company {
         return num;
     }
 
+    @Transient
+    public List<String> getUsers(){
+        List<String> users = new ArrayList<>();
+        for (Team team : this.teams){
+            team.getUsers().forEach(user -> users.add(user.getName()));
+        }
+        return users;
+    }
+
+
+
 
 }

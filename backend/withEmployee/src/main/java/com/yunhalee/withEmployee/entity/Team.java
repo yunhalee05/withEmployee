@@ -50,4 +50,9 @@ public class Team {
     public Integer getTotalNumber(){
         return this.users.size();
     }
+
+    @Transient
+    public Integer getCompanyId(){
+        return this.company.getId();
+    }
 }

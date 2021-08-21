@@ -75,4 +75,16 @@ public class CompanyRepositoryTests {
         System.out.println(companyList);
     }
 
+    @Test
+    public void testListCompanyById(){
+        Company company = repo.findById(1).get();
+        System.out.println(company);
+    }
+
+    @Test
+    public void testListCompanyByName(){
+        Company company = repo.findByName("Picshare");
+        System.out.println(company);
+    }
+
 }
