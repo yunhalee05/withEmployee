@@ -1,4 +1,4 @@
-import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_REQUEST, REGISTER_SUCCESS } from "../_constants/authConstants";
+import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_FAIL, REGISTER_REQUEST, REGISTER_SUCCESS } from "../_constants/authConstants";
 
 export const authReducer = (state={}, action)=>{
     switch(action.type){
@@ -15,6 +15,10 @@ export const authReducer = (state={}, action)=>{
             return {loading:false, user:{...action.payload.user}, token:action.payload.token}
         case LOGIN_FAIL:
             return {...state, loading:false, error:action.payload}
+
+        case LOGOUT:
+            return {}
+
         default:
             return state;
     }

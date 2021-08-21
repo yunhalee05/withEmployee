@@ -1,20 +1,29 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
 import { login } from '../_actions/authActions'
 
-function LoginScreen() {
+function LoginScreen(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const [typePass, setTypePass] = useState(false)
 
+    const auth = useSelector(state => state.auth)
+
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        if(auth.user){
+            props.history.push('/home')
+        }
+    }, [])
 
     const handleSubmit= (e) =>{
         e.preventDefault();
         dispatch(login({email, password}))
+        props.history.push('/')
     }
     return (
         <div className="form">

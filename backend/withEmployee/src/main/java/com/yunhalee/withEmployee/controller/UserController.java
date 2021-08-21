@@ -2,15 +2,15 @@ package com.yunhalee.withEmployee.controller;
 
 import com.yunhalee.withEmployee.dto.UserDTO;
 import com.yunhalee.withEmployee.entity.User;
-import com.yunhalee.withEmployee.exception.UserNotFoundException;
+import com.yunhalee.withEmployee.security.JwtUserDetails;
 import com.yunhalee.withEmployee.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,5 +84,6 @@ public class UserController {
         user.setPassword("");
         return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
     }
+
 
 }

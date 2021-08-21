@@ -13,6 +13,7 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Integer> {
     User findByName(String name);
 
+    @Query(value = "SELECT u FROM User u INNER JOIN FETCH u.role r WHERE u.email=:email")
     User findByEmail(String email);
 
     @Query(value = "SELECT u FROM User u INNER JOIN FETCH u.role r LEFT JOIN FETCH u.teams t LEFT JOIN FETCH t.company c")

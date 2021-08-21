@@ -10,23 +10,40 @@ import UserListScreen from './screens/UserListScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
+import AdminRouter from './customRouter/PrivateRouter';
+import PrivateRouter from './customRouter/PrivateRouter';
+import { useSelector } from 'react-redux';
+import TeamScreen from './screens/TeamScreen';
 
 
 function App() {
+
+  const auth = useSelector(state => state.auth)
+
   return (
     <BrowserRouter>
       <div className="App">
-        <Header/>
+        {
+          auth.user &&
+            <Header/>
+        }
 
+        <Route exact path="/" component={LoginScreen}/>
         <Route exact path="/login" component={LoginScreen}/>
         <Route exact path="/register" component={RegisterScreen}/>
         
-        <Route exact path="/home" component={HomeScreen}/>
-        <Route exact path="/company" component={CompanyListScreen}/>
-        <Route exact path="/team" component={TeamListScreen}/>
-        <Route exact path="/users" component={UserListScreen}/>
-        <Route exact path="/user/:id" component={ProfileScreen}/>
-        <Route exact path="/user/edit/:id" component={EditProfileScreen}/>
+        <PrivateRouter exact path="/home" component={HomeScreen}/>
+
+        <PrivateRouter exact path="/company" component={CompanyListScreen}/>
+        <PrivateRouter exact path="/team" component={TeamListScreen}/>
+        <PrivateRouter exact path="/users" component={UserListScreen}/>
+
+        <PrivateRouter exact path="/user/:id" component={ProfileScreen}/>
+        <PrivateRouter exact path="/user/edit/:id" component={EditProfileScreen}/>
+
+        <PrivateRouter exact path="/company/:name" component={CompanyScreen}/>
+        <PrivateRouter exact path="/team/:id" component={TeamScreen}/>
+        
       </div>
     </BrowserRouter>
   );

@@ -10,13 +10,13 @@ function EditProfileScreen(props) {
     const {user} = auth
 
     
-    const [name, setName] = useState(user.name)
-    const [email, setEmail] = useState(user.email)
+    const [name, setName] = useState(user.name ? user.name :'')
+    const [email, setEmail] = useState(user.email ? user.email :'')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [description, setDescription] = useState(user.description)
-    const [imageURL, setImageURL] = useState(user.imageURL)
-    const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber)
+    const [description, setDescription] = useState(user.description ? user.description : '')
+    const [imageURL, setImageURL] = useState(user.imageURL ? user.imageURL : '')
+    const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber ? user.phoneNumber : '')
 
     const [typePass, setTypePass] = useState(false)
 

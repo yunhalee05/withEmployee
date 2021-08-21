@@ -1,5 +1,5 @@
 import axios from "axios"
-import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_REQUEST, REGISTER_SUCCESS } from "../_constants/authConstants"
+import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_FAIL, REGISTER_REQUEST, REGISTER_SUCCESS } from "../_constants/authConstants"
 
 export const login =({email, password}) => async(dispatch, getState)=>{
     dispatch({
@@ -74,4 +74,13 @@ export const register =({name, email, password, description, imageURL, phoneNumb
                 : error.message
         })
     }
+}
+
+
+export const logout = () =>(dispatch)=>{
+    dispatch({
+        type:LOGOUT
+    })
+
+    localStorage.removeItem("auth")
 }

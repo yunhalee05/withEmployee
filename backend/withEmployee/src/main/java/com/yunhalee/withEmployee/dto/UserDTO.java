@@ -56,6 +56,7 @@ public class UserDTO {
 
     @Getter
     static class UserTeam{
+
         private String name;
 
         private String company;

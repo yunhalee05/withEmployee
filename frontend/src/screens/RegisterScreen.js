@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import { register } from '../_actions/authActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,7 +6,7 @@ import axios from 'axios'
 import { valid } from '../utils'
 
 
-function RegisterScreen() {
+function RegisterScreen(props) {
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -20,7 +20,15 @@ function RegisterScreen() {
 
     const [typePass, setTypePass] = useState(false)
 
+    const auth = useSelector(state => state.auth)
     const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        if(auth.user){
+            props.history.push('/')
+        }
+    }, [])
 
     const handleSubmit = async(e) =>{
         e.preventDefault();

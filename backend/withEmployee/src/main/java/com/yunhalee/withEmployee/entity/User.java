@@ -76,4 +76,8 @@ public class User {
         this.teams.add(team);
     }
 
+    public String getRoleName(){
+        return this.role.getName();
+    }
+
 }

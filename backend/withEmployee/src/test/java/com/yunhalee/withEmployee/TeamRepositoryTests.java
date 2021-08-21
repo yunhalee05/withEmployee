@@ -79,4 +79,6 @@ public class TeamRepositoryTests {
         List<Team> teams = repo.findAllTeams();
         System.out.println(teams);
     }
+
+
 }

@@ -33,6 +33,8 @@ public class TeamDTO {
     static class TeamUser{
         private Integer id;
         private String name;
+        private String phoneNumber;
+        private String role;
 
         static List<TeamUser> UserList(Set<User> users){
             List<TeamDTO.TeamUser> list = new ArrayList<>();
@@ -46,6 +48,8 @@ public class TeamDTO {
         public TeamUser(User user){
             this.name = user.getName();
             this.id = user.getId();
+            this.phoneNumber = user.getPhoneNumber();
+            this.role = user.getRoleName();
         }
 
     }
