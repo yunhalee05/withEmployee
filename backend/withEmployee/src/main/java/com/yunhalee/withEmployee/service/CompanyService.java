@@ -52,6 +52,10 @@ public class CompanyService {
 
     }
 
+    public List<Company> findByCeoId(Integer id){
+        return repo.findByUserId(id);
+    }
+
     public boolean isNameUnique(String name){
         Company existingCompany = repo.findByName(name);
         if(existingCompany==null){

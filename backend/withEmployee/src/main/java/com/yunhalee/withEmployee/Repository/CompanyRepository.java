@@ -21,5 +21,8 @@ public interface CompanyRepository extends CrudRepository<Company, Integer> {
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH c.teams t LEFT JOIN FETCH t.users u LEFT JOIN FETCH u.role WHERE c.id=:integer")
     Optional<Company> findById(Integer integer);
 
+    @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH c.teams t LEFT JOIN FETCH t.users u WHERE e.id=:id")
+    List<Company> findByUserId(Integer id);
+
     Company findByName(String name);
 }

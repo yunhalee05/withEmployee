@@ -43,6 +43,15 @@ public class CompanyController {
     }
 
 
+    @GetMapping("/companies/{id}")
+    public List<CompanyListDTO> getByCeoId(@PathVariable("id") Integer id){
+        List<Company> companies = service.findByCeoId(id);
+        List<CompanyListDTO> companyListDTOS = new ArrayList<>();
+        companies.forEach(company -> companyListDTOS.add(new CompanyListDTO(company)));
+
+        return companyListDTOS;
+    }
+
     @PostMapping("/company/check_name")
     public String checkNameUnique(@Param("name")String name){
         return service.isNameUnique(name) ? "OK" : "Duplicated";

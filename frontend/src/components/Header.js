@@ -39,6 +39,10 @@ function Header() {
                         <Link className="dropdown-item" to={`/user/${auth.user.id}`}>Profile</Link>
                         <Link className="dropdown-item" to={`/user/edit/${auth.user.id}`}>Edit Profile</Link>
                         <Link className="dropdown-item" to={`/teams/${auth.user.id}`}>My Teams</Link>
+                        {
+                            auth.user.role ==="CEO" &&
+                            <Link className="dropdown-item" to={`/companies/${auth.user.id}`}>My Companies</Link>
+                        }
                     </div>
                 </div>
 

@@ -14,6 +14,7 @@ import PrivateRouter from './customRouter/PrivateRouter';
 import { useSelector } from 'react-redux';
 import TeamScreen from './screens/TeamScreen';
 import UserTeamScreen from './screens/UserTeamScreen';
+import CeoCompanyScreen from './screens/CeoCompanyScreen';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         <PrivateRouter exact path="/user/edit/:id" component={EditProfileScreen}/>
 
         <PrivateRouter exact path="/company/:id" component={CompanyScreen}/>
+        <PrivateRouter exact path="/companies/:id" component={CeoCompanyScreen}/>
         <PrivateRouter exact path="/team/:id" component={TeamScreen}/>
         <PrivateRouter exact path="/teams/:id" component={UserTeamScreen}/>
         

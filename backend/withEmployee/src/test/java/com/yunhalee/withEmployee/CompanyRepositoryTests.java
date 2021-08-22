@@ -100,4 +100,10 @@ public class CompanyRepositoryTests {
 
     }
 
+    @Test
+    public void testGetCompanyByCeoId(){
+        List<Company> company = repo.findByUserId(34);
+        System.out.println(company);
+    }
+
 }
