@@ -39,14 +39,14 @@ function CompanyScreen(props) {
                 </div>
 
                 <div className="company-card-users">
-                    <div>{company.company.users.length}</div>
+                    {/* <div>{company.company.users.length}</div>
                     {
                         company.company.users.map((user, index)=>(
                             <div className="company-card-user" key={index}>
                                 <span>{user}</span>
                             </div>
                         ))
-                    }
+                    } */}
                 </div>
             </div>
             }

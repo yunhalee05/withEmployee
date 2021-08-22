@@ -56,6 +56,7 @@ public class UserDTO {
 
     @Getter
     static class UserTeam{
+        private Integer id;
 
         private String name;
 
@@ -71,6 +72,7 @@ public class UserDTO {
         }
 
         public UserTeam(Team team){
+            this.id = team.getId();
             this.name = team.getName();
             if(team.getCompany()!=null){
                 this.company = team.getCompany().getName();

@@ -38,7 +38,7 @@ function Header() {
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <Link className="dropdown-item" to={`/user/${auth.user.id}`}>Profile</Link>
                         <Link className="dropdown-item" to={`/user/edit/${auth.user.id}`}>Edit Profile</Link>
-                        <Link className="dropdown-item" to={`/team/${auth.user.id}`}>My Teams</Link>
+                        <Link className="dropdown-item" to={`/teams/${auth.user.id}`}>My Teams</Link>
                     </div>
                 </div>
 

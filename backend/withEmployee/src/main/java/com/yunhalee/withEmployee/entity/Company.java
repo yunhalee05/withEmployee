@@ -30,6 +30,11 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Team> teams = new HashSet<>();
 
+    @OneToOne
+    @JoinColumn(name="user_id")
+    private User ceo;
+
+
     public Company(){
         super();
     }
@@ -45,6 +50,7 @@ public class Company {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", CEO=" + ceo +
                 '}';
     }
 
@@ -58,14 +64,6 @@ public class Company {
         return num;
     }
 
-    @Transient
-    public List<String> getUsers(){
-        List<String> users = new ArrayList<>();
-        for (Team team : this.teams){
-            team.getUsers().forEach(user -> users.add(user.getName()));
-        }
-        return users;
-    }
 
 
 

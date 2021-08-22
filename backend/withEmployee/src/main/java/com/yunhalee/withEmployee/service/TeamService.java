@@ -23,8 +23,10 @@ public class TeamService {
     }
 
     public List<Team> getByUserId(Integer id){
-        User user = userRepo.findById(id).get();
+        return repo.findByUserId(id);
+    }
 
-        return repo.findByUsers(user);
+    public Team getById(Integer id){
+        return repo.findByTeamId(id);
     }
 }

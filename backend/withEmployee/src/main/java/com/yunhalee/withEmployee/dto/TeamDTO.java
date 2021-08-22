@@ -28,7 +28,7 @@ public class TeamDTO {
         this.name=team.getName();
         this.company = team.getCompany().getName();
         this.users = TeamDTO.TeamUser.UserList(team.getUsers());
-        this.companyId = team.getCompanyId();
+        this.companyId = team.getCompany().getId();
 
     }
 
@@ -39,6 +39,7 @@ public class TeamDTO {
         private String name;
         private String phoneNumber;
         private String role;
+        private String email;
 
         static List<TeamUser> UserList(Set<User> users){
             List<TeamDTO.TeamUser> list = new ArrayList<>();
@@ -53,6 +54,7 @@ public class TeamDTO {
             this.name = user.getName();
             this.id = user.getId();
             this.phoneNumber = user.getPhoneNumber();
+            this.email = user.getEmail();
             this.role = user.getRoleName();
         }
 

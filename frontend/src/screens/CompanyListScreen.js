@@ -37,7 +37,6 @@ function CompanyListScreen() {
                                     <td>{company.id}</td>
                                     <td>{company.name}</td>
                                     <td>{company.description}</td>
-                                    <td>{company.teams.length}</td>
                                     <td>{company.totalNumber}</td>
                                 </tr>
                             ))

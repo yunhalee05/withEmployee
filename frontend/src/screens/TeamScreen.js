@@ -16,7 +16,7 @@ function TeamScreen(props) {
 
     return (
         <div className="team-screen">
-            {
+            {/* {
                 team.teams.map((t, index)=>(
                     <div className="team-card" key={index}>
                         <div className="team-card-name">
@@ -40,7 +40,7 @@ function TeamScreen(props) {
                     </div>
 
                 ))
-            }
+            } */}
         </div>
     )
 }

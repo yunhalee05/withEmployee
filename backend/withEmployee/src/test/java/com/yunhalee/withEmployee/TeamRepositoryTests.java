@@ -37,7 +37,7 @@ public class TeamRepositoryTests {
     @Test
     public void testListAllByMember(){
         User member = entityManager.find(User.class,5);
-        List<Team> teams= repo.findByUsers(member);
+        List<Team> teams= repo.findByUserId(5);
 
        teams.forEach(t-> System.out.println(t));
 
@@ -78,6 +78,12 @@ public class TeamRepositoryTests {
     public void testListAllTeamsWithUser(){
         List<Team> teams = repo.findAllTeams();
         System.out.println(teams);
+    }
+
+    @Test
+    public void testGetTeamById(){
+        Team team = repo.findByTeamId(1);
+        System.out.println(team);
     }
 
 

@@ -1,6 +1,7 @@
 package com.yunhalee.withEmployee.controller;
 
 import com.yunhalee.withEmployee.dto.CompanyDTO;
+import com.yunhalee.withEmployee.dto.CompanyListDTO;
 import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,13 @@ public class CompanyController {
     private CompanyService service;
 
     @GetMapping("/company/companylist")
-    public List<CompanyDTO> listAll(){
+    public List<CompanyListDTO> listAll(){
         List<Company> companies = service.listAll();
 
-        List<CompanyDTO> companyDTOS = new ArrayList<CompanyDTO>();
+        List<CompanyListDTO> companyDTOS = new ArrayList<CompanyListDTO>();
 
         companies.forEach(company -> {
-            companyDTOS.add(new CompanyDTO(company));
+            companyDTOS.add(new CompanyListDTO(company));
         });
         return companyDTOS;
     }
@@ -32,7 +33,7 @@ public class CompanyController {
     @GetMapping("/company/{id}")
     public CompanyDTO getByName(@PathVariable("id") Integer id){
         Company company = service.findById(id);
-        System.out.println(company);
+//        System.out.println(company);
         return new CompanyDTO(company);
     }
 }

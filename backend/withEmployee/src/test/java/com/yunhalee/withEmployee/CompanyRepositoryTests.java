@@ -3,6 +3,7 @@ package com.yunhalee.withEmployee;
 import com.yunhalee.withEmployee.Repository.CompanyRepository;
 import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.entity.Team;
+import com.yunhalee.withEmployee.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -63,7 +64,7 @@ public class CompanyRepositoryTests {
 
     @Test
     public void testListAllCompany(){
-        Iterable<Company> companies = repo.findAll();
+        Iterable<Company> companies = repo.findAllCompanies();
 
         companies.forEach(c-> System.out.println(c));
     }
@@ -85,6 +86,18 @@ public class CompanyRepositoryTests {
     public void testListCompanyByName(){
         Company company = repo.findByName("Picshare");
         System.out.println(company);
+    }
+
+    @Test
+    public void testUpdateCompanyUser(){
+        User user = entityManager.find(User.class, 27);
+
+        Company company = repo.findById(5).get();
+
+        company.setCeo(user);
+
+        System.out.println(company);
+
     }
 
 }

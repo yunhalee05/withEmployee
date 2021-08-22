@@ -29,8 +29,8 @@ public class UserRepositoryTests {
 
     @Test
     public void testCreateMember(){
-        Role rolemember = entityManager.find(Role.class, 2);
-        User member = new User("member7", "member7@example.com","12345");
+        Role rolemember = entityManager.find(Role.class, 5);
+        User member = new User("CEO5", "CEO5@example.com","123456");
 
         member.setRole(rolemember);
 

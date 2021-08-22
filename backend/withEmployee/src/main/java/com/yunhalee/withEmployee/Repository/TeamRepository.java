@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public
@@ -16,7 +17,12 @@ interface TeamRepository extends CrudRepository<Team, Integer> {
     @Query(value = "SELECT DISTINCT t FROM Team t INNER JOIN FETCH t.company c LEFT JOIN FETCH t.users u")
     List<Team> findAllTeams();
 
-    List<Team> findByUsers(User user);
+
+    @Query(value = "SELECT DISTINCT t FROM Team t LEFT JOIN FETCH t.users u LEFT JOIN FETCH u.role INNER JOIN FETCH t.company c  WHERE t.id=:id")
+    Team findByTeamId(Integer id);
+
+    @Query(value = "SELECT DISTINCT t FROM Team t LEFT JOIN FETCH t.users u LEFT JOIN FETCH t.company c WHERE u.id=:id")
+    List<Team> findByUserId(Integer id);
 
     List<Team> findByCompany(Company company);
 }
