@@ -41,17 +41,20 @@ function LoginScreen(props) {
                 <div className="form-group">
                     <label htmlFor="password">password</label>
                     <input type={typePass ? "text" : "password"} className="form-control" id="password" name="password" onChange={e=>setPassword(e.target.value)} required value={password}/>
-                    <small onClick={()=>setTypePass(!typePass)}>
+                    <small className="pass" onClick={()=>setTypePass(!typePass)}>
                         {typePass? 'Hide' : 'Show'}
                     </small>
                 </div>
 
-                <button type="submit" className="form-button">Login</button>
+                <div className="form-button">
+                    <button type="submit">Login</button>
+                </div>
+
+                <div className="form-switch">
+                    <strong>Don't you have an account yet? <Link to="/register">Register Now</Link></strong>
+                </div>
             </form>
 
-            <div className="form-switch">
-                <strong>Don't you have an account yet? <Link to="/register">Register Now</Link></strong>
-            </div>
         </div>
     )
 }

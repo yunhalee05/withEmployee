@@ -3,10 +3,6 @@ import React, { useEffect } from 'react'
 
 function HomeScreen() {
 
-    useEffect(() => {
-        axios.get('/user/test')
-
-    }, [])
     return (
         <div>
             

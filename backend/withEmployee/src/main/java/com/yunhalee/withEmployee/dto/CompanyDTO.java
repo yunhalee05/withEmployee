@@ -95,7 +95,6 @@ public class CompanyDTO {
             this.name = user.getName();
             this.email = user.getEmail();
             this.role = user.getRole().getName();
-
         }
     }
 }

@@ -1,4 +1,4 @@
-import { GET_COMPANYLIST_FAIL, GET_COMPANYLIST_REQUEST, GET_COMPANYLIST_SUCCESS, GET_COMPANY_FAIL, GET_COMPANY_REQUEST, GET_COMPANY_SUCCESS } from "../_constants/companyConstants";
+import { CREATE_COMPANY_FAIL, CREATE_COMPANY_REQUEST, CREATE_COMPANY_SUCCESS, GET_COMPANYLIST_FAIL, GET_COMPANYLIST_REQUEST, GET_COMPANYLIST_SUCCESS, GET_COMPANY_FAIL, GET_COMPANY_REQUEST, GET_COMPANY_SUCCESS } from "../_constants/companyConstants";
 
 export const companylistReducer = (state={companies:[]}, action)=>{
     switch(action.type){
@@ -18,8 +18,15 @@ export const companyReducer = (state={}, action)=>{
         case GET_COMPANY_REQUEST:
             return {...state, loading:true}
         case GET_COMPANY_SUCCESS:
-            return {loading:false, company:action.payload}
+            return {...state, loading:false, company:action.payload}
         case GET_COMPANY_FAIL:
+            return {...state, loading:false, error:action.payload}
+        
+        case CREATE_COMPANY_REQUEST:
+            return {...state, loading:true}
+        case CREATE_COMPANY_SUCCESS:
+            return {...state, loading:false, companies:[...state.companies, action.payload]}
+        case CREATE_COMPANY_FAIL:
             return {...state, loading:false, error:action.payload}
         default:
             return state;

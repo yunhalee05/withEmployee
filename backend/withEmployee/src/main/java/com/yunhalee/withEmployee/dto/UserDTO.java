@@ -33,13 +33,14 @@ public class UserDTO {
 
 
 
-    public UserDTO(String name, String email, String password, String description, String imageUrl, String phoneNumber) {
+    public UserDTO(String name, String email, String password, String description, String imageUrl, String phoneNumber, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.description = description;
         this.imageUrl = imageUrl;
         this.phoneNumber = phoneNumber;
+        this.role = role;
     }
 
     public UserDTO(User user){

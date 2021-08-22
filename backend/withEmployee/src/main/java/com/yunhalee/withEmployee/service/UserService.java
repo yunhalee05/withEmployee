@@ -51,9 +51,9 @@ public class UserService {
     }
 
     public UserDTO save(UserDTO userDTO) {
-        User existingUser = repo.findByEmail(userDTO.getEmail());
 
-        if(existingUser!=null){
+        if(userDTO.getId()!=null){
+            User existingUser = repo.findById(userDTO.getId()).get();
             existingUser.setName(userDTO.getName());
             if(userDTO.getPassword()!=null){
                 existingUser.setPassword(userDTO.getPassword());
@@ -71,8 +71,13 @@ public class UserService {
             user.setImageUrl(userDTO.getImageUrl());
             user.setDescription(userDTO.getDescription());
 
-            Role role = roleRepository.findByName("Member");
-            user.setRole(role);
+            if(userDTO.getRole()!=null){
+                Role role = roleRepository.findByName("CEO");
+                user.setRole(role);
+            }else{
+                Role role = roleRepository.findByName("Member");
+                user.setRole(role);
+            }
             repo.save(user);
             return new UserDTO(user);
 

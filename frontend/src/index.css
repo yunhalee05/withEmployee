@@ -21,3 +21,6 @@ code {
 
 /* List */
 @import url('./styles/List.css');
+
+/* Form */
+@import url('./styles/Form.css');

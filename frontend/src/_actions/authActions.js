@@ -35,25 +35,25 @@ export const login =({email, password}) => async(dispatch, getState)=>{
     }
 }
 
-export const register =({name, email, password, description, imageURL, phoneNumber}) => async(dispatch, getState)=>{
+export const register =(userDTO) => async(dispatch, getState)=>{
     dispatch({
         type:REGISTER_REQUEST
     })
 
     // console.log(name, email, password)
 
-    const userDTO = {
-        name: name, 
-        email : email, 
-        password :password,
-        description: description,
-        imageURL : imageURL,
-        phoneNumber : phoneNumber
-    }
+    // const userDTO = {
+    //     name: name, 
+    //     email : email, 
+    //     password :password,
+    //     description: description,
+    //     imageURL : imageURL,
+    //     phoneNumber : phoneNumber
+    // }
 
     try{
         const res1 = await axios.post('/user/register',userDTO )
-        const res2 = await axios.post('authenticate',{username:email, password:password})
+        const res2 = await axios.post('authenticate',{username:userDTO.email,password:userDTO.password })
 
         dispatch({
             type:REGISTER_SUCCESS,
@@ -64,6 +64,9 @@ export const register =({name, email, password, description, imageURL, phoneNumb
         })
 
         localStorage.setItem("auth", JSON.stringify({user:res1.data, token:res2.data}))
+
+        return res1.data
+        
 
     }catch(error){
         dispatch({
