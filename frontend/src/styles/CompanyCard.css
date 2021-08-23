@@ -36,3 +36,13 @@
 .company-total-number{
     justify-content: space-between;
 }
+
+.company-delete-button{
+    display: block;
+    text-align: right;
+}
+
+.company-delete-button button{
+    background-color: white;
+    
+}

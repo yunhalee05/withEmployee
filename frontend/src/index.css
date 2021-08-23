@@ -36,3 +36,6 @@ code {
 
 /* Profile Screen */
 @import url('./styles/ProfileScreen.css');
+
+/* Company Screen */
+@import url('./styles/CompanyScreen.css');

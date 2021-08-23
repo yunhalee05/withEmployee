@@ -27,7 +27,12 @@ public class CompanyDTO {
 
     private List<CompanyUser> members;
 
+    public CompanyDTO() {
+    }
 
+    public CompanyDTO(Integer id) {
+        this.id = id;
+    }
 
     public CompanyDTO(Company company) {
         this.id = company.getId();

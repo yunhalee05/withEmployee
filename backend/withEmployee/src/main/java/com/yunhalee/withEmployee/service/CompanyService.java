@@ -56,6 +56,10 @@ public class CompanyService {
         return repo.findByUserId(id);
     }
 
+    public void deleteCompany(Integer id) {
+         repo.deleteById(id);
+    }
+
     public boolean isNameUnique(String name){
         Company existingCompany = repo.findByName(name);
         if(existingCompany==null){

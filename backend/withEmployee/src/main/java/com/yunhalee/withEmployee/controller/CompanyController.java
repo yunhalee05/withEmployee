@@ -52,6 +52,12 @@ public class CompanyController {
         return companyListDTOS;
     }
 
+    @DeleteMapping("/company/delete/{id}")
+    public Integer deleteCompany(@PathVariable("id") Integer id){
+        service.deleteCompany(id);
+        return id;
+    }
+
     @PostMapping("/company/check_name")
     public String checkNameUnique(@Param("name")String name){
         return service.isNameUnique(name) ? "OK" : "Duplicated";

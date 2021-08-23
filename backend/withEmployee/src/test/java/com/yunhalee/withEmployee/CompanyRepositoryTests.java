@@ -48,7 +48,7 @@ public class CompanyRepositoryTests {
 
     @Test
     public void testDeleteCompany(){
-        Company company = repo.findById(9).get();
+        Company company = repo.findById(11).get();
 
         repo.delete(company);
     }
