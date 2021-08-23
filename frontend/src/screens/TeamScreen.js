@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getteam } from '../_actions/teamActions'
 import {Link} from 'react-router-dom'
 import UserCard from '../components/UserCard'
+import AddMemberModal from '../components/AddMemberModal'
 
 
 function TeamScreen(props) {
@@ -15,13 +16,14 @@ function TeamScreen(props) {
     const [leaders, setLeaders] = useState([])
     const [members, setMembers] = useState([])
 
+    const [addMember, setAddMember] = useState(false)
+
     useEffect(() => {
         dispatch(getteam({id})).then(res=>{
             setCeos(res.users.filter(user=>user.role==="CEO"))
             setLeaders(res.users.filter(user=>user.role==="Leader"))
             setMembers(res.users.filter(user=>user.role==="Member"))
         })
-
 
     }, [dispatch])
 
@@ -31,27 +33,42 @@ function TeamScreen(props) {
     return (
         <div className="user-team">
             {
+                (ceos.length ===0 && leaders.length===0 && members.length===0) &&
+                <div>
+                    No Members yet.
+                </div>
+            }
+            {
                 team.loading ===false &&
                     <div className="user-card-container" >
                     {
                         ceos.map((user, index)=>(
-                            <UserCard user={user} key={index}/>
+                            <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
                         ))
                         
                     }
                     {
                         leaders.map((user, index)=>(
-                            <UserCard user={user} key={index}/>
+                            <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
                         ))
                         
                     }
                     {
                         members.map((user, index)=>(
-                            <UserCard user={user} key={index}/>
+                            <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
                         ))
                         
                     }
+                        <div className="card-button">
+                            <button onClick={()=>setAddMember(!addMember)}>ADD Member</button>
+                        </div>
                     </div>
+            }
+
+            {
+                addMember && 
+                <AddMemberModal members={team.team.users} setAddMember={setAddMember} id={id} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
+
             }
         </div>
     )

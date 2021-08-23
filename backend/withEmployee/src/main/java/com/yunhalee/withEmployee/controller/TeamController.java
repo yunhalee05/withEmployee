@@ -5,11 +5,10 @@ import com.yunhalee.withEmployee.dto.TeamListDTO;
 import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,4 +54,24 @@ public class TeamController {
 
         return teamListDTOS;
     }
+
+    @PostMapping("/team/save")
+    public TeamDTO save(@RequestBody TeamDTO teamDTO){
+        return service.save(teamDTO);
+    }
+
+    @DeleteMapping("/team/delete")
+    public void delete(@Param("id") Integer id){
+        service.delete(id);
+    }
+
+
+    @GetMapping("/team/check_name")
+    public String check_name(@Param("name")String name, @Param("id")Integer id){
+        return service.isNameUnique(name, id) ? "OK" : "Duplicated";
+    }
+
+
+
+
 }

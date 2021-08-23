@@ -22,7 +22,7 @@ function CeoCompanyScreen(props) {
     
     return (
         <div>
-            {company.loading===false && 
+            {(company.loading===false && company.companies) &&
                 <div className="user-team">
                     <div className="company-card-container">
                         {

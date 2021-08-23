@@ -12,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -129,5 +131,15 @@ public class UserRepositoryTests {
         User user = repo.findByEmail(email);
 
         System.out.println(user);
+    }
+
+    @Test
+    public void testUserDeleteTeam(){
+        User user = repo.findById(29).get();
+        System.out.println(user.getTeams());
+        Set<Team> teams = user.getTeams().stream().filter(t->!t.getId().equals(8)).collect(Collectors.toSet());
+
+        System.out.println(teams);
+
     }
 }

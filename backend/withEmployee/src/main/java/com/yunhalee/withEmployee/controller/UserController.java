@@ -63,6 +63,16 @@ public class UserController {
         return new ResponseEntity<UserDTO>(savedUserDTO, HttpStatus.OK);
     }
 
+    @PostMapping("/user/addTeam")
+    public UserDTO addTeam(@Param("email")String email, @Param("id")Integer id){
+        return service.addTeam(email, id);
+    }
+
+    @DeleteMapping("/user/deleteTeam")
+    public Integer deleteTeam(@Param("userId")Integer userId, @Param("teamId")Integer teamId){
+        return service.deleteTeam(userId, teamId);
+    }
+
 
     @PostMapping("/user/check_email")
     public String checkDuplicateEmail(@Param("id") Integer id, @Param("email") String email){

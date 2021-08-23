@@ -39,6 +39,8 @@ function CompanyCard({company}) {
            <div className="company-description">
                {company.description}
            </div>
+
+           
         </div>
     )
 }

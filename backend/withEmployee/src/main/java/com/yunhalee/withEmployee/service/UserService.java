@@ -1,9 +1,11 @@
 package com.yunhalee.withEmployee.service;
 
 import com.yunhalee.withEmployee.Repository.RoleRepository;
+import com.yunhalee.withEmployee.Repository.TeamRepository;
 import com.yunhalee.withEmployee.Repository.UserRepository;
 import com.yunhalee.withEmployee.dto.UserDTO;
 import com.yunhalee.withEmployee.entity.Role;
+import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.entity.User;
 import com.yunhalee.withEmployee.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -21,6 +25,9 @@ public class UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private TeamRepository teamRepo;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -82,6 +89,25 @@ public class UserService {
             return new UserDTO(user);
 
         }
+    }
+
+    public UserDTO addTeam(String email, Integer id){
+        User user = repo.findByEmail(email);
+        Team team = teamRepo.findByTeamId(id);
+
+        user.addTeam(team);
+        repo.save(user);
+        return new UserDTO(user);
+    }
+
+    public Integer deleteTeam(Integer userId, Integer teamId){
+        User user = repo.findById(userId).get();
+        Set<Team> teams = user.getTeams().stream().filter(t->!t.getId().equals(teamId)).collect(Collectors.toSet());
+
+        System.out.println(teams);
+        user.setTeams(teams);
+        repo.save(user);
+        return teamId;
     }
 
     private void encodePassword(User user){

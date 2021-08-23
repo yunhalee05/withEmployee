@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import TeamCard from '../components/TeamCard'
+import AddTeamModal from '../components/AddTeamModal'
 import UserCard from '../components/UserCard'
 import { getcompany } from '../_actions/companyActions'
+import {Link} from 'react-router-dom'
+import { deleteteam } from '../_actions/teamActions'
+
 
 function CompanyScreen(props) {
 
@@ -10,17 +13,28 @@ function CompanyScreen(props) {
 
     const company = useSelector(state => state.company)
 
+    const [addTeam, setAddTeam] = useState(false)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getcompany({id}))
     }, [dispatch])
 
+    const handleDelete= (teamId) =>{
+        if(window.confirm("Are you sure to delete this team ? After this action, users related to this team are also deleted.")){
+            dispatch(deleteteam({teamId})).then(res=>{
+                dispatch(getcompany({id}))
+            })
+        }
+
+    }
+
     return (
         
         <div className="user-team">
             {
-                company.company &&
+                company.loading===false &&company.company &&
                 <div>
                 <div className="company-card">
                     <div className="company-card-name">
@@ -37,12 +51,27 @@ function CompanyScreen(props) {
 
             
                 <div className="team-card-container">
-                {
-                    company.company.teams.map((team, index)=>(
-                        
-                        <TeamCard team={team} key={index}/>
-                    ))
-                }
+                    {
+                        company.company.teams.map((team, index)=>(
+                            <div className="team-card" key={index}>
+                                <div className="company-delete-button">
+                                    <button onClick={()=>handleDelete(team.id)}>DELETE</button>
+                                </div>
+                                <Link to={`/team/${team.id}`}>
+                                    <div className="team-name">
+                                        {team.name}
+                                    </div>
+                                </Link>
+                                <div className="total-number">
+                                    <span>Total Number : </span>
+                                    {team.totalNumber}
+                                </div>
+                            </div>
+                        ))
+                    }
+                    <div className="card-button">
+                        <button onClick={()=>setAddTeam(!addTeam)}>ADD TEAM</button>
+                    </div>
 
                 </div>
 
@@ -50,12 +79,28 @@ function CompanyScreen(props) {
                 <div className="user-card-container" >
                     {
                         company.company.members.map((user, index)=>(
-                            <UserCard user={user} key={index}/>
+                            <div className="user-card" key={index}>
+                                <div className="user-name">
+                                    {user.name}
+                                </div>
+                                <div className="user-role">
+                                    {user.role}
+                                </div>
+                                <div className="user-email">
+                                    <span>E-mail : </span>
+                                    <span>{user.email}</span>
+                                </div>
+                            </div>
                         ))
                         
                     }
                 </div>
                 </div>
+            }
+
+            {
+                addTeam &&
+                <AddTeamModal companyId={id} setAddTeam={setAddTeam} />
             }
         </div>
     )

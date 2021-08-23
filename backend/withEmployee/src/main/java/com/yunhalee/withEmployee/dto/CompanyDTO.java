@@ -47,7 +47,9 @@ public class CompanyDTO {
     @Getter
     static class CompanyTeam{
 
+        private Integer id;
         private String name;
+        private Integer totalNumber;
 
         static List<CompanyDTO.CompanyTeam> TeamList(Set<Team> teams){
             List<CompanyDTO.CompanyTeam> list = new ArrayList<>();
@@ -59,7 +61,9 @@ public class CompanyDTO {
         }
 
         public CompanyTeam(Team team){
+            this.id = team.getId();
             this.name = team.getName();
+            this.totalNumber = team.getTotalNumber();
 
         }
 

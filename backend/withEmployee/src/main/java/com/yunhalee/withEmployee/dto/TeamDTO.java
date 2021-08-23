@@ -23,6 +23,14 @@ public class TeamDTO {
 
     private Integer companyId;
 
+    public TeamDTO() {
+    }
+
+    public TeamDTO(String name, Integer companyId) {
+        this.name = name;
+        this.companyId = companyId;
+    }
+
     public TeamDTO(Team team){
         this.id = team.getId();
         this.name=team.getName();

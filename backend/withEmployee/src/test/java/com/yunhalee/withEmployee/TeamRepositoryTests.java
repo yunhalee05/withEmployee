@@ -86,5 +86,19 @@ public class TeamRepositoryTests {
         System.out.println(team);
     }
 
+    @Test
+    public void testGetTeamByCompanyId(){
+        List<Team> teams = repo.findByCompanyId(1);
+
+        for (Team team : teams) {
+            System.out.println(team);
+        }
+    }
+
+    @Test
+    public void testDeleteTeam(){
+        repo.deleteById(8);
+    }
+
 
 }

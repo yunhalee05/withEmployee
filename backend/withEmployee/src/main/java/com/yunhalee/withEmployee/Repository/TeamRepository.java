@@ -25,4 +25,7 @@ interface TeamRepository extends CrudRepository<Team, Integer> {
     List<Team> findByUserId(Integer id);
 
     List<Team> findByCompany(Company company);
+
+    @Query(value = "SELECT DISTINCT t FROM Team t LEFT JOIN FETCH t.company c WHERE c.id=:id")
+    List<Team> findByCompanyId(Integer id);
 }

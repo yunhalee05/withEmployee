@@ -2,8 +2,8 @@ import{combineReducers, createStore, compose, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
 import { authReducer } from './authReducers';
 import { companylistReducer, companyReducer } from './companyReducers';
-import { teamlistReducer, teamReducer } from './teamReducers';
-import { userlistReducer, userReducer } from './userReducers';
+import { createTeamReducer, deleteTeamReducer, teamlistReducer, teamReducer } from './teamReducers';
+import { adduserteamReducer, deleteuserteamReducer, userlistReducer, userReducer } from './userReducers';
 
 const initialState={
     auth : {
@@ -19,6 +19,11 @@ const reducer = combineReducers({
     auth : authReducer,
     team : teamReducer,
     company : companyReducer,
+    createdTeam : createTeamReducer,
+    deleteTeam : deleteTeamReducer,
+    addUsertoTeam : adduserteamReducer,
+    deleteUserFromTeam : deleteuserteamReducer,
+    
 
 })
 
