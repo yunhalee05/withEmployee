@@ -40,7 +40,7 @@ function App() {
         <PrivateRouter exact path="/users" component={UserListScreen}/>
 
         <PrivateRouter exact path="/user/:id" component={ProfileScreen}/>
-        <PrivateRouter exact path="/user/edit/:id" component={EditProfileScreen}/>
+        {/* <PrivateRouter exact path="/user/edit/:id" component={EditProfileScreen}/> */}
 
         <PrivateRouter exact path="/company/:id" component={CompanyScreen}/>
         <PrivateRouter exact path="/companies/:id" component={CeoCompanyScreen}/>

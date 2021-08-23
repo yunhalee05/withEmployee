@@ -43,6 +43,8 @@ export const getteam =({id}) => async(dispatch, getState)=>{
             type:GET_TEAM_SUCCESS,
             payload:res.data
         })
+
+        return res.data
     }catch(error){
         dispatch({
             type:GET_TEAM_FAIL,

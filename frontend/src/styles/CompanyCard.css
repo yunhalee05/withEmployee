@@ -1,0 +1,38 @@
+.company-card-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    justify-content: center;
+    grid-gap: 3px;
+    overflow: hidden;
+}
+
+.company-card{
+    width: 100%;
+    border: 1px solid gray;
+    padding: 2rem;
+}
+
+.company-card a{
+    color: black;
+}
+
+.company-card a:hover{
+    text-decoration: none;
+}
+
+.company-name{
+    text-align: center;
+    font-size: 2.3rem;
+}
+
+.company-ceo{
+    text-align: right;
+}
+
+.company-description{
+    color: gray;
+}
+
+.company-total-number{
+    justify-content: space-between;
+}

@@ -1,0 +1,36 @@
+.team-card-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    justify-content: center;
+    grid-gap: 3px;
+    overflow: hidden;
+}
+
+.team-card{
+    border: 1px solid gray;
+    padding: 2rem;
+}
+
+.team-card .total-number{
+    font-size: 1.5rem;
+}
+
+.team-company{
+    text-align: right;
+}
+
+
+.team-card a{
+    color: black;
+}
+
+.team-card a:hover{
+    text-decoration: none;
+}
+.team-card .company-name{
+    font-size: 1.3rem;
+}
+
+.team-name{
+    font-size: 4rem;
+}

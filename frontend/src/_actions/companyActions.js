@@ -73,6 +73,8 @@ export const getcompanies =({id}) => async(dispatch, getState)=>{
             type:GET_COMPANIES_SUCCESS,
             payload:res.data
         })
+
+        return res.data
     }catch(error){
         dispatch({
             type:GET_COMPANIES_FAIL,

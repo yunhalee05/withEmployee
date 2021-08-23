@@ -31,7 +31,18 @@ public class UserDTO {
 
     private String role;
 
+    public UserDTO(){
+    }
 
+    public UserDTO(Integer id, String name, String email, String password, String description, String imageUrl, String phoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.phoneNumber = phoneNumber;
+    }
 
     public UserDTO(String name, String email, String password, String description, String imageUrl, String phoneNumber, String role) {
         this.name = name;

@@ -1,4 +1,4 @@
-import { GET_USERLIST_FAIL, GET_USERLIST_REQUEST, GET_USERLIST_SUCCESS, GET_USER_FAIL, GET_USER_REQUEST, GET_USER_SUCCESS } from "../_constants/userConstants";
+import { EDIT_USER_FAIL, EDIT_USER_REQUEST, EDIT_USER_SUCCESS, GET_USERLIST_FAIL, GET_USERLIST_REQUEST, GET_USERLIST_SUCCESS, GET_USER_FAIL, GET_USER_REQUEST, GET_USER_SUCCESS } from "../_constants/userConstants";
 
 export const userlistReducer = (state={users:[]}, action)=>{
     switch(action.type){
@@ -21,6 +21,14 @@ export const userReducer = (state={}, action)=>{
             return {loading:false, ...action.payload}
         case GET_USER_FAIL:
             return {...state, loading:false, error:action.payload}
+
+        case EDIT_USER_REQUEST:
+            return {...state, loading:true}
+        case EDIT_USER_SUCCESS:
+            return {loading:false, ...action.payload}
+        case EDIT_USER_FAIL:
+            return {...state, loading:false, error:action.payload}
+            
         default:
             return state;
     }

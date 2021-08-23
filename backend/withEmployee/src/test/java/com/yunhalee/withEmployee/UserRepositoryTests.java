@@ -83,8 +83,8 @@ public class UserRepositoryTests {
 
     @Test
     public void testAddTeam(){
-        User member = repo.findById(18).get();
-        Team team = entityManager.find(Team.class, 2);
+        User member = repo.findById(34).get();
+        Team team = entityManager.find(Team.class, 1);
         member.addTeam(team);
 
         User savedmember = repo.save(member);

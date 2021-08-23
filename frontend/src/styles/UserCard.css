@@ -1,0 +1,39 @@
+.user-team{
+    max-width: 70rem;  
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.user-card-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    justify-content: center;
+    grid-gap: 3px;
+    overflow: hidden;
+}
+
+.user-card{
+    min-width: 300px;
+    border: 1px solid gray;
+    padding: 2rem;
+}
+
+.user-name{
+    font-size: 2rem;
+    text-align: center;
+}
+
+.user-role{
+    font-size: 1.2rem;
+    text-align: right;
+}
+
+.user-email{
+    justify-content: space-between;
+}
+
+.user-phoneNumber{
+    justify-content: space-between;
+}

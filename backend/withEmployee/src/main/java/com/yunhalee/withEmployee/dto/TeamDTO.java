@@ -40,6 +40,7 @@ public class TeamDTO {
         private String phoneNumber;
         private String role;
         private String email;
+        private String imageUrl;
 
         static List<TeamUser> UserList(Set<User> users){
             List<TeamDTO.TeamUser> list = new ArrayList<>();
@@ -56,6 +57,7 @@ public class TeamDTO {
             this.phoneNumber = user.getPhoneNumber();
             this.email = user.getEmail();
             this.role = user.getRoleName();
+            this.imageUrl = user.getImageUrl();
         }
 
     }

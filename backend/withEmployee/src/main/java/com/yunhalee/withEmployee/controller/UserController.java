@@ -41,12 +41,13 @@ public class UserController {
     @GetMapping("/user/{id}")
     public ResponseEntity<UserDTO> detailUser(@PathVariable("id") Integer id){
             UserDTO userDTO = service.get(id);
+            userDTO.setPassword("");
             return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
     }
 
     @PostMapping("/user/save")
     public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO) {
-//        System.out.println(userDTO);
+        System.out.println(userDTO);
         UserDTO savedUserDTO = service.save(userDTO);
         userDTO.setPassword("");
         return new ResponseEntity<UserDTO>(savedUserDTO, HttpStatus.CREATED);
@@ -59,7 +60,7 @@ public class UserController {
         UserDTO savedUserDTO = service.save(userDTO);
 
         savedUserDTO.setPassword("");
-        return new ResponseEntity<UserDTO>(savedUserDTO, HttpStatus.CREATED);
+        return new ResponseEntity<UserDTO>(savedUserDTO, HttpStatus.OK);
     }
 
 

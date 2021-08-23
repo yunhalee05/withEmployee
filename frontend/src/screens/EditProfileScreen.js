@@ -46,7 +46,7 @@ function EditProfileScreen(props) {
                 <div className="form-group">
                     <label htmlFor="password">password</label>
                     <input type={typePass ? "text" : "password"} className="form-control" id="password" name="password" onChange={e=>setPassword(e.target.value)} required value={password}/>
-                    <small onClick={()=>setTypePass(!typePass)}>
+                    <small className="pass" onClick={()=>setTypePass(!typePass)}>
                         {typePass? 'Hide' : 'Show'}
                     </small>
                 </div>
@@ -54,7 +54,7 @@ function EditProfileScreen(props) {
                 <div className="form-group">
                     <label htmlFor="confirmPassword">Confirm Password</label>
                     <input type={typePass ? "text" : "password"}  className="form-control" id="confirmPassword" name="confirmPassword" onChange={e=>setConfirmPassword(e.target.value)} required value={confirmPassword}/>
-                    <small onClick={()=>setTypePass(!typePass)}>
+                    <small className="pass" onClick={()=>setTypePass(!typePass)}>
                         {typePass? 'Hide' : 'Show'}
                     </small>
                 </div>
@@ -75,7 +75,9 @@ function EditProfileScreen(props) {
                     <textarea type="text" className="form-control" id="description" name="name" onChange={e=>setDescription(e.target.value)} required value={description}/>
                 </div>
 
-                <button type="submit" className="form-button">Save</button>
+                <div className="form-button">
+                    <button type="submit" >Save</button>
+                </div>
             </form>
 
         </div>

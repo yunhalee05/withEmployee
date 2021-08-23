@@ -24,3 +24,15 @@ code {
 
 /* Form */
 @import url('./styles/Form.css');
+
+/* Team Card */
+@import url('./styles/TeamCard.css');
+
+/* User Card */
+@import url('./styles/UserCard.css');
+
+/* Company Card */
+@import url('./styles/CompanyCard.css');
+
+/* Profile Screen */
+@import url('./styles/ProfileScreen.css');
