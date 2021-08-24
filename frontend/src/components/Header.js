@@ -2,6 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
 import { logout } from '../_actions/authActions'
+import ellipse2 from '../images/Ellipse 2.png'
+import ellipse1 from '../images/Ellipse 1.png'
 
 function Header() {
 
@@ -30,6 +32,9 @@ function Header() {
                         <Link className="dropdown-item" to="/users">User List</Link>
                     </div>
                 </div>
+                <div style={{position:"relative"}}>
+                    <img className="header-list-shape" src={ellipse2} alt="ellipse2" />
+                </div>
 
                 <div className="dropdown dropdown-toggle">
                     <span >
@@ -48,6 +53,10 @@ function Header() {
                         </div>
                     </div>
                 </div>
+                <div style={{position:'relative'}}>
+                    <img className="header-user-shape" src={ellipse1} alt="ellipse1" /> 
+                </div>
+
             </div>
         </div>
     )
