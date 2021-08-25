@@ -24,45 +24,46 @@ function ProfileScreen(props) {
                     <img width="40px" src={profileuser.imageUrl? profileuser.imageUrl : userIcon} alt="imageUrl" />
                 </div>
 
-                <div className="">
-                    <button onClick={()=>setOnEdit(!onEdit)}>Edit profile</button>
-                </div>
-
                 <div className="profile-info-box">
                     <div className="profile-info">
-                        <label htmlFor="">Name</label>
+                        <label htmlFor="">Name : </label>
                         {profileuser.name}
                     </div>
 
-                    <div className="profile-role">
+                    <div className="profile-info">
+                        <label htmlFor="">Role : </label>
                         {profileuser.role}
                     </div>
 
                     <div className="profile-info">
-                        <label htmlFor="">E-mail</label>
+                        <label htmlFor="">E-mail : </label>
                         {profileuser.email}
                     </div>
 
                     <div className="profile-info">
-                        <label htmlFor="">Phone Number</label>
+                        <label htmlFor="">Phone Number : </label>
                         {profileuser.phoneNumber}
                     </div>
 
                     <div className="profile-info">
-                        <label htmlFor="">Description</label>
+                        <label htmlFor="">Description : </label>
                         {profileuser.description}
                     </div>
                 </div>
+
+                <div className="profile-edit-button">
+                    <button onClick={()=>setOnEdit(!onEdit)}>Edit profile</button>
+                </div>
             </div>
 
-            <span>WHERE I BELONG TO</span>
+            <div style={{textAlign:'center', fontSize:'2rem', margin:'2rem'}}>WHERE I BELONG TO</div>
 
             <div className="team-card-container">
                 {
                     profileuser.teams&& profileuser.teams.map(t=>
                         <div className="team-card" key={t.id}>
-                            {t.name}
-                            {t.company}
+                            <div className="team-name">{t.name}</div>
+                            <div className="company-name">{t.company}</div>
                         </div>
                     )
                 }

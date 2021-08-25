@@ -3,4 +3,22 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin: 4rem;
+}
+
+.company-screen-name{
+    text-align: center;
+    font-size: 3rem;
+}
+
+.company-screen-ceo{
+    text-align: right;
+    font-size: 1.3rem;
+    font-style: italic;
+}
+
+.company-screen-description{
+    text-align: left;
+    font-size: 1.2rem;
+    color: gray;
 }

@@ -36,13 +36,18 @@ function CompanyScreen(props) {
             {
                 company.loading===false &&company.company &&
                 <div>
-                <div className="company-card">
-                    <div className="company-card-name">
-                        {company.company.name}
+                <div className="company-screen">
+                    <div className="company-screen-name">
+                        <div>{company.company.name}</div>
                     </div>
 
-                    <div className="company-card-description">
-                        {company.company.description}
+                    <div className="company-screen-ceo">
+                        <div>{company.company.ceo.name}</div>
+                        <div>{company.company.ceo.email}</div>
+                    </div>
+
+                    <div className="company-screen-description">
+                        <div>{company.company.description}</div>
                     </div>
 
 
@@ -63,8 +68,8 @@ function CompanyScreen(props) {
                                     </div>
                                 </Link>
                                 <div className="total-number">
-                                    <span>Total Number : </span>
-                                    {team.totalNumber}
+                                    <div>{team.totalNumber}</div>
+                                    <div style={{fontSize:"9px"}}>Members  </div>
                                 </div>
                             </div>
                         ))

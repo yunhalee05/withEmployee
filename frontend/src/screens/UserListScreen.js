@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { getuserlist } from '../_actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
+import {Link} from 'react-router-dom'
 
 
 
@@ -38,7 +39,7 @@ function UserListScreen() {
                         {
                             userlist.users.map((user,index)=>(
                                 <tr key={index}>
-                                    <td>{user.name}</td>
+                                    <Link to={`/user/${user.id}`}><td>{user.name}</td></Link>
                                     <td>{user.email}</td>
                                     <td>{user.phoneNumber}</td>
                                     <td>{user.description}</td>

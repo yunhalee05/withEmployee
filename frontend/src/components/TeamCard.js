@@ -11,10 +11,12 @@ function TeamCard({team}) {
                     {team.name}
                 </div>
             </Link>
+
             <div className="total-number">
-                <span>Total Number : </span>
-                {team.totalNumber}
+                <div>{team.totalNumber}</div>
+                <div style={{fontSize:"9px"}}>Members  </div>
             </div>
+
             <div className="team-company">
                 <Link to={`/company/${team.company.id}`}>
                     <div className="company-name">{team.company.name}</div>

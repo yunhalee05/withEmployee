@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { getteam } from '../_actions/teamActions'
 import { deleteuserteam } from '../_actions/userActions'
+import {Link} from 'react-router-dom'
 
 function UserCard({user, teamId, setCeos, setLeaders, setMembers}) {
 
@@ -31,7 +32,7 @@ function UserCard({user, teamId, setCeos, setLeaders, setMembers}) {
             }
 
             <div className="user-name">
-                {user.name}
+                <Link to={`/user/${user.id}`}>{user.name}</Link>
             </div>
             <div className="user-role">
                 {user.role}

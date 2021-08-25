@@ -3,4 +3,46 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.profile .user-info{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+}
+
+.profile .profile-image {
+    width: 30%;
+    min-width: 300px;
+    height: 350px;
+    overflow: hidden;
+}
+
+.profile .profile-image img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.profile .profile-info-box{
+    width: 50%;
+    padding: 3rem;
+}
+
+.profile .profile-info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile .profile-edit-button{
+    width: 20%;
+    padding: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.profile .profile-edit-button button{
+    background-color: white;
 }
