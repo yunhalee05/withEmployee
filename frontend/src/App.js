@@ -1,5 +1,5 @@
 import  {BrowserRouter ,Route} from 'react-router-dom'
-import React, { useEffect, useState } from 'react';
+import React, {} from 'react';
 import Header from './components/Header';
 import CompanyScreen from './screens/CompanyScreen';
 import CompanyListScreen from './screens/CompanyListScreen';
@@ -9,7 +9,6 @@ import LoginScreen from './screens/LoginScreen';
 import UserListScreen from './screens/UserListScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
-import EditProfileScreen from './screens/EditProfileScreen';
 import PrivateRouter from './customRouter/PrivateRouter';
 import { useSelector } from 'react-redux';
 import TeamScreen from './screens/TeamScreen';

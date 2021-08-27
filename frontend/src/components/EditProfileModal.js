@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { edituser } from '../_actions/userActions'
-import { valid } from '../utils'
+import { editValid } from '../utils'
 import axios from 'axios'
 
 
@@ -21,9 +21,37 @@ function EditProfileModal({user, setOnEdit}) {
     const dispatch = useDispatch()
 
 
+
+    const handleImage = async(e)=>{
+        const file = e.target.files[0]
+        const err = checkImage(file)
+
+        if(err) return window.alert(err)
+        if(file){
+            var preview = document.getElementById('preview')
+            preview.src = URL.createObjectURL(file)
+        }
+        setImageURL(file)
+    }
+
+    const checkImage = (file) =>{
+        let err=""
+
+        if(!file) return err="File does not exist."
+        if(file.size>1024*1024){
+            err = "The largest image size is 1mb."
+        }
+        if(file.type !== 'image/jpeg' && file.type !== 'image/png'){
+            err = "Image format is incorrect."
+        }
+
+        return err
+    }
+
+
     const handleSubmit = async(e) =>{
         e.preventDefault();
-        const check = valid(name, email, password, confirmPassword, description, phoneNumber)
+        const check = editValid(name, email, password, confirmPassword, description, phoneNumber)
 
         if(check.errLength===0){
             if(email !== user.email){
@@ -32,17 +60,29 @@ function EditProfileModal({user, setOnEdit}) {
                     return window.alert('This email already exist.')
                 }
             }
-            const userDTO={
-                id:user.id,
-                name:name,
-                email:email,
-                password: password,
-                description:description,
-                imageURL:imageURL,
-                phoneNumber:phoneNumber,
-            }
+
+            const bodyFormData = new FormData()
+            bodyFormData.append('multipartFile', imageURL)
+
+            bodyFormData.append('id', user.id)
+            bodyFormData.append('name', name)
+            bodyFormData.append('email', email)
+            bodyFormData.append('password', password)
+            bodyFormData.append('description', description)
+            bodyFormData.append('phoneNumber', phoneNumber)
+
+
+            // const userDTO={
+            //     id:user.id,
+            //     name:name,
+            //     email:email,
+            //     password: password,
+            //     description:description,
+            //     imageURL:imageURL,
+            //     phoneNumber:phoneNumber,
+            // }
     
-            dispatch(edituser(userDTO))    
+            dispatch(edituser(bodyFormData))    
             setOnEdit(false)
 
         }else {
@@ -53,7 +93,7 @@ function EditProfileModal({user, setOnEdit}) {
 
     return (
         <div className="form">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="form-name">
                     {/* Edit {id} */}
                 </div>
@@ -106,9 +146,9 @@ function EditProfileModal({user, setOnEdit}) {
 
                 <div className="form-group">
                     <label htmlFor="image">Image</label>
-                    <input type="text" className="form-control" id="imageUrl" name="imageUrl" onChange={e=>setImageURL(e.target.value)} value={imageURL}/>
+                    <img id="preview" src={''} alt="imageURL" />
+                    <input type="file" className="form-control" id="file_up" name="file" accept="image/*" onChange={handleImage} />
                 </div>
-
 
                 <div className="form-group">
                     <label htmlFor="phoneNumber">Phone</label>

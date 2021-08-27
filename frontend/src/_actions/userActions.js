@@ -57,7 +57,7 @@ export const getuser =(id) => async(dispatch, getState)=>{
     }
 }
 
-export const edituser =(userDTO) => async(dispatch, getState)=>{
+export const edituser =(bodyFormData) => async(dispatch, getState)=>{
 
     const {auth : {token}} = getState()
 
@@ -66,7 +66,7 @@ export const edituser =(userDTO) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/user/save',userDTO,{
+        const res = await axios.post('/user/save',bodyFormData,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

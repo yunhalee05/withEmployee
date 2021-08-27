@@ -35,7 +35,7 @@ export const login =({email, password}) => async(dispatch, getState)=>{
     }
 }
 
-export const register =(userDTO) => async(dispatch, getState)=>{
+export const register =(bodyFormData) => async(dispatch, getState)=>{
     dispatch({
         type:REGISTER_REQUEST
     })
@@ -51,9 +51,12 @@ export const register =(userDTO) => async(dispatch, getState)=>{
     //     phoneNumber : phoneNumber
     // }
 
+    const email = bodyFormData.get('email')
+    const password = bodyFormData.get('password')
+
     try{
-        const res1 = await axios.post('/user/register',userDTO )
-        const res2 = await axios.post('authenticate',{username:userDTO.email,password:userDTO.password })
+        const res1 = await axios.post('/user/register',bodyFormData)
+        const res2 = await axios.post('authenticate',{username:email,password:password })
 
         dispatch({
             type:REGISTER_SUCCESS,

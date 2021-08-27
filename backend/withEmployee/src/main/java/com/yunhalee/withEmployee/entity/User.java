@@ -32,6 +32,9 @@ public class User {
     @Column(name = "description")
     private String description;
 
+    @Column(name="image_name")
+    private String imageName;
+
     @Column(name = "image_url")
     private String imageUrl;
 

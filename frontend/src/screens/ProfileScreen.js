@@ -19,42 +19,46 @@ function ProfileScreen(props) {
 
     return (
         <div className="profile">
-            <div className="user-info">
-                <div className="profile-image">
-                    <img width="40px" src={profileuser.imageUrl? profileuser.imageUrl : userIcon} alt="imageUrl" />
+            {   profileuser.loading ===false &&
+            (
+                <div className="user-info">
+                    <div className="profile-image">
+                        <img width="40px" src={profileuser.imageUrl? profileuser.imageUrl : userIcon} alt="imageUrl" />
+                    </div>
+
+                    <div className="profile-info-box">
+                        <div className="profile-info">
+                            <label htmlFor="">Name : </label>
+                            {profileuser.name}
+                        </div>
+
+                        <div className="profile-info">
+                            <label htmlFor="">Role : </label>
+                            {profileuser.role}
+                        </div>
+
+                        <div className="profile-info">
+                            <label htmlFor="">E-mail : </label>
+                            {profileuser.email}
+                        </div>
+
+                        <div className="profile-info">
+                            <label htmlFor="">Phone Number : </label>
+                            {profileuser.phoneNumber}
+                        </div>
+
+                        <div className="profile-info">
+                            <label htmlFor="">Description : </label>
+                            {profileuser.description}
+                        </div>
+                    </div>
+
+                    <div className="profile-edit-button">
+                        <button onClick={()=>setOnEdit(!onEdit)}>Edit profile</button>
+                    </div>
                 </div>
-
-                <div className="profile-info-box">
-                    <div className="profile-info">
-                        <label htmlFor="">Name : </label>
-                        {profileuser.name}
-                    </div>
-
-                    <div className="profile-info">
-                        <label htmlFor="">Role : </label>
-                        {profileuser.role}
-                    </div>
-
-                    <div className="profile-info">
-                        <label htmlFor="">E-mail : </label>
-                        {profileuser.email}
-                    </div>
-
-                    <div className="profile-info">
-                        <label htmlFor="">Phone Number : </label>
-                        {profileuser.phoneNumber}
-                    </div>
-
-                    <div className="profile-info">
-                        <label htmlFor="">Description : </label>
-                        {profileuser.description}
-                    </div>
-                </div>
-
-                <div className="profile-edit-button">
-                    <button onClick={()=>setOnEdit(!onEdit)}>Edit profile</button>
-                </div>
-            </div>
+            )
+            }
 
             <div style={{textAlign:'center', fontSize:'2rem', margin:'2rem'}}>WHERE I BELONG TO</div>
 

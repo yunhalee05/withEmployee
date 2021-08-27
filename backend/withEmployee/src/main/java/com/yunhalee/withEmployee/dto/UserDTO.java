@@ -34,22 +34,20 @@ public class UserDTO {
     public UserDTO(){
     }
 
-    public UserDTO(Integer id, String name, String email, String password, String description, String imageUrl, String phoneNumber) {
+    public UserDTO(Integer id, String name, String email, String password, String description, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.description = description;
-        this.imageUrl = imageUrl;
         this.phoneNumber = phoneNumber;
     }
 
-    public UserDTO(String name, String email, String password, String description, String imageUrl, String phoneNumber, String role) {
+    public UserDTO(String name, String email, String password, String description, String phoneNumber, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.description = description;
-        this.imageUrl = imageUrl;
         this.phoneNumber = phoneNumber;
         this.role = role;
     }

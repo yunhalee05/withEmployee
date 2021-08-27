@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getteam } from '../_actions/teamActions'
-import {Link} from 'react-router-dom'
 import UserCard from '../components/UserCard'
 import AddMemberModal from '../components/AddMemberModal'
 

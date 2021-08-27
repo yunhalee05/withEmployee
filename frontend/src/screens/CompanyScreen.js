@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AddTeamModal from '../components/AddTeamModal'
-import UserCard from '../components/UserCard'
 import { getcompany } from '../_actions/companyActions'
 import {Link} from 'react-router-dom'
 import { deleteteam } from '../_actions/teamActions'

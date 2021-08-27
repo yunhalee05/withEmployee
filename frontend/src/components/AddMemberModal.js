@@ -6,7 +6,6 @@ import { adduserteam } from '../_actions/userActions'
 function AddMemberModal({members,setAddMember, id, setCeos, setLeaders, setMembers}) {
 
     const [email, setEmail] = useState('')
-    const [role, setRole] = useState("Member")
 
     const dispatch = useDispatch()
 

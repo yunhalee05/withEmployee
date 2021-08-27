@@ -37,6 +37,32 @@ function RegisterScreen(props) {
         }
     }, [])
 
+    const handleImage = async(e)=>{
+        const file = e.target.files[0]
+        const err = checkImage(file)
+
+        if(err) return window.alert(err)
+        if(file){
+            var preview = document.getElementById('preview')
+            preview.src = URL.createObjectURL(file)
+        }
+        setImageURL(file)
+    }
+
+    const checkImage = (file) =>{
+        let err=""
+
+        if(!file) return err="File does not exist."
+        if(file.size>1024*1024){
+            err = "The largest image size is 1mb."
+        }
+        if(file.type !== 'image/jpeg' && file.type !== 'image/png'){
+            err = "Image format is incorrect."
+        }
+
+        return err
+    }
+
     const handleSubmit = async(e) =>{
         e.preventDefault();
 
@@ -51,16 +77,27 @@ function RegisterScreen(props) {
             }else if(companyres.data ==="Duplicated"){
                 window.alert('This Company name already exist.')
             }else{
+                const bodyFormData = new FormData()
+                bodyFormData.append('multipartFile', imageURL)
+
+                bodyFormData.append('name', name)
+                bodyFormData.append('email', email)
+                bodyFormData.append('password', password)
+                bodyFormData.append('description', description)
+                bodyFormData.append('phoneNumber', phoneNumber)
+                bodyFormData.append('role', ceo? "CEO" : "Member")
+
+                
                 const userDTO = {
                     name: name, 
                     email : email, 
                     password :password,
                     description: description,
-                    imageURL : imageURL,
                     phoneNumber : phoneNumber,
-                    role : ceo? "CEO" : "Member"
+                    role : ceo? "CEO" : "Member",
                 }
-                dispatch(register(userDTO)).then(res=> {
+                
+                dispatch(register(bodyFormData)).then(res=> {
 
                     if(ceo){
                         const companyDTO={
@@ -81,14 +118,9 @@ function RegisterScreen(props) {
 
     }
 
-    const validateEmail = (email)=>{
-        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-    }
-
     return (
         <div className="form">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="form-name">
                     Register
                 </div>
@@ -96,22 +128,22 @@ function RegisterScreen(props) {
                 <div className="form-group">
                     <label htmlFor="name">Name</label>
                     <input type="text" className="form-control" id="name" name="name" onChange={e=>setName(e.target.value)} value={name} />
+                </div>
                     {
                         err.name
                         ? <small>{err.name}</small>
                         : ''
                     }
-                </div>
 
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input type="email" className="form-control" id="email" name="email" onChange={e=>setEmail(e.target.value)}  value={email}/>
+                </div>
                     {
                         err.email
                         ? <small>{err.email}</small>
                         : ''
                     }
-                </div>
 
                 <div className="form-group">
                     <label htmlFor="password">password</label>
@@ -119,12 +151,12 @@ function RegisterScreen(props) {
                     <small className="pass" onClick={()=>setTypePass(!typePass)}>
                         {typePass? 'Hide' : 'Show'}
                     </small>
+                </div>
                     {
                         err.password
                         ? <small>{err.password}</small>
                         : ''
                     }
-                </div>
 
                 <div className="form-group">
                     <label htmlFor="confirmPassword">Confirm Password</label>
@@ -132,39 +164,40 @@ function RegisterScreen(props) {
                     <small className="pass" onClick={()=>setCpTypePass(!cpTypePass)}>
                         {cpTypePass? 'Hide' : 'Show'}
                     </small>
+                </div>
                     {
                         err.confirmPassword
                         ? <small>{err.confirmPassword}</small>
                         : ''
                     }
-                </div>
 
 
                 <div className="form-group">
                     <label htmlFor="image">Image</label>
-                    <input type="text" className="form-control" id="imageUrl" name="imageUrl" onChange={e=>setImageURL(e.target.value)}  value={imageURL}/>
+                    <img id="preview" src={''} alt="imageURL" />
+                    <input type="file" className="form-control" id="file_up" name="file" accept="image/*" onChange={handleImage} />
                 </div>
 
 
                 <div className="form-group">
                     <label htmlFor="phoneNumber">Phone</label>
                     <input type="text" className="form-control" id="phoneNumber" name="phoneNumber" onChange={e=>setPhoneNumber(e.target.value)}  value={phoneNumber}/>
+                </div>
                     {
                         err.phoneNumber
                         ? <small>{err.phoneNumber}</small>
                         : ''
                     }
-                </div>
 
                 <div className="form-group">
                     <label htmlFor="description">Description</label>
                     <textarea type="text" className="form-control" id="description" name="description" onChange={e=>setDescription(e.target.value)}  value={description}/>
+                </div>
                     {
                         err.description
                         ? <small>{err.description}</small>
                         : ''
                     }
-                </div>
 
                 <div className="form-group">
                     <span>Are you a CEO ? </span>
