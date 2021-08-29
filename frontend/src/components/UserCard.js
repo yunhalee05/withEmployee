@@ -45,6 +45,9 @@ function UserCard({user, teamId, setCeos, setLeaders, setMembers}) {
                 <span>Phone : </span>
                 <span>{user.phoneNumber}</span>
             </div>
+
+
+            
         </div>
     )
 }

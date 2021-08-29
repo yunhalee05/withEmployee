@@ -1,5 +1,5 @@
 import  {BrowserRouter ,Route} from 'react-router-dom'
-import React, {} from 'react';
+import React, { useEffect } from 'react';
 import Header from './components/Header';
 import CompanyScreen from './screens/CompanyScreen';
 import CompanyListScreen from './screens/CompanyListScreen';
@@ -10,18 +10,45 @@ import UserListScreen from './screens/UserListScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import PrivateRouter from './customRouter/PrivateRouter';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TeamScreen from './screens/TeamScreen';
 import UserTeamScreen from './screens/UserTeamScreen';
 import CeoCompanyScreen from './screens/CeoCompanyScreen';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs'
+import { SOCKET } from "./_constants/socketConstants";
+import SocketClient from './SocketClient';
+import MessageScreen from './screens/MessageScreen';
+
 
 
 function App() {
 
   const auth = useSelector(state => state.auth)
+  const socket = useSelector(state => state.socket)
+
+  var sock = new SockJS('http://localhost:8080/chat')
+  let client = Stomp.over(sock);
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({
+      type:SOCKET,
+      payload:{client}
+    })
+
+    return () => client.current.deactivate();
+  }, [dispatch])
+
+  
+
 
   return (
     <BrowserRouter>
+      {
+        socket.client && <SocketClient/>
+      }
       <div className="App">
         {
           auth.user &&
@@ -33,6 +60,7 @@ function App() {
         <Route exact path="/register" component={RegisterScreen}/>
         
         <PrivateRouter exact path="/home" component={HomeScreen}/>
+        <PrivateRouter exact path="/conversation/:id" component={MessageScreen}/>
 
         <PrivateRouter exact path="/company" component={CompanyListScreen}/>
         <PrivateRouter exact path="/team" component={TeamListScreen}/>

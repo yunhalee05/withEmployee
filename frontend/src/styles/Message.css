@@ -1,0 +1,20 @@
+.messages{
+    max-width: 70rem;  
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.conversations{
+    width: 100%;
+    height: calc(100% - 60px);
+    overflow-y: auto;
+}
+
+.message-input{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    border-top: 1px solid #ddd;
+}

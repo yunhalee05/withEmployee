@@ -1,9 +1,15 @@
 import React, {  } from 'react'
+import ConversationCard from '../components/ConversationCard'
 
 function HomeScreen() {
 
     return (
-        <div>
+        <div className="messages">
+            <ConversationCard/>
+
+            <div>
+                Message Icon.
+            </div>
             
         </div>
     )

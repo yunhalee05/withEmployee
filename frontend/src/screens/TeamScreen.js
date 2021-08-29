@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getteam } from '../_actions/teamActions'
 import UserCard from '../components/UserCard'
 import AddMemberModal from '../components/AddMemberModal'
+import MessageCard from '../components/MessageCard'
+import ConversationCard from '../components/ConversationCard'
 
 
 function TeamScreen(props) {
@@ -16,6 +18,8 @@ function TeamScreen(props) {
     const [members, setMembers] = useState([])
 
     const [addMember, setAddMember] = useState(false)
+
+    const [conversationId, setConversationId] = useState('')
 
     useEffect(() => {
         dispatch(getteam({id})).then(res=>{
@@ -69,6 +73,15 @@ function TeamScreen(props) {
                 <AddMemberModal members={team.team.users} setAddMember={setAddMember} id={id} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
 
             }
+
+            {
+                team.loading ===false &&
+                <div className="messages">
+                    <ConversationCard users={team.team.users} setConversationId={setConversationId}/>
+                    <MessageCard id={conversationId}/>
+                </div>
+            }
+
         </div>
     )
 }
