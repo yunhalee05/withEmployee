@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,28 +22,44 @@ public class MessageDTO {
 
     private String content;
 
-    private Integer ConversationId;
+    private Integer conversationId;
 
-    private MessageUser fromUser;
+    private Integer userId;
 
-    private MessageUser toUser;
+    private MessageUser user;
+
+    private LocalDateTime createdAt;
 
     public MessageDTO() {
     }
 
-    public MessageDTO(String content, Integer conversationId, MessageUser fromUser, MessageUser toUser) {
+    public MessageDTO(String content, Integer conversationId, Integer userId) {
         this.content = content;
-        ConversationId = conversationId;
-        this.fromUser = fromUser;
-        this.toUser = toUser;
+        this.conversationId = conversationId;
+        this.userId = userId;
+    }
+
+    public MessageDTO(String imageUrl, String content, Integer conversationId, Integer userId) {
+        this.imageUrl = imageUrl;
+        this.content = content;
+        this.conversationId = conversationId;
+        this.userId = userId;
     }
 
     public MessageDTO(Message message) {
         this.id = message.getId();
+        this.content = message.getContent();
         this.imageUrl = message.getImageUrl();
-        ConversationId = message.getConversation().getId();
-        this.fromUser = new MessageUser(message.getFromUser());
-        this.toUser = new MessageUser(message.getToUser());
+        this.conversationId = message.getConversation().getId();
+        this.user = new MessageUser(message.getUser());
+        this.createdAt = message.getCreatedAt();
+    }
+
+    @Override
+    public String toString() {
+        return "MessageDTO{" +
+                "id=" + id +
+                '}';
     }
 
     @Getter
@@ -52,6 +69,15 @@ public class MessageDTO {
         private String name;
 
         private String imageUrl;
+
+        public MessageUser() {
+        }
+
+        public MessageUser(Integer id, String name, String imageUrl) {
+            this.id = id;
+            this.name = name;
+            this.imageUrl = imageUrl;
+        }
 
         public MessageUser(User user) {
             this.id = user.getId();

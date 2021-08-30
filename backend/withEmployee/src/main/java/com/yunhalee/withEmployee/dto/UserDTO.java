@@ -34,6 +34,7 @@ public class UserDTO {
     public UserDTO(){
     }
 
+
     public UserDTO(Integer id, String name, String email, String password, String description, String phoneNumber) {
         this.id = id;
         this.name = name;
@@ -71,6 +72,7 @@ public class UserDTO {
         private String name;
 
         private String company;
+
 
         static List<UserTeam> TeamList(Set<Team> teams){
             List<UserTeam> list = new ArrayList<>();

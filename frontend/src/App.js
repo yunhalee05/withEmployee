@@ -33,12 +33,13 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch({
-      type:SOCKET,
-      payload:{client}
-    })
+    if(auth.user){
+      dispatch({
+        type:SOCKET,
+        payload:{client}
+      })
+    }
 
-    return () => client.current.deactivate();
   }, [dispatch])
 
   

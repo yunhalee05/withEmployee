@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { createConversation, getConversations } from '../_actions/conversationActions'
+import { createConversation, getConversations } from '../../_actions/conversationActions'
 
-function ConversationCard({users, setConversationId}) {
+function ConversationCard({users, setConversation}) {
 
     const [search, setSearch] = useState('')
     const [searchUser, setSearchUser] = useState([])
@@ -40,7 +40,7 @@ function ConversationCard({users, setConversationId}) {
 
         if(existinguser.length ===0){
             dispatch(createConversation(user.email)).then(res=>
-                setConversationId(res.id)
+                setConversation(res)
             )
         }
 
@@ -69,8 +69,10 @@ function ConversationCard({users, setConversationId}) {
             <div>
                 {
                     conversations.map(conversation=>(
-                        <div key={conversation.id} onClick={()=>setConversationId(conversation.id)}>
-                            {conversation.id}
+                        <div key={conversation.id} onClick={()=>setConversation(conversation)}>
+                            {conversation.users.map(u=>(
+                                u.name
+                            ))}
                         </div>
                     ))
                 }

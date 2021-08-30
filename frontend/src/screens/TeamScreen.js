@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getteam } from '../_actions/teamActions'
 import UserCard from '../components/UserCard'
 import AddMemberModal from '../components/AddMemberModal'
-import MessageCard from '../components/MessageCard'
-import ConversationCard from '../components/ConversationCard'
+import MessageCard from '../components/messages/MessageCard'
+import ConversationCard from '../components/messages/ConversationCard'
 
 
 function TeamScreen(props) {
@@ -19,6 +19,7 @@ function TeamScreen(props) {
 
     const [addMember, setAddMember] = useState(false)
 
+    const [conversation, setConversation] = useState({})
     const [conversationId, setConversationId] = useState('')
 
     useEffect(() => {
@@ -34,7 +35,7 @@ function TeamScreen(props) {
 
 
     return (
-        <div className="user-team">
+        <div className="user-team" style={{display:"flex", alignItems:'flex-start', justifyContent:"space-between", flexWrap:"wrap"}}>
             {
                 (ceos.length ===0 && leaders.length===0 && members.length===0) &&
                 <div>
@@ -43,7 +44,7 @@ function TeamScreen(props) {
             }
             {
                 team.loading ===false &&
-                    <div className="user-card-container" >
+                    <div className="user-card-container " style={{width:"32%"}}  >
                     {
                         ceos.map((user, index)=>(
                             <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
@@ -68,20 +69,20 @@ function TeamScreen(props) {
                     </div>
             }
 
+
+            {
+                team.loading ===false &&
+                <div className="messages">
+                    <ConversationCard users={team.team.users} setConversation={setConversation}/>
+                    <MessageCard conversation={conversation}/>
+                </div>
+            }
+
             {
                 addMember && 
                 <AddMemberModal members={team.team.users} setAddMember={setAddMember} id={id} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
 
             }
-
-            {
-                team.loading ===false &&
-                <div className="messages">
-                    <ConversationCard users={team.team.users} setConversationId={setConversationId}/>
-                    <MessageCard id={conversationId}/>
-                </div>
-            }
-
         </div>
     )
 }

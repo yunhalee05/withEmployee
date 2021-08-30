@@ -1,11 +1,11 @@
 import React, {  } from 'react'
-import ConversationCard from '../components/ConversationCard'
+// import ConversationCard from '../components/ConversationCard'
 
 function HomeScreen() {
 
     return (
         <div className="messages">
-            <ConversationCard/>
+            {/* <ConversationCard/> */}
 
             <div>
                 Message Icon.

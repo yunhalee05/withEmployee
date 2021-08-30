@@ -1,6 +1,6 @@
 import React from 'react'
-import ConversationCard from '../components/ConversationCard'
-import MessageCard from '../components/MessageCard'
+// import ConversationCard from '../components/ConversationCard'
+// import MessageCard from '../components/MessageCard'
 
 function MessageScreen(props) {
 
@@ -8,8 +8,8 @@ function MessageScreen(props) {
 
     return (
             <div className="messages">
-                <ConversationCard />
-                <MessageCard/>
+                {/* <ConversationCard />
+                <MessageCard/> */}
             </div>
     )
 }
