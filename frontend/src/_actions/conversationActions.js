@@ -14,6 +14,8 @@ export const getConversations =() => async(dispatch, getState)=>{
         const res = await axios.get(`/conversations?id=${user.id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
+
+        console.log(res)
         const newArr = [];
 
         res.data.forEach(item=> {
@@ -21,7 +23,11 @@ export const getConversations =() => async(dispatch, getState)=>{
                         id:item.id, 
                         text:item.text, 
                         imageUrl:item.imageUrl, 
-                        users: item.users.filter(u=> u.id!==user.id)})
+                        users: item.users.filter(u=> u.id!==user.id),
+                        isTeamMember:item.teamMember,
+                        isSameCompany:item.sameCompany,
+                        isOtherCompany:item.otherCompany
+                    })
         })
 
         dispatch({

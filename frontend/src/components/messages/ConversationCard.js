@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createConversation, getConversations } from '../../_actions/conversationActions'
+import { ADD_NEWCONVERSATION } from '../../_constants/conversationConstants'
 
 function ConversationCard({users, setConversation}) {
+
+    const auth = useSelector(state => state.auth)
 
     const [search, setSearch] = useState('')
     const [searchUser, setSearchUser] = useState([])
@@ -13,25 +16,27 @@ function ConversationCard({users, setConversation}) {
 
     useEffect(() => {
         dispatch(getConversations()).then(res=>
-            setconversations(res)
+            setconversations(res.filter(conversation=> conversation.isTeamMember===true))
             )
     }, [dispatch])
 
     const handleSubmit = (e) =>{
         e.preventDefault()
-        const find = users.filter(u=>u.name.includes(search))
+        const find = users.filter(u=>u.name.includes(search)&& u.id !== auth.user.id)
         setSearchUser(find)
     }
 
     const handleAddUser=(user)=>{
         const existinguser = []
 
-        console.log(conversations)
         conversations.forEach(conversation=>{
             if(conversation.users.length===1){
                 conversation.users.forEach(u=>{
                     if(u.id===user.id){
-                        existinguser.push(u);
+                        existinguser.push(u)
+                        setConversation(conversation)
+                        setSearch('')
+                        setSearchUser([])
                     }
                 })
             }
@@ -39,13 +44,30 @@ function ConversationCard({users, setConversation}) {
         })
 
         if(existinguser.length ===0){
-            dispatch(createConversation(user.email)).then(res=>
-                setConversation(res)
-            )
+            // dispatch(createConversation(user.email)).then(res=>
+            //     {
+            //         setConversation(res)
+            //         setSearch('')
+            //         setSearchUser([])
+            //     }
+            // )
+
+            const newConversation = {
+                id:"new",
+                users:[user]
+            }
+
+            dispatch({
+                type:ADD_NEWCONVERSATION,
+                payload:newConversation
+            })
+
+            setConversation(newConversation)
+            setconversations([...conversations, newConversation])
+            setSearch('')
+            setSearchUser([])
+
         }
-
-        
-
 
     }
     return (

@@ -68,8 +68,9 @@ export const createMessage = (messageDTO, conversation) =>async(dispatch, getSta
     }
 }
 
-export const deleteMessage = (id) =>async(dispatch, getState)=>{
+export const deleteMessage = (id, conversation) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
+    const {socket : {client}} = getState()
 
     dispatch({
         type:DELETE_MESSAGE_REQUEST
@@ -84,6 +85,11 @@ export const deleteMessage = (id) =>async(dispatch, getState)=>{
             type:DELETE_MESSAGE_SUCCESS,
             payload:res.data
         })
+
+        conversation.users.forEach(user=>{
+            client.send(`/app/chat/delete/${user.id}`,{},JSON.stringify(res.data))
+        })
+
 
         return res.data
         

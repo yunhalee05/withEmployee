@@ -74,7 +74,7 @@ function TeamScreen(props) {
                 team.loading ===false &&
                 <div className="messages">
                     <ConversationCard users={team.team.users} setConversation={setConversation}/>
-                    <MessageCard conversation={conversation}/>
+                    <MessageCard conversation={conversation} setConversation={setConversation}/>
                 </div>
             }
 

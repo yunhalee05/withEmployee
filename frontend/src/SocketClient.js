@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CREATE_MESSAGE_SUCCESS } from './_constants/messageConstants'
+import { CREATE_MESSAGE_SUCCESS, DELETE_MESSAGE_SUCCESS } from './_constants/messageConstants'
 
 function SocketClient() {
 
@@ -19,6 +19,8 @@ function SocketClient() {
         client.connect({}, () =>{
             console.log('Connected : ' + auth.user.id)
             client.send("/app/join", {},JSON.stringify(auth.user.id))
+
+            // Create Message
             client.subscribe('/queue/addChatToClient/'+auth.user.id, function(messageDTO){
                 const messagedto = JSON.parse(messageDTO.body)
                 dispatch({
@@ -26,20 +28,21 @@ function SocketClient() {
                     payload:messagedto
                 })
             })
+            // Delete Message
+            client.subscribe('/queue/deleteChatToClient/'+auth.user.id,function(messageId){
+                const id = JSON.parse(messageId.body)
+                dispatch({
+                    type:DELETE_MESSAGE_SUCCESS,
+                    payload:id
+                })
+            })
+
+            
         })  
         return () => client.disconnect();
 
     }, [client, auth.user.id, dispatch])
 
-
-    // // Message
-    // useEffect(() => {
-    //     if(client.connected){client.subscribe('/queue/addChatToClient/'+auth.user.id, function(messageDTO){
-    //         console.log(JSON.parse(messageDTO.body))
-    //     })}
-    // }, [client])
-
-    
 
     return (
         <div>

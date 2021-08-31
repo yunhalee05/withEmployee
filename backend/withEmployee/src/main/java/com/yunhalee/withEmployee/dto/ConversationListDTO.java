@@ -21,11 +21,21 @@ public class ConversationListDTO {
 
     private List<ConversationUser> users;
 
+
+    private boolean isTeamMember;
+
+    private boolean isSameCompany;
+
+    private boolean isOtherCompany;
+
     public ConversationListDTO(Conversation conversation){
         this.id = conversation.getId();
         this.text = conversation.getText();
         this.imageUrl = conversation.getImageUrl();
         this.users = ConversationUser.UserList(conversation.getUsers());
+        this.isTeamMember = conversation.isTeamMember();
+        this.isSameCompany = conversation.isSameCompany();
+        this.isOtherCompany = conversation.isOtherCompany();
     }
 
     @Getter

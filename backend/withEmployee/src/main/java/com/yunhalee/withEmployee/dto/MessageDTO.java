@@ -33,6 +33,10 @@ public class MessageDTO {
     public MessageDTO() {
     }
 
+    public MessageDTO(Integer id) {
+        this.id = id;
+    }
+
     public MessageDTO(String content, Integer conversationId, Integer userId) {
         this.content = content;
         this.conversationId = conversationId;

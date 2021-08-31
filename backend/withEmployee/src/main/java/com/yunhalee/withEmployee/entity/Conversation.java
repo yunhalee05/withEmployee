@@ -28,6 +28,17 @@ public class Conversation extends BaseTimeEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(name = "is_team_member")
+    private boolean isTeamMember;
+
+    @Column(name = "is_same_company")
+    private boolean isSameCompany;
+
+    @Column(name = "is_other_company")
+    private boolean isOtherCompany;
+
+
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "conversation_user",

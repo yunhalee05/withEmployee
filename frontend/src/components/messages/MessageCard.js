@@ -1,38 +1,56 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { createConversation } from '../../_actions/conversationActions'
 import { createMessage, getMessages } from '../../_actions/messageActions'
 import Display from './Display'
 
-function MessageCard({conversation}) {
+function MessageCard({conversation, setConversation}) {
 
     const auth = useSelector(state => state.auth)
+    const message = useSelector(state => state.message)
+    const {messages} = message
 
-    const [messages, setMessages] = useState([])
     const [text, setText] = useState('')
     const [imageUrl, setImageUrl] = useState('')
 
     const dispatch = useDispatch()
     useEffect(() => {
-        if(conversation.id){
-            dispatch(getMessages(conversation.id)).then(res=>
-                setMessages(res)    
-            )
+        if(conversation.id && conversation.id !== "new"){
+            dispatch(getMessages(conversation.id))
+
         }
     }, [conversation])
 
     const handleSubmit= (e) =>{
         e.preventDefault()
 
-        const messageDTO={
-            content:text,
-            imageUrl:imageUrl,
-            conversationId:conversation.id,
-            userId:auth.user.id
+
+        if(conversation.id==="new"){
+            dispatch(createConversation(conversation.users[0].email)).then(res=>
+                {
+                    const messageDTO={
+                        content:text,
+                        imageUrl:imageUrl,
+                        conversationId:res.id,
+                        userId:auth.user.id
+                    }
+
+                    dispatch(createMessage(messageDTO, res)).then(response=>
+                        setConversation(res)
+                    )
+                }
+            )
         }
 
-        dispatch(createMessage(messageDTO, conversation)).then(res=>
-            setMessages([...messages, res])
-        )
+        else if(conversation.id!=="new"){
+            const messageDTO={
+                content:text,
+                imageUrl:imageUrl,
+                conversationId:conversation.id,
+                userId:auth.user.id
+            }
+            dispatch(createMessage(messageDTO, conversation))
+        }
 
         setText('')
 
@@ -40,7 +58,7 @@ function MessageCard({conversation}) {
     return (
         <div className="message">
             {
-                conversation!==null &&
+                conversation===null &&
                 <div className="no-message">
                     no message
                 </div>
@@ -63,13 +81,13 @@ function MessageCard({conversation}) {
                                 {
                                     message.user.id !== auth.user.id &&
                                     <div className="message-row other-message">
-                                        <Display message={message}/>
+                                        <Display message={message} conversation={conversation}/>
                                     </div>
                                 }
                                 {
                                     message.user.id ===auth.user.id &&
                                     <div className="message-row my-message">
-                                        <Display message={message} setMessages={setMessages} messages={messages}/>
+                                        <Display message={message} conversation={conversation}/>
                                     </div>
                                 }
                             </div>

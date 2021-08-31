@@ -58,4 +58,18 @@ public class ConversationRepositoryTests {
         conversations.forEach(conversation -> System.out.println(conversation));
     }
 
+    @Test
+    public void deleteConversation(){
+//        Conversation conversation = repo.findById(2).get();
+        repo.deleteById(1);
+    }
+
+    @Test
+    public void updateConversation(){
+        Conversation conversation = repo.findById(3).get();
+        conversation.setSameCompany(false);
+        conversation.setTeamMember(true);
+
+    }
+
 }

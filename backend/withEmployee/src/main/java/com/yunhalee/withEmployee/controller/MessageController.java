@@ -29,8 +29,15 @@ public class MessageController {
     @MessageMapping("/chat/{id}")
     public void sendMessage(@Payload MessageDTO messageDTO, @DestinationVariable Integer id){
         this.simpMessagingTemplate.convertAndSend("/queue/addChatToClient/"+id,messageDTO);
-        System.out.println(messageDTO);
-        System.out.println(id);
+//        System.out.println(messageDTO);
+//        System.out.println(id);
+    }
+
+    @MessageMapping("/chat/delete/{id}")
+    public void deleteMessage(@Payload Integer messageId, @DestinationVariable Integer id){
+        this.simpMessagingTemplate.convertAndSend("/queue/deleteChatToClient/"+id,messageId);
+//        System.out.println(messageId);
+//        System.out.println(id);
     }
 
     @MessageMapping("/join")

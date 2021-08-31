@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import userIcon from '../../images/user.svg'
 import { deleteMessage } from '../../_actions/messageActions'
 
-function Display({message, setMessages, messages}) {
+function Display({message, conversation}) {
 
     const auth = useSelector(state => state.auth)
 
@@ -12,9 +12,8 @@ function Display({message, setMessages, messages}) {
     const handleDelete= ()=>{
         if(!message) return;
         if(window.confirm('Do you want to delete this message?')){
-            dispatch(deleteMessage(message.id)).then(res=>
-                setMessages(messages.filter(msg=> msg.id!==res))
-            )
+            dispatch(deleteMessage(message.id, conversation))
+
         }
 
     }
