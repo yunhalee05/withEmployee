@@ -1,4 +1,4 @@
-import { ADD_NEWCONVERSATION, CREATE_CONVERSATION_FAIL, CREATE_CONVERSATION_REQUEST, CREATE_CONVERSATION_SUCCESS, GET_CONVERSATIONS_FAIL, GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS } from "../_constants/conversationConstants";
+import { ADD_NEWCONVERSATION, CREATE_CONVERSATION_FAIL, CREATE_CONVERSATION_REQUEST, CREATE_CONVERSATION_SUCCESS, DELETE_CONVERSATION_FAIL, DELETE_CONVERSATION_REQUEST, DELETE_CONVERSATION_SUCCESS, GET_CONVERSATIONS_FAIL, GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS } from "../_constants/conversationConstants";
 import { CREATE_MESSAGE_FAIL, CREATE_MESSAGE_REQUEST, CREATE_MESSAGE_SUCCESS, DELETE_MESSAGE_FAIL, DELETE_MESSAGE_REQUEST, DELETE_MESSAGE_SUCCESS, GET_MESSAGES_FAIL, GET_MESSAGES_REQUEST, GET_MESSAGES_SUCCESS } from "../_constants/messageConstants";
 
 export const messageReducer = (state={}, action)=>{
@@ -18,6 +18,15 @@ export const messageReducer = (state={}, action)=>{
         case CREATE_CONVERSATION_SUCCESS:
             return {...state, loading:false, conversations:[...state.conversations.filter(conversation=>conversation.id!=="new"),action.payload]}
         case CREATE_CONVERSATION_FAIL:
+            return {...state, loading:false, error:action.payload}
+
+        case DELETE_CONVERSATION_REQUEST:
+            return {...state, loading:true}
+        case DELETE_CONVERSATION_SUCCESS:
+            return {...state, loading:false, 
+                conversations:state.conversations.filter(conversation=>conversation.id !==action.payload),
+                messages:state.messages.filter(message=> message.conversationId!==action.payload)}
+        case DELETE_CONVERSATION_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case GET_MESSAGES_REQUEST:

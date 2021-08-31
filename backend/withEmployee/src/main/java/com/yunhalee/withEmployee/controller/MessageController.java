@@ -9,6 +9,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,33 +19,8 @@ import java.util.Set;
 @RestController
 public class MessageController {
 
-    private static Set<Integer> userList = new HashSet<>();
-
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-
     @Autowired
     private MessageService service;
-
-    @MessageMapping("/chat/{id}")
-    public void sendMessage(@Payload MessageDTO messageDTO, @DestinationVariable Integer id){
-        this.simpMessagingTemplate.convertAndSend("/queue/addChatToClient/"+id,messageDTO);
-//        System.out.println(messageDTO);
-//        System.out.println(id);
-    }
-
-    @MessageMapping("/chat/delete/{id}")
-    public void deleteMessage(@Payload Integer messageId, @DestinationVariable Integer id){
-        this.simpMessagingTemplate.convertAndSend("/queue/deleteChatToClient/"+id,messageId);
-//        System.out.println(messageId);
-//        System.out.println(id);
-    }
-
-    @MessageMapping("/join")
-    public void joinUser(@Payload Integer userId){
-        userList.add(userId);
-        userList.forEach(user-> System.out.println(user));
-    }
 
     @GetMapping("/messages/{id}")
     public List<MessageDTO> getMessages(@PathVariable("id")Integer id){
@@ -59,5 +35,10 @@ public class MessageController {
     @DeleteMapping("/message/delete")
     public Integer deleteMessage(@RequestParam("id")Integer id){
         return service.deleteMessage(id);
+    }
+
+    @PostMapping("/message/image")
+    public String saveImages(@RequestParam("multipartFile") MultipartFile multipartFile){
+        return service.saveImages(multipartFile);
     }
 }

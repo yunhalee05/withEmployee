@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { CREATE_CONVERSATION_SUCCESS, DELETE_CONVERSATION_SUCCESS } from './_constants/conversationConstants'
 import { CREATE_MESSAGE_SUCCESS, DELETE_MESSAGE_SUCCESS } from './_constants/messageConstants'
 
 function SocketClient() {
@@ -37,7 +38,34 @@ function SocketClient() {
                 })
             })
 
-            
+            // Create Conversation
+            client.subscribe('/queue/addConversationToClient/'+auth.user.id, function(conversationListDTO){
+                const conversationDTO = JSON.parse(conversationListDTO.body)
+                // console.log(conversationDTO)
+                const newconversation = {
+                    id:conversationDTO.id,
+                    text:conversationDTO.text,
+                    imageUrl : conversationDTO.imageUrl,
+                    users: conversationDTO.users.filter(u=>u.id!==auth.user.id),
+                    isTeamMember:conversationDTO.teamMember,
+                    isSameCompany:conversationDTO.sameCompany,
+                    isOtherCompany:conversationDTO.otherCompany
+                }
+                dispatch({
+                    type:CREATE_CONVERSATION_SUCCESS,
+                    payload:newconversation
+                })
+            })
+
+            // Delete Conversation
+            client.subscribe('/queue/deleteConversationToClient/'+auth.user.id, function(conversationId){
+                dispatch({
+                    type:DELETE_CONVERSATION_SUCCESS,
+                    payload:JSON.parse(conversationId.body)
+                })
+            })
+
+
         })  
         return () => client.disconnect();
 

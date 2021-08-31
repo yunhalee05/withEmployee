@@ -61,7 +61,7 @@ public class ConversationRepositoryTests {
     @Test
     public void deleteConversation(){
 //        Conversation conversation = repo.findById(2).get();
-        repo.deleteById(1);
+        repo.deleteById(17);
     }
 
     @Test

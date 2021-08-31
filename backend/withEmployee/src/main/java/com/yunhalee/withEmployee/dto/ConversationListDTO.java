@@ -21,12 +21,33 @@ public class ConversationListDTO {
 
     private List<ConversationUser> users;
 
-
     private boolean isTeamMember;
 
     private boolean isSameCompany;
 
     private boolean isOtherCompany;
+
+    private List<String> userEmails;
+
+    public ConversationListDTO() {
+    }
+
+    public ConversationListDTO(String text, String imageUrl, boolean isTeamMember, List<String> userEmails) {
+        this.text = text;
+        this.imageUrl = imageUrl;
+        this.isTeamMember = isTeamMember;
+        this.userEmails = userEmails;
+    }
+
+    public ConversationListDTO(Integer id, String text, String imageUrl, List<ConversationUser> users, boolean isTeamMember, boolean isSameCompany, boolean isOtherCompany) {
+        this.id = id;
+        this.text = text;
+        this.imageUrl = imageUrl;
+        this.users = users;
+        this.isTeamMember = isTeamMember;
+        this.isSameCompany = isSameCompany;
+        this.isOtherCompany = isOtherCompany;
+    }
 
     public ConversationListDTO(Conversation conversation){
         this.id = conversation.getId();
@@ -52,12 +73,22 @@ public class ConversationListDTO {
             return conversationUsers;
         }
 
+        public ConversationUser() {
+        }
+
+        public ConversationUser(Integer id, String name, String imageUrl) {
+            this.id = id;
+            this.name = name;
+            this.imageUrl = imageUrl;
+        }
+
         public ConversationUser(User user) {
             this.id = user.getId();
             this.name = user.getName();
             this.imageUrl = user.getImageUrl();
         }
     }
+
 
 
 

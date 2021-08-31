@@ -33,14 +33,24 @@ public class WebConfig implements WebMvcConfigurer {
 //        registry.addResourceHandler("/profileUploads/**")
 //                .addResourceLocations("file:////"+ profileImagesFolder );
 
-        String dirName = "profileUploads";
+//        String dirName = "profileUploads";
+//
+//        Path profilePhotosDir = Paths.get(dirName);
+//
+//        String profilePhotosPath = profilePhotosDir.toFile().getAbsolutePath();
+//
+//        registry.addResourceHandler("/"+ dirName+"/**")
+//                .addResourceLocations("file:" + profilePhotosPath+"/");
 
-        Path profilePhotosDir = Paths.get(dirName);
-        System.out.println(profilePhotosDir);
+        uploadFolder("profileUploads", registry);
+        uploadFolder("messageUploads", registry);
+    }
 
-        String profilePhotosPath = profilePhotosDir.toFile().getAbsolutePath();
+    private void uploadFolder(String dirName, ResourceHandlerRegistry registry){
+        Path photosDir = Paths.get(dirName);
+        String photospath = photosDir.toFile().getAbsolutePath();
 
-        registry.addResourceHandler("/"+ dirName+"/**")
-                .addResourceLocations("file:" + profilePhotosPath+"/");
+        registry.addResourceHandler("/"+dirName+"/**")
+                .addResourceLocations("file:" + photospath + "/");
     }
 }

@@ -20,7 +20,7 @@ function TeamScreen(props) {
     const [addMember, setAddMember] = useState(false)
 
     const [conversation, setConversation] = useState({})
-    const [conversationId, setConversationId] = useState('')
+    // const [conversations, setConversations] = useState([])
 
     useEffect(() => {
         dispatch(getteam({id})).then(res=>{
@@ -73,8 +73,8 @@ function TeamScreen(props) {
             {
                 team.loading ===false &&
                 <div className="messages">
-                    <ConversationCard users={team.team.users} setConversation={setConversation}/>
-                    <MessageCard conversation={conversation} setConversation={setConversation}/>
+                    <ConversationCard users={team.team.users} setConversation={setConversation} />
+                    <MessageCard conversation={conversation} setConversation={setConversation}  />
                 </div>
             }
 

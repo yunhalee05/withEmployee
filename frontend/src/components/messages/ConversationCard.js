@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createConversation, getConversations } from '../../_actions/conversationActions'
+import { createConversation, deleteConversation, getConversations } from '../../_actions/conversationActions'
 import { ADD_NEWCONVERSATION } from '../../_constants/conversationConstants'
 
 function ConversationCard({users, setConversation}) {
@@ -10,14 +10,19 @@ function ConversationCard({users, setConversation}) {
     const [search, setSearch] = useState('')
     const [searchUser, setSearchUser] = useState([])
 
-    const [conversations, setconversations] = useState([])
+    const message = useSelector(state => state.message)
+    const {conversations} = message
+
+
+    // const [conversations, setconversations] = useState([])
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getConversations()).then(res=>
-            setconversations(res.filter(conversation=> conversation.isTeamMember===true))
-            )
+        dispatch(getConversations())
+        // .then(res=>
+        //     setConversations(res.filter(conversation=> conversation.isTeamMember===true))
+        //     )
     }, [dispatch])
 
     const handleSubmit = (e) =>{
@@ -44,14 +49,6 @@ function ConversationCard({users, setConversation}) {
         })
 
         if(existinguser.length ===0){
-            // dispatch(createConversation(user.email)).then(res=>
-            //     {
-            //         setConversation(res)
-            //         setSearch('')
-            //         setSearchUser([])
-            //     }
-            // )
-
             const newConversation = {
                 id:"new",
                 users:[user]
@@ -63,13 +60,21 @@ function ConversationCard({users, setConversation}) {
             })
 
             setConversation(newConversation)
-            setconversations([...conversations, newConversation])
+            // setConversations([...conversations, newConversation])
             setSearch('')
             setSearchUser([])
 
         }
 
     }
+
+    const handleDeleteConversation=(conversation)=>{
+        if(window.confirm('Are you sure to delete this conversation? It is irreversible.')){
+            dispatch(deleteConversation(conversation))
+        }
+    }
+
+
     return (
         <div className="conversations">
 
@@ -90,11 +95,14 @@ function ConversationCard({users, setConversation}) {
 
             <div>
                 {
-                    conversations.map(conversation=>(
+                    conversations && conversations.filter(c=> c.isTeamMember===true || c.id==="new").map(conversation=>(
                         <div key={conversation.id} onClick={()=>setConversation(conversation)}>
                             {conversation.users.map(u=>(
                                 u.name
-                            ))}
+                            ))
+                            }
+                            <span>{conversation.text}</span>
+                            <span onClick={()=>handleDeleteConversation(conversation)}>&times;</span>
                         </div>
                     ))
                 }
