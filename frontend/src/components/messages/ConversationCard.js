@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createConversation, deleteConversation, getConversations } from '../../_actions/conversationActions'
 import { ADD_NEWCONVERSATION } from '../../_constants/conversationConstants'
+import SearchUserCard from '../SearchUserCard'
+import ConversationUserCard from './ConversationUserCard'
 
-function ConversationCard({users, setConversation}) {
+function ConversationCard({users, setConversation, conversation}) {
 
     const auth = useSelector(state => state.auth)
 
@@ -13,22 +15,22 @@ function ConversationCard({users, setConversation}) {
     const message = useSelector(state => state.message)
     const {conversations} = message
 
-
-    // const [conversations, setconversations] = useState([])
-
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getConversations())
-        // .then(res=>
-        //     setConversations(res.filter(conversation=> conversation.isTeamMember===true))
-        //     )
     }, [dispatch])
 
     const handleSubmit = (e) =>{
         e.preventDefault()
-        const find = users.filter(u=>u.name.includes(search)&& u.id !== auth.user.id)
-        setSearchUser(find)
+
+        if(search===''){
+            setSearchUser([])
+            setSearch('')
+        }else{
+            const find = users.filter(u=>u.name.includes(search)&& u.id !== auth.user.id)
+            setSearchUser(find)
+        }
     }
 
     const handleAddUser=(user)=>{
@@ -60,13 +62,13 @@ function ConversationCard({users, setConversation}) {
             })
 
             setConversation(newConversation)
-            // setConversations([...conversations, newConversation])
             setSearch('')
             setSearchUser([])
 
         }
 
     }
+
 
     const handleDeleteConversation=(conversation)=>{
         if(window.confirm('Are you sure to delete this conversation? It is irreversible.')){
@@ -75,34 +77,27 @@ function ConversationCard({users, setConversation}) {
     }
 
 
+
+
     return (
         <div className="conversations">
 
             <form className="search-input" onSubmit={handleSubmit}>
-                <input type="text" value={search} placeholder="Enter to search member" onChange={e=>setSearch(e.target.value)} />
+                <input type="text" value={search} placeholder="Search Member" onChange={e=>setSearch(e.target.value)} />
                 <button type="submit" style={{display:'none'}}>Search</button>
             </form>
+
             <div className="conversation-list">
                 {
-                    searchUser.length>0 &&
+                    searchUser.length>0 ?
                     searchUser.map(user=>(
-                        <div className="message-user" onClick={()=>handleAddUser(user)} key={user.id}>
-                            {user.name}
+                        <div onClick={()=>handleAddUser(user)} key={user.id}>
+                            <SearchUserCard user={user} />
                         </div>
                     ))
-                }
-            </div>
-
-            <div>
-                {
-                    conversations && conversations.filter(c=> c.isTeamMember===true || c.id==="new").map(conversation=>(
-                        <div key={conversation.id} onClick={()=>setConversation(conversation)}>
-                            {conversation.users.map(u=>(
-                                u.name
-                            ))
-                            }
-                            <span>{conversation.text}</span>
-                            <span onClick={()=>handleDeleteConversation(conversation)}>&times;</span>
+                    :  conversations && conversations.filter(c=> c.isTeamMember===true || c.id==="new").map(c=>(
+                        <div className={conversation.id===c.id ? 'active' : ''} key={c.id} onClick={()=>setConversation(c)}>
+                            <ConversationUserCard conversation={c} handleDeleteConversation={handleDeleteConversation}/>
                         </div>
                     ))
                 }

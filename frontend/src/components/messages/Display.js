@@ -23,7 +23,7 @@ function Display({message, conversation}) {
             
             <div className="message-title">
                 <img src={message.user.imageUrl? message.user.imageUrl : userIcon} alt="" />
-                <span>{message.user.name}</span>
+                <small className="d-block">{message.user.name}</small>
             </div>
 
             <div className="you-content">

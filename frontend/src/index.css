@@ -42,3 +42,6 @@ code {
 
 /* Message Screen */
 @import url('./styles/Message.css');
+
+/* Search User Card */
+@import url('./styles/SearchUserCard.css');

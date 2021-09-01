@@ -4,6 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createConversation } from '../../_actions/conversationActions'
 import { createMessage, getMessages } from '../../_actions/messageActions'
 import Display from './Display'
+import usersIcon from '../../images/users.svg'
+import userIcon from '../../images/user.svg'
+
+
 
 function MessageCard({conversation, setConversation}) {
 
@@ -117,7 +121,7 @@ function MessageCard({conversation, setConversation}) {
     return (
         <div className="message">
             {
-                conversation===null &&
+                !conversation.id &&
                 <div className="no-message">
                     no message
                 </div>
@@ -127,18 +131,26 @@ function MessageCard({conversation, setConversation}) {
             {
                 conversation.id &&
                 (
-                <div>
-                    <div className="message-header">
+                <span>
+                    <div >
                         {
-                            conversation.users.map(user=>(
-                                <div key={user.id}>
-                                    {user.name}
-                                </div>
-                            ))
+                            conversation.users.length >1 
+                            ? <div className="message-header">
+                                <img src={usersIcon} alt="image" />
+                                {
+                                    conversation.users.map(user=>(
+                                        user.name
+                                    ))
+                                }
+                            </div>
+                            : <div className="message-header">
+                                <img src={conversation.users[0].imageUrl?conversation.users[0].imageUrl :userIcon} alt="image" />
+                                <span>{conversation.users[0].name}</span>
+                            </div>
                         }
                     </div>
 
-                    <div className="message-container" >
+                    <div className="message-container" style={{height: imageUrl? 'calc(100% - 180px)':''}}>
                         <div className="message-display">
                             { (conversation.id !=="new" && messages) &&
                             messages.map(message=>(
@@ -160,12 +172,13 @@ function MessageCard({conversation, setConversation}) {
                             ))}
                         </div>
                     </div>
+                    
 
                     <div className="show_media" style={{display: imageUrl ? 'grid':'none'}}>
-                        <div>
+                        <div id="file_media">
                             <img id="preview" src={''} alt="imageURL" />
                             <span onClick={handleImageDelete}>&times;</span>
-                        </div>
+                            </div>
                     </div>
 
 
@@ -181,7 +194,7 @@ function MessageCard({conversation, setConversation}) {
                             near_me
                         </button>
                     </form>
-                </div>
+                </span>
                 )
             }
 
