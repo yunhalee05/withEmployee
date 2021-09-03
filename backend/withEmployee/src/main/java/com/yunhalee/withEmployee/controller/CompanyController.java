@@ -62,4 +62,5 @@ public class CompanyController {
     public String checkNameUnique(@Param("name")String name){
         return service.isNameUnique(name) ? "OK" : "Duplicated";
     }
+
 }

@@ -74,11 +74,13 @@ public class CompanyDTO {
         private Integer id;
         private String name;
         private String email;
+        private List<String> companies;
 
         public CompanyCeo(User ceo){
             this.id = ceo.getId();
             this.name = ceo.getName();
             this.email = ceo.getEmail();
+            this.companies = ceo.getCompanyNames();
         }
     }
 

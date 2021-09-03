@@ -17,6 +17,7 @@ export const getcompanylist =() => async(dispatch, getState)=>{
             type:GET_COMPANYLIST_SUCCESS,
             payload:res.data
         })
+        return res.data
     }catch(error){
         dispatch({
             type:GET_COMPANYLIST_FAIL,

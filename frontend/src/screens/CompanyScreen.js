@@ -4,6 +4,9 @@ import AddTeamModal from '../components/AddTeamModal'
 import { getcompany } from '../_actions/companyActions'
 import {Link} from 'react-router-dom'
 import { deleteteam } from '../_actions/teamActions'
+import ConversationUserCard from '../components/messages/ConversationUserCard'
+import ConversationCard from '../components/messages/ConversationCard'
+import MessageCard from '../components/messages/MessageCard'
 
 
 function CompanyScreen(props) {
@@ -28,6 +31,9 @@ function CompanyScreen(props) {
         }
     }
 
+    const [conversation, setConversation] = useState({})
+
+
     return (
         
         <div className="user-team">
@@ -47,9 +53,11 @@ function CompanyScreen(props) {
                     <div className="company-screen-description">
                         <div>{company.company.description}</div>
                     </div>
+                </div>
 
-
-
+                <div className="messages">
+                    <ConversationCard users={company.company.members} setConversation={setConversation} conversation={conversation} belongTo="Company"/>
+                    <MessageCard conversation={conversation} setConversation={setConversation}  />
                 </div>
 
                 {company.company.teams && 

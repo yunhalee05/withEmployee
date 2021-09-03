@@ -5,12 +5,12 @@ import { ADD_NEWCONVERSATION } from '../../_constants/conversationConstants'
 import SearchUserCard from '../SearchUserCard'
 import ConversationUserCard from './ConversationUserCard'
 
-function ConversationCard({users, setConversation, conversation, belongTo}) {
+function CompanyConversationCard({companies, setConversation, conversation, belongTo}) {
 
     const auth = useSelector(state => state.auth)
 
     const [search, setSearch] = useState('')
-    const [searchUser, setSearchUser] = useState([])
+    const [searchCompany, setSearchCompany] = useState([])
 
     const message = useSelector(state => state.message)
     const {conversations} = message
@@ -25,11 +25,11 @@ function ConversationCard({users, setConversation, conversation, belongTo}) {
         e.preventDefault()
 
         if(search===''){
-            setSearchUser([])
+            setSearchCompany([])
             setSearch('')
         }else{
-            const find = users.filter(u=>u.name.includes(search)&& u.id !== auth.user.id)
-            setSearchUser(find)
+            const find = companies.filter(c=>c.name.includes(search)&& c.ceo.id !== auth.user.id)
+            setSearchCompany(find)
         }
     }
 
@@ -43,7 +43,7 @@ function ConversationCard({users, setConversation, conversation, belongTo}) {
                         existinguser.push(u)
                         setConversation(conversation)
                         setSearch('')
-                        setSearchUser([])
+                        setSearchCompany([])
                     }
                 })
             }
@@ -66,7 +66,7 @@ function ConversationCard({users, setConversation, conversation, belongTo}) {
 
             setConversation(newConversation)
             setSearch('')
-            setSearchUser([])
+            setSearchCompany([])
 
         }
 
@@ -86,39 +86,31 @@ function ConversationCard({users, setConversation, conversation, belongTo}) {
         <div className="conversations">
 
             <form className="search-input" onSubmit={handleSubmit}>
-                <input type="text" value={search} placeholder="Search Member" onChange={e=>setSearch(e.target.value)} />
+                <input type="text" value={search} placeholder="Search Company" onChange={e=>setSearch(e.target.value)} />
                 <button type="submit" style={{display:'none'}}>Search</button>
             </form>
 
             <div className="conversation-list">
                 {
-                    searchUser.length>0 ?
-                    searchUser.map(user=>(
-                        <div onClick={()=>handleAddUser(user)} key={user.id}>
-                            <SearchUserCard user={user} />
-                        </div>
-                    ))
-                    : belongTo==="Team"
-                        ? conversations && conversations.filter(c=> c.isTeamMember===true || c.id==="new").map(c=>(
-                        <div className={conversation.id===c.id ? 'active' : ''} key={c.id} onClick={()=>setConversation(c)}>
-                            <ConversationUserCard conversation={c} handleDeleteConversation={handleDeleteConversation}/>
-                        </div>
-                    ))
-                        :  belongTo==="Company"
-                            ?conversations && conversations.filter(c=> c.isSameCompany===true || c.id==="new").map(c=>(
-                            <div className={conversation.id===c.id ? 'active' : ''} key={c.id} onClick={()=>setConversation(c)}>
-                                <ConversationUserCard conversation={c} handleDeleteConversation={handleDeleteConversation}/>
+                    searchCompany.length>0 ?
+                    searchCompany.map(company=>(
+                        <div onClick={()=>handleAddUser(company.ceo)} key={company.id}>
+                            <div className="search-user" style={{display:"flex",justifyContent:"space-between"}}>
+                                <div style={{fontSize:"1.1rem", fontWeight:"600"}}>{company.name}</div>
+                                <div style={{padding:"5px"}}>{company.ceo.name}</div>
                             </div>
-                        ))
-                            :  conversations && conversations.filter(c=> c.isOtherCompany===true || c.id==="new").map(c=>(
-                                <div className={conversation.id===c.id ? 'active' : ''} key={c.id} onClick={()=>setConversation(c)}>
-                                    <ConversationUserCard conversation={c} handleDeleteConversation={handleDeleteConversation}/>
-                                </div>
-                            ))
+                        </div>
+                    ))
+                    
+                    :  conversations && conversations.filter(c=> c.isOtherCompany===true || c.id==="new").map(c=>(
+                        <div className={conversation.id===c.id ? 'active' : ''} key={c.id} onClick={()=>setConversation(c)}>
+                            <ConversationUserCard conversation={c} handleDeleteConversation={handleDeleteConversation} belongTo={belongTo}/>
+                        </div>
+                    ))
                 }
             </div>
         </div>
     )
 }
 
-export default ConversationCard
+export default CompanyConversationCard

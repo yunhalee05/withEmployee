@@ -32,6 +32,15 @@ public class ConversationListDTO {
     public ConversationListDTO() {
     }
 
+    public ConversationListDTO(String text, String imageUrl, boolean isTeamMember, boolean isSameCompany, boolean isOtherCompany, List<String> userEmails) {
+        this.text = text;
+        this.imageUrl = imageUrl;
+        this.isTeamMember = isTeamMember;
+        this.isSameCompany = isSameCompany;
+        this.isOtherCompany = isOtherCompany;
+        this.userEmails = userEmails;
+    }
+
     public ConversationListDTO(String text, String imageUrl, boolean isTeamMember, List<String> userEmails) {
         this.text = text;
         this.imageUrl = imageUrl;
@@ -67,6 +76,8 @@ public class ConversationListDTO {
 
         private String imageUrl;
 
+        private List<String> companies;
+
         static List<ConversationUser> UserList(Set<User> users){
             List<ConversationUser> conversationUsers = new ArrayList<>();
             users.forEach(user ->conversationUsers.add(new ConversationUser(user)) );
@@ -86,6 +97,7 @@ public class ConversationListDTO {
             this.id = user.getId();
             this.name = user.getName();
             this.imageUrl = user.getImageUrl();
+            this.companies = user.getCompanyNames();
         }
     }
 

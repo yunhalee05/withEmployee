@@ -3,7 +3,7 @@ import userIcon from '../../images/user.svg'
 import usersIcon from '../../images/users.svg'
 
 
-function ConversationUserCard({conversation, handleDeleteConversation}) {
+function ConversationUserCard({conversation, handleDeleteConversation, belongTo}) {
     return (
         <div className="search-user d-flex align-items-center justify-content-between">
             {
@@ -28,7 +28,14 @@ function ConversationUserCard({conversation, handleDeleteConversation}) {
                                 : ''
                             }
                         </small>
+                        
                     </div>
+                    {
+                        belongTo==="Other" &&
+                        conversation.users[0].companies[0].length>1
+                        ? <div style={{color:"white", backgroundColor:"#d3cce6", fontWeight:"600", borderRadius:"5px", marginLeft:"1rem", padding:"0 3px 0 3px"}}>{conversation.users[0].companies[0]},...</div>
+                        : <div style={{color:"white", backgroundColor:"#d3cce6", fontWeight:"600", borderRadius:"5px", marginLeft:"1rem", padding:"0 3px 0 3px"}}>{conversation.users[0].companies[0]}</div>
+                    }
                 </div>
             }
             {
@@ -53,6 +60,12 @@ function ConversationUserCard({conversation, handleDeleteConversation}) {
                             }
                         </small>
                     </div>
+                    {
+                        belongTo==="Other" &&
+                        conversation.users[0].companies[0].length>1
+                        ? <div style={{color:"white", backgroundColor:"#d3cce6", fontWeight:"600", borderRadius:"5px", marginLeft:"1rem", padding:"0 3px 0 3px"}}>{conversation.users[0].companies[0]},...</div>
+                        : <div style={{color:"white", backgroundColor:"#d3cce6", fontWeight:"600", borderRadius:"5px", marginLeft:"1rem", padding:"0 3px 0 3px"}}>{conversation.users[0].companies[0]}</div>
+                    }
                 </div>
             }
 

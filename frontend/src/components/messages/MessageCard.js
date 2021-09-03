@@ -81,13 +81,14 @@ function MessageCard({conversation, setConversation}) {
             const conversationListDTO={
                 text:text,
                 imageUrl:imageURL,
-                teamMember:true,
+                teamMember:conversation.isTeamMember,
+                sameCompany:conversation.isSameCompany,
+                otherCompany:conversation.isOtherCompany,
                 userEmails: [...userEmails, auth.user.email]
             }
 
             dispatch(createConversation(conversationListDTO)).then(res=>
                 {
-                    // setConversations(conversations.map(conversation=> conversation.id==="new" ? res : conversation))
                     const messageDTO={
                         content:text,
                         imageUrl:imageURL,

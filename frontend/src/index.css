@@ -45,3 +45,6 @@ code {
 
 /* Search User Card */
 @import url('./styles/SearchUserCard.css');
+
+/* Home Screen */
+@import url('./styles/HomeScreen.css');

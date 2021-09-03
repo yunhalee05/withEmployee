@@ -43,11 +43,15 @@ public class CompanyListDTO {
         private Integer id;
         private String name;
         private String email;
+        private String imageUrl;
+        private List<String> companies;
 
         public CompanyCeo(User ceo){
             this.id = ceo.getId();
             this.name = ceo.getName();
             this.email = ceo.getEmail();
+            this.imageUrl = ceo.getImageUrl();
+            this.companies = ceo.getCompanyNames();
         }
     }
 }

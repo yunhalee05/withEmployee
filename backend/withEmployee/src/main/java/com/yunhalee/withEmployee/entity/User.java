@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -50,6 +52,9 @@ public class User {
     )
     private Set<Team> teams = new HashSet<>();
 
+    @OneToMany(mappedBy = "ceo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Company> companies = new HashSet<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="role_id")
     private Role role;
@@ -87,6 +92,13 @@ public class User {
     @Transient
     public String getRoleName(){
         return this.role.getName();
+    }
+
+    @Transient
+    public List<String> getCompanyNames(){
+        List<String> companies = new ArrayList<>();
+        this.companies.forEach(company -> companies.add(company.getName()));
+        return companies;
     }
 
 }
