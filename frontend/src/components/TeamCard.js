@@ -1,22 +1,39 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import {Link} from 'react-router-dom'
+import { deleteteam } from '../_actions/teamActions'
 
 function TeamCard({team}) {
 
+    const dispatch = useDispatch()
+
+    const handleDelete= (teamId) =>{
+        
+        if(window.confirm("Are you sure to delete this team ? After this action, users related to this team are also deleted.")){
+            dispatch(deleteteam({teamId}))
+            // .then(res=>{
+            //     dispatch(getcompany({id}))
+            // })
+        }
+
+    }
+
     return (
         <div className="team-card">
-            <Link to={`/team/${team.id}`}>
                 <div className="team-name">
+                    <div className="team-button">
+                        <i class="far fa-edit"></i>
+                        <i class="far fa-trash-alt" onClick={()=>handleDelete(team.id)}></i>
+                    </div>
+                    <Link to={`/team/${team.id}`}>
                     {team.name}
+                    </Link>
                 </div>
-            </Link>
-
-            <div className="total-number">
-                <div>{team.totalNumber}</div>
-                <div style={{fontSize:"9px"}}>Members  </div>
-            </div>
-
             <div className="team-company">
+                <div className="total-number">
+                    <div>{team.totalNumber}</div>
+                    <div style={{fontSize:"9px"}}>Members  </div>
+                </div>
                 <Link to={`/company/${team.company.id}`}>
                     <div className="company-name">{team.company.name}</div>
                     <div className="company-ceo">{team.company.ceo}</div>

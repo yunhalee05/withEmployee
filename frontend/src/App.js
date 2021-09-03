@@ -18,7 +18,6 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs'
 import { SOCKET } from "./_constants/socketConstants";
 import SocketClient from './SocketClient';
-import MessageScreen from './screens/MessageScreen';
 
 
 
@@ -61,7 +60,6 @@ function App() {
         <Route exact path="/register" component={RegisterScreen}/>
         
         <PrivateRouter exact path="/home" component={HomeScreen}/>
-        <PrivateRouter exact path="/conversation/:id" component={MessageScreen}/>
 
         <PrivateRouter exact path="/company" component={CompanyListScreen}/>
         <PrivateRouter exact path="/team" component={TeamListScreen}/>

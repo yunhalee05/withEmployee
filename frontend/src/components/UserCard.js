@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 import { getteam } from '../_actions/teamActions'
 import { deleteuserteam } from '../_actions/userActions'
 import {Link} from 'react-router-dom'
+import userIcon from '../images/user.svg'
+
 
 function UserCard({user, teamId, setCeos, setLeaders, setMembers}) {
 
@@ -26,24 +28,34 @@ function UserCard({user, teamId, setCeos, setLeaders, setMembers}) {
         <div className="user-card">
             {
                 teamId &&
-                <div className="company-delete-button">
-                    <button onClick={handleDelete}>DELETE</button>
+                <div className="user-team-delete-button">
+                    <div className={`user-role ${user.role==='CEO'? 'ceo': user.role==="Leader"? 'leader':''}`}>
+                        {user.role}
+                    </div>
+                    <i onClick={handleDelete} className="fas fa-user-minus"></i>
                 </div>
             }
 
-            <div className="user-name">
-                <Link to={`/user/${user.id}`}>{user.name}</Link>
-            </div>
-            <div className="user-role">
-                {user.role}
-            </div>
-            <div className="user-email">
-                <span>E-mail : </span>
-                <span>{user.email}</span>
-            </div>
-            <div className="user-phoneNumber">
-                <span>Phone : </span>
-                <span>{user.phoneNumber}</span>
+            <div className="user-info-container">
+
+                <div className="user-info-image">
+                    <img src={user.imageUrl? user.imageUrl : userIcon} alt="image" />
+                </div>
+
+                <div className="user-info">
+
+                    <div className="user-name">
+                        <Link to={`/user/${user.id}`}>{user.name}</Link>
+                    </div>
+                    <hr/>
+                    <div className="user-email">
+                        <span>{user.email}</span>
+                    </div>
+                    <div className="user-phoneNumber">
+                        <span>{user.phoneNumber}</span>
+                    </div>
+                </div>
+
             </div>
 
 

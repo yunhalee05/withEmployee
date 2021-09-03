@@ -1,9 +1,14 @@
 .company-screen{
-    max-width: 70rem;  
+    max-width: 55rem;  
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin: 4rem;
+    padding: 1rem;
+    border: 2px solid #f5f5f5;
+    box-shadow: 4px 4px #f0f0f0;
+    border-radius: 10px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .company-screen-name{
@@ -21,4 +26,17 @@
     text-align: left;
     font-size: 1.2rem;
     color: gray;
+}
+
+.company-info-line{
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 3rem;
+    color: white;
+}
+
+.company-info-line span{
+    background-color: #f5c79f;
+    border-radius: 7px;
 }

@@ -26,7 +26,6 @@ function CompanyScreen(props) {
                 dispatch(getcompany({id}))
             })
         }
-
     }
 
     return (
@@ -53,46 +52,61 @@ function CompanyScreen(props) {
 
                 </div>
 
+                {company.company.teams && 
+                    <div className="company-info-line">
+                        <span>&nbsp;{company.company.teams.length} TEAMS IN THIS COMPANY&nbsp;</span>
+                    </div>
+                }
+
             
                 <div className="team-card-container">
                     {
                         company.company.teams.map((team, index)=>(
                             <div className="team-card" key={index}>
-                                <div className="company-delete-button">
-                                    <button onClick={()=>handleDelete(team.id)}>DELETE</button>
+                                <div className="team-button">
+                                    <i class="far fa-edit"></i>
+                                    <i class="far fa-trash-alt" onClick={()=>handleDelete(team.id)}></i>
                                 </div>
-                                <Link to={`/team/${team.id}`}>
-                                    <div className="team-name">
-                                        {team.name}
+
+                                <div style={{display:'flex',  justifyContent:"space-around", alignItems:"center"}}>
+                                    <div className="total-number">
+                                        <div>{team.totalNumber}</div>
+                                        <div style={{fontSize:"9px"}}>Members  </div>
                                     </div>
-                                </Link>
-                                <div className="total-number">
-                                    <div>{team.totalNumber}</div>
-                                    <div style={{fontSize:"9px"}}>Members  </div>
+                                    <Link to={`/team/${team.id}`}>
+                                        <div className="team-name">
+                                            {team.name}
+                                        </div>
+                                    </Link>
                                 </div>
+
                             </div>
                         ))
                     }
-                    <div className="card-button">
-                        <button onClick={()=>setAddTeam(!addTeam)}>ADD TEAM</button>
-                    </div>
 
+                    <div className="team-add-button" onClick={()=>setAddTeam(!addTeam)}>
+                        <i class="far fa-plus-square fa-2x"></i>
+                        <div>ADD TEAM</div>
+                    </div>
                 </div>
 
+                {company.company.members && 
+                    <div className="company-info-line">
+                        <span>&nbsp;{company.company.members.length} MEMBERS WORKING NOW &nbsp; </span>
+                    </div>
+                }
 
                 <div className="user-card-container" >
                     {
                         company.company.members.map((user, index)=>(
                             <div className="user-card" key={index}>
-                                <div className="user-name">
-                                    {user.name}
-                                </div>
-                                <div className="user-role">
-                                    {user.role}
-                                </div>
-                                <div className="user-email">
-                                    <span>E-mail : </span>
-                                    <span>{user.email}</span>
+                                <div className="user-info-container">
+                                    <div className={`user-role ${user.role==='CEO'? 'ceo': user.role==="Leader"? 'leader':''}`}>
+                                        {user.role}
+                                    </div>
+                                    <div className="user-name">
+                                        {user.name}
+                                    </div>
                                 </div>
                             </div>
                         ))

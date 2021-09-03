@@ -34,7 +34,7 @@ function TeamScreen(props) {
 
 
     return (
-        <div className="user-team" style={{display:"flex", alignItems:'flex-start', justifyContent:"space-between", flexWrap:"wrap", maxWidth:"90rem"}}>
+        <div className="user-team" style={{display:"flex", alignItems:'flex-start', justifyContent:"space-around", flexWrap:"wrap", maxWidth:"90rem"}}>
             {
                 (ceos.length ===0 && leaders.length===0 && members.length===0) &&
                 <div>
@@ -43,7 +43,7 @@ function TeamScreen(props) {
             }
             {
                 team.loading ===false &&
-                    <div className="user-card-container " style={{width:"32%"}}  >
+                <div className="user-card-container " style={{width:"32%"}}  >
                     {
                         ceos.map((user, index)=>(
                             <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
@@ -62,10 +62,11 @@ function TeamScreen(props) {
                         ))
                         
                     }
-                        <div className="card-button">
-                            <button onClick={()=>setAddMember(!addMember)}>ADD Member</button>
-                        </div>
+                    <div className="card-button" onClick={()=>setAddMember(!addMember)}>
+                        <i class="fas fa-user-plus fa-3x"></i>
+                        <div style={{fontSize:'1.2rem', fontWeight:"800"}}>ADD Member</div> 
                     </div>
+                </div>
             }
 
 

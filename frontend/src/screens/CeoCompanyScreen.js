@@ -31,8 +31,9 @@ function CeoCompanyScreen(props) {
                             ))
                         }
 
-                        <div className="card-button">
-                            <button onClick={()=>setAddCompany(!addCompany)}>ADD COMPANY</button>
+                        <div className="company-add-button" onClick={()=>setAddCompany(!addCompany)}>
+                            <i class="far fa-plus-square fa-2x"></i>
+                            <div>ADD COMPANY</div>
                         </div>
                     </div>
 

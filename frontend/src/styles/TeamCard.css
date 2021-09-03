@@ -4,33 +4,33 @@
     justify-content: center;
     grid-gap: 10px;
     overflow: hidden;
-    margin: 2rem;
 }
 
 .team-card{
     border: 1px solid gray;
-    border-radius: 20px;
     padding: 2rem;
-    /* box-shadow: 10px 18px gray; */
     text-align: center;
+    border: 2px solid #f5f5f5;
+    box-shadow: 4px 4px #f0f0f0;
+    border-radius: 10px;
+    margin-bottom: 2rem;
 }
 
 .team-card .total-number{
     font-size: 2rem;
     border: 4px dashed gray;
     border-radius: 50%;
-    width: 6rem;
-    height: 6rem;
-    text-align: center;
-    justify-content: center; 
-    margin-left: 35%;
+    width: 5.5rem;
+    height: 5.5rem;
     padding-top: 11px;
     margin-bottom: 1rem;
 }
 
 
 .team-company{
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 
@@ -47,9 +47,29 @@
 }
 
 .team-name{
-    font-size: 3rem;
+    font-size: 2.2rem;
     text-align: center;
     margin-bottom: 1.2rem;
+    font-weight: 800;
+}
+
+.team-button{
+    text-align: right;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.team-button i{
+    margin-left: 4px;
+}
+
+.team-add-button{
+    display: block;
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    cursor: pointer;
 }
 
 @media (max-width:766px){

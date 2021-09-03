@@ -123,7 +123,7 @@ function MessageCard({conversation, setConversation}) {
             {
                 !conversation.id &&
                 <div className="no-message">
-                    no message
+                    <i class="far fa-comments fa-8x"></i>
                 </div>
             }
 

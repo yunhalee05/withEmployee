@@ -16,25 +16,30 @@ function CompanyCard({company}) {
     return (
         <div className="company-card">
             <div className="company-delete-button">
-                <button onClick={handleDelete}>DELETE</button>
+                <i class="far fa-edit"></i>
+                <i class="far fa-trash-alt" onClick={handleDelete}></i>
+                {/* <button onClick={handleDelete}>DELETE</button> */}
             </div>
-           <div className="company-name">
-                <Link to={`/company/${company.id}`}>
-                    {company.name}
-                </Link>
-           </div>
-           
-           <div className="company-ceo">
-               <Link to={`/user/${company.ceo.id}`}>
-                    <span>{company.ceo.name}</span>
-                    <span>{company.ceo.email}</span>
-               </Link>
-           </div>
 
-           <div className="company-total-number">
-               <span>Total Company Members</span>
-               <span>{company.totalNumber}</span>
-           </div>
+            <div className="company-name">
+                    <Link to={`/company/${company.id}`}>
+                        {company.name}
+                    </Link>
+            </div>
+
+            <div className="company-info">
+                <div className="company-total-number">
+                    <div>{company.totalNumber}</div>
+                    <div style={{fontSize:'9px'}}>Members</div>
+                </div>
+
+                <div className="company-ceo">
+                    <Link to={`/user/${company.ceo.id}`}>
+                        <div>{company.ceo.name}</div>
+                        <div>{company.ceo.email}</div>
+                    </Link>
+                </div>
+            </div>
 
            <div className="company-description">
                {company.description}

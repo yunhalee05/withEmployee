@@ -7,9 +7,10 @@
 }
 
 .company-card{
-    width: 100%;
-    border: 1px solid gray;
-    padding: 2rem;
+    width: 98%;
+    border: 2px solid #f5f5f5;
+    box-shadow: 4px 4px #f0f0f0;
+    border-radius: 10px;    padding: 2rem;
 }
 
 .company-card a{
@@ -22,10 +23,18 @@
 
 .company-name{
     text-align: center;
-    font-size: 2.3rem;
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
 }
 
+.company-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .company-ceo{
+    display: block;
     text-align: right;
 }
 
@@ -34,15 +43,32 @@
 }
 
 .company-total-number{
-    justify-content: space-between;
+    font-size: 2rem;
+    border: 4px dashed gray;
+    border-radius: 50%;
+    width: 5.5rem;
+    height: 5.5rem;
+    padding-top: 11px;
+    margin-bottom: 1rem;
+    text-align: center;
 }
 
 .company-delete-button{
     display: block;
     text-align: right;
+    cursor: pointer;
+    font-size: 1.3rem;
 }
 
-.company-delete-button button{
-    background-color: white;
-    
+.company-delete-button i{
+    margin-left: 4px;
+}
+
+.company-add-button{
+    display: block;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 5rem;
 }
