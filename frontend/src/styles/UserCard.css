@@ -5,6 +5,15 @@
     margin-right: auto;
 }
 
+.team-screen{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    max-width: 80rem;
+}
+
+
 .user-team a{
     color: black;
 }
@@ -86,3 +95,12 @@
     text-align: center;
     margin-top: 4rem;
 }
+
+
+
+@media (max-width:1195px){
+    .team-screen{
+        display: block;
+    }
+}
+

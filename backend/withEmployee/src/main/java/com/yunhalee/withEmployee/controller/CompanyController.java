@@ -58,6 +58,11 @@ public class CompanyController {
         return id;
     }
 
+    @GetMapping("/company/recommendation")
+    public List<CompanyListDTO> companyRecommendation(){
+        return service.companyRecommendation();
+    }
+
     @PostMapping("/company/check_name")
     public String checkNameUnique(@Param("name")String name){
         return service.isNameUnique(name) ? "OK" : "Duplicated";

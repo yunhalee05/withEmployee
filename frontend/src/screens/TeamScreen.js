@@ -34,7 +34,17 @@ function TeamScreen(props) {
 
 
     return (
-        <div className="user-team" style={{display:"flex", alignItems:'flex-start', justifyContent:"space-around", flexWrap:"wrap", maxWidth:"90rem"}}>
+        <div className="user-team team-screen" >
+
+
+            {
+                (team.loading ===false && team.team) &&
+                <div className="team-messages" >
+                    <ConversationCard users={team.team.users} setConversation={setConversation} conversation={conversation} belongTo="Team"/>
+                    <MessageCard conversation={conversation} setConversation={setConversation}  />
+                </div>
+            }
+
             {
                 (ceos.length ===0 && leaders.length===0 && members.length===0) &&
                 <div>
@@ -43,7 +53,7 @@ function TeamScreen(props) {
             }
             {
                 team.loading ===false &&
-                <div className="user-card-container " style={{width:"32%"}}  >
+                <div className="user-card-container" >
                     {
                         ceos.map((user, index)=>(
                             <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
@@ -68,16 +78,6 @@ function TeamScreen(props) {
                     </div>
                 </div>
             }
-
-
-            {
-                (team.loading ===false && team.team) &&
-                <div className="messages">
-                    <ConversationCard users={team.team.users} setConversation={setConversation} conversation={conversation} belongTo="Team"/>
-                    <MessageCard conversation={conversation} setConversation={setConversation}  />
-                </div>
-            }
-
             {
                 addMember && 
                 <AddMemberModal members={team.team.users} setAddMember={setAddMember} id={id} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />

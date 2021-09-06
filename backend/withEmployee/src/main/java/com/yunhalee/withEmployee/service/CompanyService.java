@@ -4,15 +4,23 @@ import com.yunhalee.withEmployee.Repository.CompanyRepository;
 import com.yunhalee.withEmployee.Repository.UserRepository;
 import com.yunhalee.withEmployee.dto.CompanyCreateDTO;
 import com.yunhalee.withEmployee.dto.CompanyDTO;
+import com.yunhalee.withEmployee.dto.CompanyListDTO;
 import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CompanyService {
+
+    public static final int COMPANY_PER_PAGE = 9;
+
     @Autowired
     private CompanyRepository repo;
 
@@ -58,6 +66,17 @@ public class CompanyService {
 
     public void deleteCompany(Integer id) {
          repo.deleteById(id);
+    }
+
+    public List<CompanyListDTO> companyRecommendation(){
+        Pageable pageable = PageRequest.of(0, COMPANY_PER_PAGE);
+        Page<Company> page = repo.findByRandom(pageable);
+        List<Company> companies = page.getContent();
+
+        List<CompanyListDTO> companyListDTOS = new ArrayList<>();
+        companies.forEach(company -> companyListDTOS.add(new CompanyListDTO(company)));
+
+        return companyListDTOS;
     }
 
     public boolean isNameUnique(String name){
