@@ -5,12 +5,16 @@ import com.yunhalee.withEmployee.Repository.RoleRepository;
 import com.yunhalee.withEmployee.Repository.TeamRepository;
 import com.yunhalee.withEmployee.Repository.UserRepository;
 import com.yunhalee.withEmployee.dto.UserDTO;
+import com.yunhalee.withEmployee.dto.UserListDTO;
 import com.yunhalee.withEmployee.entity.Role;
 import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.entity.User;
 import com.yunhalee.withEmployee.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -44,8 +49,22 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<User> listAll(){
-       return repo.findAllUsers();
+    public UserListDTO listAll(Integer page, Integer limit){
+        Pageable pageable = PageRequest.of(page-1, limit);
+        Page<User> pageUser = repo.findAllUsers(pageable);
+        List<User> users = pageUser.getContent();
+        Integer totalPage = pageUser.getTotalPages();
+        Long totalElement = pageUser.getTotalElements();
+
+        ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
+
+        users.forEach(user->
+                userDTOS.add(new UserDTO(user))
+        );
+
+        UserListDTO userListDTO = new UserListDTO(totalElement, totalPage, userDTOS);
+
+        return userListDTO;
     }
 
     public UserDTO get(Integer id) throws UserNotFoundException {

@@ -1,6 +1,9 @@
 package com.yunhalee.withEmployee;
 
 import com.yunhalee.withEmployee.Repository.UserRepository;
+import com.yunhalee.withEmployee.dto.UserDTO;
+import com.yunhalee.withEmployee.dto.UserListDTO;
+import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.entity.Role;
 import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.entity.User;
@@ -10,8 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -142,6 +149,29 @@ public class UserRepositoryTests {
 
         System.out.println(teams);
 
+    }
+
+    @Test
+    public void testUserListByPage(){
+        int pageNumber = 0;
+        int pageSize = 4;
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<User> page = repo.findAllUsers(pageable);
+        List<User> users = page.getContent();
+
+        System.out.println(page.getTotalElements());
+        System.out.println(page.getTotalPages());
+
+        users.forEach(user -> System.out.println(user));
+
+        List<UserDTO> userDTOS = new ArrayList<>();
+
+        users.forEach(user -> userDTOS.add(new UserDTO(user)));
+
+        UserListDTO userListDTO = new UserListDTO(page.getTotalElements(), page.getTotalPages(), userDTOS);
+
+        System.out.println(userListDTO);
     }
 
 }

@@ -65,6 +65,7 @@ public class UserDTO {
         this.teams = UserTeam.TeamList(user.getTeams());
     }
 
+
     @Getter
     static class UserTeam{
         private Integer id;

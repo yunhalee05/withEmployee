@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface ConversationRepository extends CrudRepository<Conversation, Integer> {
 
 
-    @Query(value = "SELECT c FROM Conversation c LEFT JOIN FETCH c.users u WHERE u.id = :id")
+    @Query(value = "SELECT c FROM Conversation c LEFT JOIN FETCH c.users u LEFT JOIN FETCH u.companies p WHERE u.id = :id")
     List<Conversation> fintByUserId(Integer id);
 
     List<Conversation> findByUsers(Optional<User> user);

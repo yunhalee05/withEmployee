@@ -2,14 +2,11 @@ package com.yunhalee.withEmployee.dto;
 
 
 import com.yunhalee.withEmployee.entity.Company;
-import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -34,7 +31,6 @@ public class CompanyListDTO {
         this.description = company.getDescription();
         this.totalNumber = company.getTotalNumber();
         this.ceo = new CompanyCeo(company.getCeo());
-
     }
 
 

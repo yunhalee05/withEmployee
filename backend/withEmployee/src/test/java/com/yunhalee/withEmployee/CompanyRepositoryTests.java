@@ -1,6 +1,7 @@
 package com.yunhalee.withEmployee;
 
 import com.yunhalee.withEmployee.Repository.CompanyRepository;
+import com.yunhalee.withEmployee.dto.CompanyListDTO;
 import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.entity.User;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -124,7 +126,13 @@ public class CompanyRepositoryTests {
         Page<Company> page = repo.findByRandom(pageable);
         List<Company> companies = page.getContent();
 
-        companies.forEach(company -> System.out.println(company));
+        companies.forEach(company -> System.out.println(company.getCeo()));
+
+        List<CompanyListDTO> companyListDTOS = new ArrayList<>();
+
+        companies.forEach(company -> companyListDTOS.add(new CompanyListDTO(company)));
+
+        companyListDTOS.forEach(companyListDTO -> System.out.println(companyListDTO));
 
     }
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getuserlist } from '../_actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -9,12 +9,17 @@ function UserListScreen() {
 
     const userlist = useSelector(state => state.userlist)
 
+    const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(9)
+
+    // const pageRange = [...Array(page).keys()]
+
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getuserlist())
+        dispatch(getuserlist(page, limit))
+    }, [dispatch, page, limit])
 
-    }, [dispatch])
 
     return (
         <div className="list">
@@ -33,7 +38,7 @@ function UserListScreen() {
                             <th>Company</th>
                         </tr>
                     </thead>
-
+{/* 
                     <tbody>
                         {
                             userlist.users.map((user,index)=>(
@@ -47,8 +52,31 @@ function UserListScreen() {
                                 </tr>
                             ))
                         }
-                    </tbody>
+                    </tbody> */}
                 </table>
+
+{/* 
+                <nav aria-label="Page navigation example" style={{width:'100%'}}>
+                    <ul className="pagination" style={{justifyContent:'center'}}>
+                        <li className="page-item">
+                            <a className="page-link" aria-label="Previous" onClick={e=>setPage(1)} style={{color:'black'}}>
+                                <span aria-hidden="true">&laquo;</span>
+                                <span className="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        {
+                            pageRange.map(x=>(
+                                <li className="page-item"><a className="page-link" onClick={e=>setPage(x+1)} style={{color:'black'}}>{x+1}</a></li>
+                            ))
+                        }
+                        <li className="page-item">
+                            <a className="page-link" onClick={e=>setPage(page)} aria-label="Next" style={{color:'black'}}>
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav> */}
             </div>
             
         </div>

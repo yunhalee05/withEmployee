@@ -27,8 +27,14 @@ public class CompanyService {
     @Autowired
     private UserRepository userRepo;
 
-    public List<Company> listAll(){
-        return repo.findAllCompanies();
+    public List<CompanyListDTO> listAll(){
+        List<Company> companies = repo.findAllCompanies();
+        List<CompanyListDTO> companyDTOS = new ArrayList<CompanyListDTO>();
+
+        companies.forEach(company -> {
+            companyDTOS.add(new CompanyListDTO(company));
+        });
+        return companyDTOS;
     }
 
     public Company findById(Integer id){

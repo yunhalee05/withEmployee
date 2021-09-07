@@ -20,14 +20,8 @@ public class CompanyController {
 
     @GetMapping("/company/companylist")
     public List<CompanyListDTO> listAll(){
-        List<Company> companies = service.listAll();
 
-        List<CompanyListDTO> companyDTOS = new ArrayList<CompanyListDTO>();
-
-        companies.forEach(company -> {
-            companyDTOS.add(new CompanyListDTO(company));
-        });
-        return companyDTOS;
+        return service.listAll();
     }
 
     @GetMapping("/company/{id}")

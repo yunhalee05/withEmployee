@@ -101,4 +101,11 @@ public class User {
         return companies;
     }
 
+    public List<String> getTeamNames(){
+        List<String> teams = new ArrayList<>();
+
+        this.teams.forEach(team -> teams.add(team.getName()));
+        return teams;
+    }
+
 }

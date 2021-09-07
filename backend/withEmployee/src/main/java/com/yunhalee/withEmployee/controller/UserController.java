@@ -1,6 +1,7 @@
 package com.yunhalee.withEmployee.controller;
 
 import com.yunhalee.withEmployee.dto.UserDTO;
+import com.yunhalee.withEmployee.dto.UserListDTO;
 import com.yunhalee.withEmployee.entity.User;
 import com.yunhalee.withEmployee.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,14 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/user/userlist")
-    public List<UserDTO> listAll(){
-        List<User> users = service.listAll();
+    public UserListDTO listAll(@Param("page") String page, @Param("limit") String limit){
+        System.out.println(page);
+        System.out.println(limit);
+        Integer userPage = Integer.parseInt(page);
+        Integer userLimit = Integer.parseInt(limit);
+        UserListDTO userListDTO = service.listAll(userPage, userLimit);
 
-        ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
-
-        users.forEach(user->
-                userDTOS.add(new UserDTO(user))
-        );
-
-        return userDTOS;
+        return userListDTO;
     }
 
     @GetMapping("/user/{id}")
