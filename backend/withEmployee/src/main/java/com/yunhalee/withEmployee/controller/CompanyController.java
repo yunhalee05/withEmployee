@@ -1,13 +1,11 @@
 package com.yunhalee.withEmployee.controller;
 
-import com.yunhalee.withEmployee.dto.CompanyCreateDTO;
-import com.yunhalee.withEmployee.dto.CompanyDTO;
-import com.yunhalee.withEmployee.dto.CompanyListByPageDTO;
-import com.yunhalee.withEmployee.dto.CompanyListDTO;
+import com.yunhalee.withEmployee.dto.*;
 import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -56,6 +54,17 @@ public class CompanyController {
     @GetMapping("/company/recommendation")
     public List<CompanyListDTO> companyRecommendation(){
         return service.companyRecommendation();
+    }
+
+    @GetMapping("/company/search")
+    public List<CompanyListDTO> searchCompany(@Param("keyword")String keyword){
+        return service.searchCompany(keyword);
+    }
+
+    @GetMapping("/companies")
+    public ResponseEntity<?> allCompanies(@Param("page")String page, @Param("sort")String sort){
+        Integer pageCompany = Integer.parseInt(page);
+        return service.getCompaniesByPage(pageCompany, sort);
     }
 
     @PostMapping("/company/check_name")

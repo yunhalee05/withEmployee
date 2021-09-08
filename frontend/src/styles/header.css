@@ -25,6 +25,44 @@
     font-weight: 800;
 }
 
+
+.search-company-container form{
+    position: relative;
+}
+
+.search-company-container input{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-bottom: 1px solid #ededed;
+    width: 18rem;
+    outline: none;
+    text-indent: 5px;
+}
+
+.search-company-card-container{
+    max-height: 20rem;
+    position: absolute;
+    width: 18rem;
+    background: #fcfcfc;
+    min-height: calc(100vh-150px);
+    overflow: scroll;
+    margin-top: 3px;
+    border-radius: 3px;
+}
+
+
+.search-company{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #f7f7f7;
+    font-weight: 600;
+}
+
+.company-sort{
+    margin-bottom: 2rem;
+}
 .header-menu{
     display: flex;
     margin-top: 1rem;

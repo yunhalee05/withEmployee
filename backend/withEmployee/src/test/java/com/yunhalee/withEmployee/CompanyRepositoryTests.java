@@ -136,4 +136,12 @@ public class CompanyRepositoryTests {
 
     }
 
+    @Test
+    public void testGetByKeyword(){
+        String keyword = "ceo";
+
+        List<Company> companies = repo.findByKeyword(keyword);
+        companies.forEach(company -> System.out.println(company));
+    }
+
 }

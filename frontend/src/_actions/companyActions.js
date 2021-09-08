@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CREATE_COMPANY_FAIL, CREATE_COMPANY_REQUEST, CREATE_COMPANY_SUCCESS, DELETE_COMPANY_REQUEST, DELETE_COMPANY_SUCCESS, GET_COMPANIES_FAIL, GET_COMPANIES_RECOMMENDATION_FAIL, GET_COMPANIES_RECOMMENDATION_REQUEST, GET_COMPANIES_RECOMMENDATION_SUCCESS, GET_COMPANIES_REQUEST, GET_COMPANIES_SUCCESS, GET_COMPANYLIST_FAIL, GET_COMPANYLIST_REQUEST, GET_COMPANYLIST_SUCCESS, GET_COMPANY_FAIL, GET_COMPANY_REQUEST, GET_COMPANY_SUCCESS } from "../_constants/companyConstants"
+import { CREATE_COMPANY_FAIL, CREATE_COMPANY_REQUEST, CREATE_COMPANY_SUCCESS, DELETE_COMPANY_REQUEST, DELETE_COMPANY_SUCCESS, GET_ALL_COMPANIES_FAIL, GET_ALL_COMPANIES_REQUEST, GET_ALL_COMPANIES_SUCCESS, GET_COMPANIES_FAIL, GET_COMPANIES_RECOMMENDATION_FAIL, GET_COMPANIES_RECOMMENDATION_REQUEST, GET_COMPANIES_RECOMMENDATION_SUCCESS, GET_COMPANIES_REQUEST, GET_COMPANIES_SEARCH_FAIL, GET_COMPANIES_SEARCH_REQUEST, GET_COMPANIES_SEARCH_SUCCESS, GET_COMPANIES_SUCCESS, GET_COMPANYLIST_FAIL, GET_COMPANYLIST_REQUEST, GET_COMPANYLIST_SUCCESS, GET_COMPANY_FAIL, GET_COMPANY_REQUEST, GET_COMPANY_SUCCESS } from "../_constants/companyConstants"
 
 export const getcompanylist =(page) => async(dispatch, getState)=>{
 
@@ -13,7 +13,6 @@ export const getcompanylist =(page) => async(dispatch, getState)=>{
         const res = await axios.get(`/company/companylist?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
-        // console.log(res)
         dispatch({
             type:GET_COMPANYLIST_SUCCESS,
             payload:res.data
@@ -22,6 +21,33 @@ export const getcompanylist =(page) => async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_COMPANYLIST_FAIL,
+            payload:
+                error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        })
+    }
+}
+
+export const getallcompaniesbypage =(page, sort) => async(dispatch, getState)=>{
+
+    const {auth: {token}} = getState()
+
+    dispatch({
+        type:GET_ALL_COMPANIES_REQUEST
+    })
+
+    try{
+        const res = await axios.get(`/companies?page=${page}&sort=${sort}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
+        dispatch({
+            type:GET_ALL_COMPANIES_SUCCESS,
+            payload:res.data
+        })
+    }catch(error){
+        dispatch({
+            type:GET_ALL_COMPANIES_FAIL,
             payload:
                 error.response && error.response.data.message
                 ? error.response.data.message
@@ -172,6 +198,36 @@ export const getcompaniesrecommendation =() => async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_COMPANIES_RECOMMENDATION_FAIL,
+            payload:
+                error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        })
+    }
+}
+
+export const getcompaniessearch =(keyword) => async(dispatch, getState)=>{
+
+    const {auth : {token}} = getState()
+
+    dispatch({
+        type:GET_COMPANIES_SEARCH_REQUEST
+    })
+
+    try{
+        const res = await axios.get(`/company/search?keyword=${keyword}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
+        // console.log(res)
+        dispatch({
+            type:GET_COMPANIES_SEARCH_SUCCESS,
+            payload:res.data
+        })
+
+        return res.data
+    }catch(error){
+        dispatch({
+            type:GET_COMPANIES_SEARCH_FAIL,
             payload:
                 error.response && error.response.data.message
                 ? error.response.data.message

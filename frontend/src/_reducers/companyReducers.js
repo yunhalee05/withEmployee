@@ -1,4 +1,4 @@
-import { CREATE_COMPANY_FAIL, CREATE_COMPANY_REQUEST, CREATE_COMPANY_SUCCESS, DELETE_COMPANY_FAIL, DELETE_COMPANY_REQUEST, DELETE_COMPANY_SUCCESS, GET_COMPANIES_RECOMMENDATION_FAIL, GET_COMPANIES_RECOMMENDATION_REQUEST, GET_COMPANIES_RECOMMENDATION_SUCCESS, GET_COMPANIES_REQUEST, GET_COMPANIES_SUCCESS, GET_COMPANYLIST_FAIL, GET_COMPANYLIST_REQUEST, GET_COMPANYLIST_SUCCESS, GET_COMPANY_FAIL, GET_COMPANY_REQUEST, GET_COMPANY_SUCCESS } from "../_constants/companyConstants";
+import { CREATE_COMPANY_FAIL, CREATE_COMPANY_REQUEST, CREATE_COMPANY_SUCCESS, DELETE_COMPANY_FAIL, DELETE_COMPANY_REQUEST, DELETE_COMPANY_SUCCESS, GET_ALL_COMPANIES_FAIL, GET_ALL_COMPANIES_REQUEST, GET_ALL_COMPANIES_SUCCESS, GET_COMPANIES_RECOMMENDATION_FAIL, GET_COMPANIES_RECOMMENDATION_REQUEST, GET_COMPANIES_RECOMMENDATION_SUCCESS, GET_COMPANIES_REQUEST, GET_COMPANIES_SEARCH_FAIL, GET_COMPANIES_SEARCH_REQUEST, GET_COMPANIES_SEARCH_SUCCESS, GET_COMPANIES_SUCCESS, GET_COMPANYLIST_FAIL, GET_COMPANYLIST_REQUEST, GET_COMPANYLIST_SUCCESS, GET_COMPANY_FAIL, GET_COMPANY_REQUEST, GET_COMPANY_SUCCESS, GET_LOAD_MORE_COMPANIES } from "../_constants/companyConstants";
 
 export const companylistReducer = (state={companies:[]}, action)=>{
     switch(action.type){
@@ -9,12 +9,29 @@ export const companylistReducer = (state={companies:[]}, action)=>{
         case GET_COMPANYLIST_FAIL:
             return {...state, loading:false, error:action.payload}
 
+        case GET_ALL_COMPANIES_REQUEST:
+            return {...state, loading:true}
+        case GET_ALL_COMPANIES_SUCCESS:
+            return {...state, loading:false, companies:action.payload.companies, totalElement:action.payload.totalElement, totalPage:action.payload.totalPage}
+        case GET_ALL_COMPANIES_FAIL:
+            return {...state, loading:false, error:action.payload}
+        case GET_LOAD_MORE_COMPANIES:
+            return {...state, loading:false, companies:[...state.companies, ...action.payload]}
+
         case GET_COMPANIES_RECOMMENDATION_REQUEST:
             return {...state, loading:true}
         case GET_COMPANIES_RECOMMENDATION_SUCCESS:
             return {...state,loading:false, recommendation:action.payload }
         case GET_COMPANIES_RECOMMENDATION_FAIL:
             return {...state, loading:false, error:action.payload}
+            
+        case GET_COMPANIES_SEARCH_REQUEST:
+            return {...state, loading:true}
+        case GET_COMPANIES_SEARCH_SUCCESS:
+            return {...state,loading:false, search:action.payload }
+        case GET_COMPANIES_SEARCH_FAIL:
+            return {...state, loading:false, error:action.payload}
+
             
         default:
             return state;

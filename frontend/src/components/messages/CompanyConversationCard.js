@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { getcompaniessearch } from '../../_actions/companyActions'
 import { createConversation, deleteConversation, getConversations } from '../../_actions/conversationActions'
 import { ADD_NEWCONVERSATION } from '../../_constants/conversationConstants'
 import SearchUserCard from '../SearchUserCard'
 import ConversationUserCard from './ConversationUserCard'
 
-function CompanyConversationCard({companies, setConversation, conversation, belongTo}) {
+function CompanyConversationCard({ setConversation, conversation, belongTo}) {
 
     const auth = useSelector(state => state.auth)
 
@@ -28,8 +29,9 @@ function CompanyConversationCard({companies, setConversation, conversation, belo
             setSearchCompany([])
             setSearch('')
         }else{
-            const find = companies.filter(c=>c.name.includes(search)&& c.ceo.id !== auth.user.id)
-            setSearchCompany(find)
+            dispatch(getcompaniessearch(search)).then(res=>{
+                setSearchCompany(res)
+            })
         }
     }
 
