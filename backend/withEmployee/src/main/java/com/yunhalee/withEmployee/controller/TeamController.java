@@ -1,6 +1,7 @@
 package com.yunhalee.withEmployee.controller;
 
 import com.yunhalee.withEmployee.dto.TeamDTO;
+import com.yunhalee.withEmployee.dto.TeamListByPageDTO;
 import com.yunhalee.withEmployee.dto.TeamListDTO;
 import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.service.TeamService;
@@ -20,15 +21,10 @@ public class TeamController {
     private TeamService service;
 
     @GetMapping("/team/teamlist")
-    public List<TeamDTO> listAll(){
-        List<Team> teams = service.listAll();
-        List<TeamDTO> teamDTOS = new ArrayList<TeamDTO>();
+    public TeamListByPageDTO listAll(@Param("page")String page){
+        Integer pageTeam = Integer.parseInt(page);
 
-        teams.forEach(team->{
-            teamDTOS.add(new TeamDTO(team));
-        });
-
-        return teamDTOS;
+        return service.listAll(pageTeam);
     }
 
     @GetMapping("/team/{id}")

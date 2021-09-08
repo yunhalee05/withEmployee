@@ -2,6 +2,7 @@ package com.yunhalee.withEmployee.controller;
 
 import com.yunhalee.withEmployee.dto.CompanyCreateDTO;
 import com.yunhalee.withEmployee.dto.CompanyDTO;
+import com.yunhalee.withEmployee.dto.CompanyListByPageDTO;
 import com.yunhalee.withEmployee.dto.CompanyListDTO;
 import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.service.CompanyService;
@@ -19,9 +20,9 @@ public class CompanyController {
     private CompanyService service;
 
     @GetMapping("/company/companylist")
-    public List<CompanyListDTO> listAll(){
-
-        return service.listAll();
+    public CompanyListByPageDTO listAll(@Param("page") String page){
+        Integer pageCompany = Integer.parseInt(page);
+        return service.listAll(pageCompany);
     }
 
     @GetMapping("/company/{id}")

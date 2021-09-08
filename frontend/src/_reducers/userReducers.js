@@ -5,7 +5,7 @@ export const userlistReducer = (state={users:[]}, action)=>{
         case GET_USERLIST_REQUEST:
             return {...state, loading:true}
         case GET_USERLIST_SUCCESS:
-            return {loading:false, users:action.payload}
+            return {loading:false, users:action.payload.users, totalPage:action.payload.totalPage, totalElement:action.payload.totalElement}
         case GET_USERLIST_FAIL:
             return {...state, loading:false, error:action.payload}
         default:

@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT u FROM User u INNER JOIN FETCH u.role r LEFT JOIN FETCH u.teams t LEFT JOIN FETCH t.company c")
     List<User> findAllUsers();
 
-    @Query(value = "SELECT DISTINCT u FROM User u INNER JOIN FETCH u.role r LEFT JOIN FETCH u.teams t LEFT JOIN FETCH t.company c",
+    @Query(value = "SELECT DISTINCT u FROM User u INNER JOIN FETCH u.role r LEFT JOIN FETCH u.companies c LEFT JOIN FETCH u.teams t ",
             countQuery = "SELECT count(DISTINCT u) FROM User u")
     Page<User> findAllUsers(Pageable pageable);
 

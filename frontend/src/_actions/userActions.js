@@ -2,7 +2,7 @@ import axios from "axios"
 import { LOGIN_SUCCESS } from "../_constants/authConstants"
 import { ADD_USER_TEAM_FAIL, ADD_USER_TEAM_REQUEST, ADD_USER_TEAM_SUCCESS, DELETE_USER_TEAM_FAIL, DELETE_USER_TEAM_REQUEST, DELETE_USER_TEAM_SUCCESS, EDIT_USER_FAIL, EDIT_USER_REQUEST, EDIT_USER_SUCCESS, GET_USERLIST_FAIL, GET_USERLIST_REQUEST, GET_USERLIST_SUCCESS, GET_USER_FAIL, GET_USER_REQUEST, GET_USER_SUCCESS } from "../_constants/userConstants"
 
-export const getuserlist =(page,limit) => async(dispatch, getState)=>{
+export const getuserlist =(page) => async(dispatch, getState)=>{
 
     const {auth : {token}} = getState()
     dispatch({
@@ -10,14 +10,14 @@ export const getuserlist =(page,limit) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/user/userlist?page=${page}&limit=${limit}`, {
+        const res = await axios.get(`/user/userlist?page=${page}`, {
             headers : {Authorization : `Bearer ${token}`}
         })
-        console.log(res)
-        // dispatch({
-        //     type:GET_USERLIST_SUCCESS,
-        //     payload:res.data
-        // })
+        // console.log(res)
+        dispatch({
+            type:GET_USERLIST_SUCCESS,
+            payload:res.data
+        })
     }catch(error){
         dispatch({
             type:GET_USERLIST_FAIL,

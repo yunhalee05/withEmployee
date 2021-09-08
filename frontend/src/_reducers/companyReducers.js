@@ -5,7 +5,7 @@ export const companylistReducer = (state={companies:[]}, action)=>{
         case GET_COMPANYLIST_REQUEST:
             return {...state, loading:true}
         case GET_COMPANYLIST_SUCCESS:
-            return {...state, loading:false, companies:action.payload}
+            return {...state, loading:false, companies:action.payload.companies, totalElement:action.payload.totalElement, totalPage:action.payload.totalPage}
         case GET_COMPANYLIST_FAIL:
             return {...state, loading:false, error:action.payload}
 

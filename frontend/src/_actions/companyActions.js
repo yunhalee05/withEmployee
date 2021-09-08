@@ -1,7 +1,7 @@
 import axios from "axios"
 import { CREATE_COMPANY_FAIL, CREATE_COMPANY_REQUEST, CREATE_COMPANY_SUCCESS, DELETE_COMPANY_REQUEST, DELETE_COMPANY_SUCCESS, GET_COMPANIES_FAIL, GET_COMPANIES_RECOMMENDATION_FAIL, GET_COMPANIES_RECOMMENDATION_REQUEST, GET_COMPANIES_RECOMMENDATION_SUCCESS, GET_COMPANIES_REQUEST, GET_COMPANIES_SUCCESS, GET_COMPANYLIST_FAIL, GET_COMPANYLIST_REQUEST, GET_COMPANYLIST_SUCCESS, GET_COMPANY_FAIL, GET_COMPANY_REQUEST, GET_COMPANY_SUCCESS } from "../_constants/companyConstants"
 
-export const getcompanylist =() => async(dispatch, getState)=>{
+export const getcompanylist =(page) => async(dispatch, getState)=>{
 
     const {auth: {token}} = getState()
 
@@ -10,9 +10,10 @@ export const getcompanylist =() => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get('/company/companylist',{
+        const res = await axios.get(`/company/companylist?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
+        // console.log(res)
         dispatch({
             type:GET_COMPANYLIST_SUCCESS,
             payload:res.data

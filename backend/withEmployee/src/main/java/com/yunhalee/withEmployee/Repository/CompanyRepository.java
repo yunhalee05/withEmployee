@@ -17,6 +17,10 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH e.companies p LEFT JOIN FETCH c.teams t  LEFT JOIN FETCH t.users u")
     List<Company> findAllCompanies();
 
+    @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH e.companies p LEFT JOIN FETCH c.teams t  LEFT JOIN FETCH t.users u",
+            countQuery = "SELECT count(DISTINCT c) FROM Company c")
+    Page<Company> findAllCompanies(Pageable pageable);
+
     Company findByTeams(Team team);
 
     @Override

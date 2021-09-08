@@ -1,7 +1,7 @@
 import axios from "axios"
 import { CREATE_TEAM_FAIL, CREATE_TEAM_REQUEST, CREATE_TEAM_SUCCESS, DELETE_TEAM_FAIL, DELETE_TEAM_REQUEST, DELETE_TEAM_SUCCESS, GET_TEAMLIST_FAIL, GET_TEAMLIST_REQUEST, GET_TEAMLIST_SUCCESS, GET_TEAMS_FAIL, GET_TEAMS_REQUEST, GET_TEAMS_SUCCESS, GET_TEAM_FAIL, GET_TEAM_REQUEST, GET_TEAM_SUCCESS } from "../_constants/teamConstants"
 
-export const getteamlist =() => async(dispatch, getState)=>{
+export const getteamlist =(page) => async(dispatch, getState)=>{
     const {auth :{token}} = getState()
 
     dispatch({
@@ -9,7 +9,7 @@ export const getteamlist =() => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get('/team/teamlist',{
+        const res = await axios.get(`/team/teamlist?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({

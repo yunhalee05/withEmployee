@@ -1,18 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getcompanylist } from '../_actions/companyActions'
 import {Link} from 'react-router-dom'
 
-function CompanyListScreen() {
+function CompanyListScreen(props) {
 
     const companylist = useSelector(state => state.companylist)
 
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(getcompanylist())
-    }, [dispatch])
+    const [page, setPage] = useState(1)
+    const pageRange = [...Array(companylist.totalPage).keys()]
 
+
+    useEffect(() => {
+        dispatch(getcompanylist(page))
+    }, [dispatch, page])
+
+
+    const handleOnClick= (id)=>{
+        props.history.push(`/company/${id}`)
+    }
 
     return (
         <div className="list">
@@ -36,15 +44,37 @@ function CompanyListScreen() {
                             companylist && companylist.companies.map((company,index)=>(
                                 <tr key={index}>
                                     <td>{company.id}</td>
-                                    <Link to={`/company/${company.id}`}><td>{company.name}</td></Link>
+                                    <td onClick={()=>handleOnClick(company.id)}>{company.name}</td>
                                     <td>{company.description}</td>
-                                    <td>{company.ceo.name}</td>
+                                    <td>{company.ceo}</td>
                                     <td >{company.totalNumber}</td>
                                 </tr>
                             ))
                         }
                     </tbody>
                 </table>
+
+                <nav aria-label="Page navigation example" style={{width:'100%'}}>
+                    <ul className="pagination" style={{justifyContent:'center'}}>
+                        <li className="page-item">
+                            <a className="page-link" aria-label="Previous" onClick={e=>setPage(1)} style={{color:'black'}}>
+                                <span aria-hidden="true">&laquo;</span>
+                                <span className="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        {
+                            pageRange.map(x=>(
+                                <li key={x} className="page-item"><a className="page-link" onClick={e=>setPage(x+1)} style={{color:'black'}}>{x+1}</a></li>
+                            ))
+                        }
+                        <li className="page-item">
+                            <a className="page-link" onClick={e=>setPage(companylist.totalPage)} aria-label="Next" style={{color:'black'}}>
+                                <span aria-hidden="true">&raquo;</span>
+                                <span className="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             
         </div>

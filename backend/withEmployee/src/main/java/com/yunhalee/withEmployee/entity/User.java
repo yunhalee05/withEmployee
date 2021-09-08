@@ -59,7 +59,6 @@ public class User {
     @JoinColumn(name="role_id")
     private Role role;
 
-
     @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private Set<Conversation> conversations = new HashSet<>();
 

@@ -4,6 +4,7 @@ import com.yunhalee.withEmployee.Repository.CompanyRepository;
 import com.yunhalee.withEmployee.Repository.UserRepository;
 import com.yunhalee.withEmployee.dto.CompanyCreateDTO;
 import com.yunhalee.withEmployee.dto.CompanyDTO;
+import com.yunhalee.withEmployee.dto.CompanyListByPageDTO;
 import com.yunhalee.withEmployee.dto.CompanyListDTO;
 import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.entity.User;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,14 +29,17 @@ public class CompanyService {
     @Autowired
     private UserRepository userRepo;
 
-    public List<CompanyListDTO> listAll(){
-        List<Company> companies = repo.findAllCompanies();
-        List<CompanyListDTO> companyDTOS = new ArrayList<CompanyListDTO>();
-
-        companies.forEach(company -> {
-            companyDTOS.add(new CompanyListDTO(company));
-        });
-        return companyDTOS;
+    public CompanyListByPageDTO listAll(Integer page){
+        Pageable pageable = PageRequest.of(page-1, COMPANY_PER_PAGE, Sort.by("id"));
+        Page<Company> pageCompany = repo.findAllCompanies(pageable);
+        List<Company> companies = pageCompany.getContent();
+//        List<CompanyListDTO> companyDTOS = new ArrayList<CompanyListDTO>();
+//
+//        companies.forEach(company -> {
+//            companyDTOS.add(new CompanyListDTO(company));
+//        });
+        CompanyListByPageDTO companyListByPageDTO = new CompanyListByPageDTO(pageCompany.getTotalElements(), pageCompany.getTotalPages(), companies);
+        return companyListByPageDTO;
     }
 
     public Company findById(Integer id){

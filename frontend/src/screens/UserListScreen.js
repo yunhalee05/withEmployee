@@ -5,21 +5,23 @@ import {Link} from 'react-router-dom'
 
 
 
-function UserListScreen() {
+function UserListScreen(props) {
 
     const userlist = useSelector(state => state.userlist)
 
     const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(9)
 
-    // const pageRange = [...Array(page).keys()]
+    const pageRange = [...Array(userlist.totalPage).keys()]
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getuserlist(page, limit))
-    }, [dispatch, page, limit])
+        dispatch(getuserlist(page))
+    }, [dispatch, page])
 
+    const handleClick = (id) =>{
+        props.history.push(`/user/${id}`)
+    }
 
     return (
         <div className="list">
@@ -30,6 +32,7 @@ function UserListScreen() {
                 <table className="table table-striped">
                     <thead>
                         <tr>
+                            <th>Id</th>
                             <th>Name</th>
                             <th>E-mail</th>
                             <th>Phone</th>
@@ -38,24 +41,25 @@ function UserListScreen() {
                             <th>Company</th>
                         </tr>
                     </thead>
-{/* 
+
                     <tbody>
                         {
                             userlist.users.map((user,index)=>(
                                 <tr key={index}>
-                                    <Link to={`/user/${user.id}`}><td>{user.name}</td></Link>
+                                    <td>{user.id}</td>
+                                    <td onClick={()=>handleClick(user.id)}>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>{user.phoneNumber}</td>
                                     <td>{user.description}</td>
-                                    <td>{user.teams.map(t=>t.name)}</td>
-                                    <td>{user.teams.map(t=>t.company)}</td>
+                                    <td>{user.teams.map(t=>t)}</td>
+                                    <td>{user.companies.map(c=>c)}</td>
                                 </tr>
                             ))
                         }
-                    </tbody> */}
+                    </tbody>
                 </table>
 
-{/* 
+
                 <nav aria-label="Page navigation example" style={{width:'100%'}}>
                     <ul className="pagination" style={{justifyContent:'center'}}>
                         <li className="page-item">
@@ -66,17 +70,17 @@ function UserListScreen() {
                         </li>
                         {
                             pageRange.map(x=>(
-                                <li className="page-item"><a className="page-link" onClick={e=>setPage(x+1)} style={{color:'black'}}>{x+1}</a></li>
+                                <li key={x} className="page-item"><a className="page-link" onClick={e=>setPage(x+1)} style={{color:'black'}}>{x+1}</a></li>
                             ))
                         }
                         <li className="page-item">
-                            <a className="page-link" onClick={e=>setPage(page)} aria-label="Next" style={{color:'black'}}>
+                            <a className="page-link" onClick={e=>setPage(userlist.totalPage)} aria-label="Next" style={{color:'black'}}>
                                 <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
+                                <span className="sr-only">Next</span>
                             </a>
                         </li>
                     </ul>
-                </nav> */}
+                </nav>
             </div>
             
         </div>

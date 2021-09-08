@@ -5,7 +5,7 @@ import com.yunhalee.withEmployee.Repository.RoleRepository;
 import com.yunhalee.withEmployee.Repository.TeamRepository;
 import com.yunhalee.withEmployee.Repository.UserRepository;
 import com.yunhalee.withEmployee.dto.UserDTO;
-import com.yunhalee.withEmployee.dto.UserListDTO;
+import com.yunhalee.withEmployee.dto.UserListByPageDTO;
 import com.yunhalee.withEmployee.entity.Role;
 import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.entity.User;
@@ -15,16 +15,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -32,6 +29,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+
+    public static final int USER_PER_PAGE = 9;
+
 
     @Value("${profileUpload.path")
     private String uploadFolder;
@@ -49,22 +49,14 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserListDTO listAll(Integer page, Integer limit){
-        Pageable pageable = PageRequest.of(page-1, limit);
+    public UserListByPageDTO listAll(Integer page){
+        Pageable pageable = PageRequest.of(page-1, USER_PER_PAGE, Sort.by("id"));
         Page<User> pageUser = repo.findAllUsers(pageable);
         List<User> users = pageUser.getContent();
-        Integer totalPage = pageUser.getTotalPages();
-        Long totalElement = pageUser.getTotalElements();
 
-        ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
+        UserListByPageDTO userListByPageDTO = new UserListByPageDTO(pageUser.getTotalElements(), pageUser.getTotalPages(), users);
 
-        users.forEach(user->
-                userDTOS.add(new UserDTO(user))
-        );
-
-        UserListDTO userListDTO = new UserListDTO(totalElement, totalPage, userDTOS);
-
-        return userListDTO;
+        return userListByPageDTO;
     }
 
     public UserDTO get(Integer id) throws UserNotFoundException {

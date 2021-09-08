@@ -4,10 +4,15 @@ import com.yunhalee.withEmployee.Repository.CompanyRepository;
 import com.yunhalee.withEmployee.Repository.TeamRepository;
 import com.yunhalee.withEmployee.Repository.UserRepository;
 import com.yunhalee.withEmployee.dto.TeamDTO;
+import com.yunhalee.withEmployee.dto.TeamListByPageDTO;
 import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -15,6 +20,9 @@ import java.util.List;
 
 @Service
 public class TeamService {
+
+    public static final int TEAM_PER_PAGE = 9;
+
     @Autowired
     private TeamRepository repo;
 
@@ -24,8 +32,14 @@ public class TeamService {
     @Autowired
     private CompanyRepository companyRepo;
 
-    public List<Team> listAll(){
-        return repo.findAllTeams();
+    public TeamListByPageDTO listAll(Integer page){
+        Pageable pageable = PageRequest.of(page-1,TEAM_PER_PAGE, Sort.by("id"));
+        Page<Team> pageTeam = repo.findAllTeams(pageable);
+        List<Team> teams = pageTeam.getContent();
+
+        TeamListByPageDTO teamListByPageDTO = new TeamListByPageDTO(pageTeam.getTotalElements(), pageTeam.getTotalPages(), teams);
+        return teamListByPageDTO;
+
     }
 
     public List<Team> getByUserId(Integer id){
