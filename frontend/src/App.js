@@ -49,11 +49,11 @@ function App() {
       {
         socket.client && <SocketClient/>
       }
+      {
+        auth.user &&
+          <Header/>
+      }
       <div className="App">
-        {
-          auth.user &&
-            <Header/>
-        }
 
         <Route exact path="/" component={LoginScreen}/>
         <Route exact path="/login" component={LoginScreen}/>

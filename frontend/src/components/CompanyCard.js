@@ -16,8 +16,8 @@ function CompanyCard({company}) {
     return (
         <div className="company-card">
             <div className="company-delete-button">
-                <i class="far fa-edit"></i>
-                <i class="far fa-trash-alt" onClick={handleDelete}></i>
+                <i className="far fa-edit"></i>
+                <i className="far fa-trash-alt" onClick={handleDelete}></i>
                 {/* <button onClick={handleDelete}>DELETE</button> */}
             </div>
 
@@ -35,7 +35,7 @@ function CompanyCard({company}) {
 
                 <div className="company-ceo">
                     <Link to={`/user/${company.ceo.id}`}>
-                        <div>{company.ceo.name}</div>
+                        <div style={{fontWeight:"600"}}>{company.ceo.name}</div>
                         <div>{company.ceo.email}</div>
                     </Link>
                 </div>

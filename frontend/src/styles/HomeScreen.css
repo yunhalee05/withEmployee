@@ -5,15 +5,99 @@
     margin-right: auto;
 }
 
+.home-background{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+.home-backgound-title{
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 4.2rem;
+    font-weight: 800;
+    color: white;
+    -webkit-text-stroke: 3px black;
+}
+
+.home-backgound-title span{
+    font-size: 2.7rem;
+    color: black;
+    -webkit-text-stroke: 0px;
+}
+
+.home-backgound-image{
+    max-width: 60rem;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.home-backgound-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.showconversation-button{
+    display: block;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.showconversation-button button{
+    border: 3px solid black;
+    font-size: 1.5rem;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #d4591c;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 20px;
+}
+
+.showconversation-button button:hover{
+    color: white;
+}
+
+.home-recommendation{
+    margin-top: 8rem;
+    background-color: #e1e6f2;
+    border-radius: 20px;
+    padding: 1rem;
+}
+
+.recommendation_button{
+    cursor: pointer;
+    font-size: 3rem;
+}
+
+.recommendation_button:hover{
+    font-size: 3.2rem;
+}
+
+
 .home-mention{
     font-size: 3.3rem;
     font-weight: 800;
-    margin-top: 4rem;
-    margin-bottom: 4rem;
     text-align: center;
+    text-transform: uppercase;
+    padding: 1rem;
+    color: white;
+    -webkit-text-stroke: 2px black;
 }
 
-.home-mention i{
-    margin-left: 4rem;
-    cursor: pointer;
+.home-company{
+    background-color: #f7f3d7;
+    margin-top: 10rem;
+    padding: 1rem;
+    border-radius: 20px;
+    margin-bottom: 10rem;
+}
+
+.company-sort{
+    font-size: 14px;
+    font-weight: 800;
+    padding-left: 1rem;
 }

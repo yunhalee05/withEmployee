@@ -12,9 +12,9 @@ code {
     monospace;
 }
 
-/* .app{
-  background-color: 
-} */
+.App{
+  margin-top: 6rem
+}
 
 /* Header */
 @import url('./styles/header.css');

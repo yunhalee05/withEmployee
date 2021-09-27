@@ -46,7 +46,7 @@ function LoginScreen(props) {
                 </div>
 
                 <div className="form-button">
-                    <button type="submit">Login</button>
+                    <button type="submit">Sign in</button>
                 </div>
 
                 <div className="form-switch">

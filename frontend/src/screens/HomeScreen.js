@@ -6,6 +6,7 @@ import CompanyConversationCard from '../components/messages/CompanyConversationC
 import MessageCard from '../components/messages/MessageCard'
 import { getallcompaniesbypage, getcompaniesrecommendation, getcompanylist } from '../_actions/companyActions'
 import { GET_LOAD_MORE_COMPANIES } from '../_constants/companyConstants'
+import home from '../images/home.png'
 
 function HomeScreen() {
 
@@ -16,6 +17,8 @@ function HomeScreen() {
 
     const [page, setPage] = useState(1)
     const [sort, setSort] = useState("createdAtAsc")
+
+    const [showConversation, setShowConversation] = useState(false)
 
     const companylist = useSelector(state => state.companylist)
     const {recommendation, companies} = companylist
@@ -48,33 +51,61 @@ function HomeScreen() {
 
     return (
         <div className="home-screen">
-            <div className="messages">
-                <CompanyConversationCard setConversation={setConversation} conversation={conversation} belongTo="Other"/>
-                <MessageCard conversation={conversation} setConversation={setConversation}  />
+            <div className="home-background">
+                <div className="home-backgound-title">
+                    Looking for company to work with?<br/>
+                    <span>&nbsp; &nbsp; &nbsp; &nbsp;Find your help & Team up with other company</span>
+                </div>
+                <div className="home-backgound-image">
+                    <img src={home} alt="" />
+                </div>
             </div>
 
-            <div className="home-mention">
-                <span>Our Recommendation For you</span>
-                <i class="fas fa-sync-alt" onClick={handleRecommendation}></i>
+            <div className="showconversation-button">
+                <button onClick={()=>setShowConversation(!showConversation)}>
+                    {
+                        showConversation
+                        ? 'Hide Company Talk'
+                        : 'Show Company Talk'
+                    }
+                </button>
             </div>
 
             {
-                recommendation &&
-                <div className="company-card-container">
-                {   
-                    recommendation.map((company, index)=>(
-                        <CompanyCard company={company} key={index}/>
-                    ))
-                }
+                showConversation &&
+                <div className="messages">
+                    <CompanyConversationCard setConversation={setConversation} conversation={conversation} belongTo="Other"/>
+                    <MessageCard conversation={conversation} setConversation={setConversation}  />
                 </div>
             }
 
+            <div className="home-recommendation">
+                <div className="home-mention" >
+                    {/* <span className="recommendation_button" onClick={handleRecommendation}>🥫</span> */}
+                    <span className="recommendation_button" onClick={handleRecommendation}>🥫</span>
+                    <span>Our Recommendations For you</span>
+                    {/* <i class="fas fa-sync-alt" onClick={handleRecommendation}></i> */}
+                </div>
+
+                {
+                    recommendation &&
+                    <div className="company-card-container">
+                    {   
+                        recommendation.map((company, index)=>(
+                            <CompanyCard company={company} key={index}/>
+                        ))
+                    }
+                    </div>
+                }
+            </div>
+
+            <div className="home-company">
             <div className="home-mention">
                 <span>All the Companies</span>
             </div>
 
             <div className="company-sort">
-                Sort by :&nbsp; &nbsp;
+                SORT BY :&nbsp; &nbsp;
                 <select value={sort} onChange={e=>setSort(e.target.value)}>
                     <option value="createdAtAsc">newest companies</option>
                     <option value="createdAtDesc">classic companies</option>
@@ -100,6 +131,7 @@ function HomeScreen() {
                     }
                 </div>
             }
+            </div>
         </div>
     )
 }

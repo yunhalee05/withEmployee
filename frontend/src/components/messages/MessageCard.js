@@ -6,6 +6,7 @@ import { createMessage, getMessages } from '../../_actions/messageActions'
 import Display from './Display'
 import usersIcon from '../../images/users.svg'
 import userIcon from '../../images/user.svg'
+import messageImage from '../../images/message.png'
 
 
 
@@ -124,7 +125,8 @@ function MessageCard({conversation, setConversation}) {
             {
                 !conversation.id &&
                 <div className="no-message">
-                    <i class="far fa-comments fa-8x"></i>
+                    <img src={messageImage} alt="" />
+                    {/* <i className="far fa-comments fa-8x"></i> */}
                 </div>
             }
 

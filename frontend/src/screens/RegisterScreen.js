@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { valid } from '../utils'
 import { createCompany } from '../_actions/companyActions'
+import user from '../images/user.svg'
 
 
 function RegisterScreen(props) {
@@ -174,8 +175,15 @@ function RegisterScreen(props) {
 
                 <div className="form-group">
                     <label htmlFor="image">Image</label>
-                    <img id="preview" src={''} alt="imageURL" />
-                    <input type="file" className="form-control" id="file_up" name="file" accept="image/*" onChange={handleImage} />
+                    <div className="form-group-image-container">
+                        <div className="form-group-image">
+                            <img id="preview" src={user} alt="imageURL" />
+                        </div>
+                        <span>
+                            <i class="fas fa-camera fa-2x"></i>
+                            <input type="file" className="form-control" id="file_up" name="file" accept="image/*" onChange={handleImage} />
+                        </span>
+                    </div>
                 </div>
 
 
@@ -200,7 +208,7 @@ function RegisterScreen(props) {
                     }
 
                 <div className="form-group">
-                    <span>Are you a CEO ? </span>
+                    <label>Are you a CEO ? </label>
                     <input type="checkbox" onClick={()=>setCeo(!ceo)}/>
                 </div>
                 
