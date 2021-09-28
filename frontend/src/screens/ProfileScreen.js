@@ -60,7 +60,7 @@ function ProfileScreen(props) {
             )
             }
 
-            <div style={{textAlign:'center', fontSize:'2rem', margin:'2rem'}}>WHERE I BELONG TO</div>
+            <div className="profile-userteam-title">WHERE I BELONG TO <i class="far fa-hand-point-down"></i></div>
 
             <div className="team-card-container">
                 {

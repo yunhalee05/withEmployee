@@ -1,39 +1,54 @@
 .profile{
     max-width: 70rem;  
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    margin: auto;
+    /* font-family:Georgia, 'Times New Roman', Times, serif; */
 }
 
 .profile .user-info{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
+    border: 2px solid #d6d6d6;
+    box-shadow: 5px 5px #d6d6d6;
+    border-radius: 20px;
+    padding: 2rem;
+    background-color: #faf5f5;
 
 }
 
 .profile .profile-image {
-    width: 30%;
-    min-width: 300px;
+    width: 300px;
     height: 350px;
     overflow: hidden;
+    margin: auto;
 }
 
 .profile .profile-image img{
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
 }
 
 .profile .profile-info-box{
-    width: 50%;
+    min-width: 25rem;
     padding: 3rem;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: white;
 }
 
 .profile .profile-info{
     display: flex;
     justify-content: space-between;
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.profile .profile-info label{
+    font-weight: 400;
 }
 
 .profile .profile-edit-button{
@@ -41,8 +56,30 @@
     padding: 3rem;
     display: flex;
     justify-content: center;
+
+
 }
 
 .profile .profile-edit-button button{
-    background-color: white;
+    background-color: #65ad8f;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    border-radius: 10px;
+    border: 2px solid black;
+}
+
+.profile .profile-edit-button button:hover{
+    color: white;
+}
+
+
+.profile-userteam-title{
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 7rem;
+    margin-bottom: 5rem;
+    font-weight: 800;
+    border: 2px solid black;
+    border-radius: 20px;
 }
