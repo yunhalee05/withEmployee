@@ -31,6 +31,12 @@ public class TeamDTO {
         this.companyId = companyId;
     }
 
+    public TeamDTO(Integer id, String name, Integer companyId) {
+        this.id = id;
+        this.name = name;
+        this.companyId = companyId;
+    }
+
     public TeamDTO(Team team){
         this.id = team.getId();
         this.name=team.getName();
@@ -49,7 +55,6 @@ public class TeamDTO {
         private String role;
         private String email;
         private String imageUrl;
-        private List<String> companies;
 
         static List<TeamUser> UserList(Set<User> users){
             List<TeamDTO.TeamUser> list = new ArrayList<>();
@@ -67,7 +72,6 @@ public class TeamDTO {
             this.email = user.getEmail();
             this.role = user.getRoleName();
             this.imageUrl = user.getImageUrl();
-            this.companies = user.getCompanyNames();
         }
 
     }

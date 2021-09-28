@@ -2,37 +2,54 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { getcompany } from '../_actions/companyActions'
-import { createteam } from '../_actions/teamActions'
+import { createteam, editTeam } from '../_actions/teamActions'
 
-function AddTeamModal({companyId, setAddTeam}) {
+function AddTeamModal({team, companyId, setAddTeam}) {
 
-    const [name, setName] = useState('')
+    const [name, setName] = useState(team? team.name :'')
 
     const dispatch = useDispatch()
 
     const handleSubmit = async(e) =>{
         e.preventDefault()
 
-        const res = await axios.get(`/team/check_name?name=${name}&id=${companyId}`)
+        if(name===''){
+            return window.alert("Team namd is necessary.")
+        }
+
+        if(!team || team.name!== name){
+            const res = await axios.get(`/team/check_name?name=${name}&id=${companyId}`)
+            if(res.data!=="OK"){
+                return window.alert("Team name already exist.")
+            }
+        }
         
-        if(res.data==="OK"){
+        if(!team){
             const teamDTO = {
                 name:name,
                 companyId : companyId
             }
 
-            dispatch(createteam(teamDTO)).then(res=>{
-                const id = res
-                dispatch(getcompany({id}))
-                setAddTeam(false)
-            })
+            dispatch(createteam(teamDTO))
+        }else{
+            const teamDTO = {
+                id:team.id,
+                name:name,
+                companyId : companyId
+            }
+            dispatch(editTeam(teamDTO))
         }
+        setAddTeam(false)
     }
     return (
-        <div className="form">
+        <div className="add-modal form">
             <form onSubmit={handleSubmit}>
                 <div className="form-name">
-                    Add Team
+                    {
+                        team
+                        ? `Edit ${team.name}`
+                        : 'Add Team'
+                    }
                 </div>
 
                 <div className="form-group">
@@ -41,7 +58,7 @@ function AddTeamModal({companyId, setAddTeam}) {
                 </div>
 
                 <div className="form-button">
-                    <button type="submit" >Save</button>
+                    <button type="submit" style={{marginRight:"10px"}}>Save</button>
                     <button onClick={()=> setAddTeam(false)}>Cancel</button>
                 </div>
             </form>

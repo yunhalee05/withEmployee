@@ -24,7 +24,7 @@ public class CompanyCreateDTO {
         this.ceoId = ceoId;
     }
 
-    public CompanyCreateDTO(String name, String description, Integer ceoId, Integer id) {
+    public CompanyCreateDTO( Integer id,String name, String description, Integer ceoId) {
         this.id = id;
         this.name = name;
         this.description = description;

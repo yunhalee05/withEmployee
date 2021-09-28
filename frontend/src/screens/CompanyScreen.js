@@ -16,6 +16,9 @@ function CompanyScreen(props) {
     const company = useSelector(state => state.company)
 
     const [addTeam, setAddTeam] = useState(false)
+    const [editTeam, setEditTeam] = useState(false)
+
+    const [showConversation, setShowConversation] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -26,7 +29,7 @@ function CompanyScreen(props) {
     const handleDelete= (teamId) =>{
         if(window.confirm("Are you sure to delete this team ? After this action, users related to this team are also deleted.")){
             dispatch(deleteteam({teamId})).then(res=>{
-                dispatch(getcompany({id}))
+                // dispatch(getcompany({id}))
             })
         }
     }
@@ -55,13 +58,26 @@ function CompanyScreen(props) {
                     </div>
                 </div>
 
-                <div className="messages">
-                    <ConversationCard users={company.company.members} setConversation={setConversation} conversation={conversation} belongTo="Company"/>
-                    <MessageCard conversation={conversation} setConversation={setConversation}  />
+                <div className="showconversation-button" style={{marginTop:"10rem"}}>
+                    <button onClick={()=>setShowConversation(!showConversation)}>
+                        {
+                            showConversation
+                            ? 'Hide Company Talk'
+                            : 'Show Company Talk'
+                        }
+                    </button>
                 </div>
+                    
+                {
+                    showConversation &&
+                    <div className="messages">
+                        <ConversationCard users={company.company.members} setConversation={setConversation} conversation={conversation} belongTo="Company"/>
+                        <MessageCard conversation={conversation} setConversation={setConversation}  />
+                    </div>
+                }
 
                 {company.company.teams && 
-                    <div className="company-info-line">
+                    <div className="company-info-line" style={{marginTop:"10rem"}}>
                         <span>&nbsp;{company.company.teams.length} TEAMS IN THIS COMPANY&nbsp;</span>
                     </div>
                 }
@@ -70,10 +86,11 @@ function CompanyScreen(props) {
                 <div className="team-card-container">
                     {
                         company.company.teams.map((team, index)=>(
+                            <div>
                             <div className="team-card" key={index}>
                                 <div className="team-button">
-                                    <i class="far fa-edit"></i>
-                                    <i class="far fa-trash-alt" onClick={()=>handleDelete(team.id)}></i>
+                                    <i className="far fa-edit" onClick={()=>setEditTeam(!editTeam)}></i>
+                                    <i className="far fa-trash-alt" onClick={()=>handleDelete(team.id)}></i>
                                 </div>
 
                                 <div style={{display:'flex',  justifyContent:"space-around", alignItems:"center"}}>
@@ -89,6 +106,11 @@ function CompanyScreen(props) {
                                 </div>
 
                             </div>
+                                {
+                                    editTeam &&
+                                    <AddTeamModal team={team} companyId={id} setAddTeam={setEditTeam} />
+                                }
+                            </div>
                         ))
                     }
 
@@ -99,12 +121,12 @@ function CompanyScreen(props) {
                 </div>
 
                 {company.company.members && 
-                    <div className="company-info-line">
+                    <div className="company-info-line" style={{marginTop:"10rem"}} >
                         <span>&nbsp;{company.company.members.length} MEMBERS WORKING NOW &nbsp; </span>
                     </div>
                 }
 
-                <div className="user-card-container" >
+                <div className="user-card-container" style={{marginBottom:"10rem"}}>
                     {
                         company.company.members.map((user, index)=>(
                             <div className="user-card" key={index}>
@@ -128,6 +150,8 @@ function CompanyScreen(props) {
                 addTeam &&
                 <AddTeamModal companyId={id} setAddTeam={setAddTeam} />
             }
+
+
         </div>
     )
 }

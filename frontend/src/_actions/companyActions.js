@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CREATE_COMPANY_FAIL, CREATE_COMPANY_REQUEST, CREATE_COMPANY_SUCCESS, DELETE_COMPANY_REQUEST, DELETE_COMPANY_SUCCESS, GET_ALL_COMPANIES_FAIL, GET_ALL_COMPANIES_REQUEST, GET_ALL_COMPANIES_SUCCESS, GET_COMPANIES_FAIL, GET_COMPANIES_RECOMMENDATION_FAIL, GET_COMPANIES_RECOMMENDATION_REQUEST, GET_COMPANIES_RECOMMENDATION_SUCCESS, GET_COMPANIES_REQUEST, GET_COMPANIES_SEARCH_FAIL, GET_COMPANIES_SEARCH_REQUEST, GET_COMPANIES_SEARCH_SUCCESS, GET_COMPANIES_SUCCESS, GET_COMPANYLIST_FAIL, GET_COMPANYLIST_REQUEST, GET_COMPANYLIST_SUCCESS, GET_COMPANY_FAIL, GET_COMPANY_REQUEST, GET_COMPANY_SUCCESS } from "../_constants/companyConstants"
+import { CREATE_COMPANY_FAIL, CREATE_COMPANY_REQUEST, CREATE_COMPANY_SUCCESS, DELETE_COMPANY_REQUEST, DELETE_COMPANY_SUCCESS, EDIT_COMPANY_FAIL, EDIT_COMPANY_REQUEST, EDIT_COMPANY_SUCCESS, GET_ALL_COMPANIES_FAIL, GET_ALL_COMPANIES_REQUEST, GET_ALL_COMPANIES_SUCCESS, GET_COMPANIES_FAIL, GET_COMPANIES_RECOMMENDATION_FAIL, GET_COMPANIES_RECOMMENDATION_REQUEST, GET_COMPANIES_RECOMMENDATION_SUCCESS, GET_COMPANIES_REQUEST, GET_COMPANIES_SEARCH_FAIL, GET_COMPANIES_SEARCH_REQUEST, GET_COMPANIES_SEARCH_SUCCESS, GET_COMPANIES_SUCCESS, GET_COMPANYLIST_FAIL, GET_COMPANYLIST_REQUEST, GET_COMPANYLIST_SUCCESS, GET_COMPANY_FAIL, GET_COMPANY_REQUEST, GET_COMPANY_SUCCESS } from "../_constants/companyConstants"
 
 export const getcompanylist =(page) => async(dispatch, getState)=>{
 
@@ -126,7 +126,7 @@ export const createCompany =(companyDTO) => async(dispatch, getState)=>{
         const res = await axios.post('/company/save',companyDTO,{
             headers : {Authorization : `Bearer ${token}`}
         })
-        console.log(res)
+        
         dispatch({
             type:CREATE_COMPANY_SUCCESS,
             payload:res.data
@@ -136,6 +136,36 @@ export const createCompany =(companyDTO) => async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:CREATE_COMPANY_FAIL,
+            payload:
+                error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        })
+    }
+}
+
+export const editCompany =(companyDTO) => async(dispatch, getState)=>{
+
+    const {auth : {token}} = getState()
+
+    dispatch({
+        type:EDIT_COMPANY_REQUEST
+    })
+
+    try{
+        const res = await axios.post('/company/save',companyDTO,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
+
+        dispatch({
+            type:EDIT_COMPANY_SUCCESS,
+            payload:res.data
+        })
+        return res.data
+
+    }catch(error){
+        dispatch({
+            type:EDIT_COMPANY_FAIL,
             payload:
                 error.response && error.response.data.message
                 ? error.response.data.message

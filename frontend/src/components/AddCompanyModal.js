@@ -1,14 +1,14 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createCompany } from '../_actions/companyActions';
+import { createCompany, editCompany } from '../_actions/companyActions';
 
-function AddCompanyModal({setAddCompany}) {
+function AddCompanyModal({setAddCompany, company}) {
 
     const auth = useSelector(state => state.auth)
 
-    const [cName, setCName] = useState('')
-    const [cDescription, setCDescription] = useState('')
+    const [cName, setCName] = useState(company? company.name : '')
+    const [cDescription, setCDescription] = useState(company? company.description:'')
 
     const dispatch = useDispatch()
 
@@ -16,30 +16,51 @@ function AddCompanyModal({setAddCompany}) {
     const handleSubmit = async(e)=>{
         e.preventDefault();
 
-        const res = await axios.post(`/company/check_name?name=${cName}`, null)
-        if(res.data ==="Duplicated"){
-            window.alert('This Company name already exist.')
-        }else{
+        if(cName===''){
+            return window.alert('Company name is necessary.')
+        }
+
+
+        if(!company || cName!==company.name){
+            const res = await axios.post(`/company/check_name?name=${cName}`, null)
+            if(res.data ==="Duplicated"){
+                return window.alert('This Company name already exist.')
+            }
+        }
+
+
+        if(!company){
             const companyDTO={
                 name:cName,
                 description:cDescription,
                 ceoId: auth.user.id
             }
-
             dispatch(createCompany(companyDTO))
-            setAddCompany(false)
-            
+
+
+        }else{
+            const companyDTO={
+                id:company.id,
+                name:cName,
+                description:cDescription,
+                ceoId: auth.user.id
+            }
+            dispatch(editCompany(companyDTO))
+
         }
-
-
+        setAddCompany(false)
     }
     
 
     return (
-        <div className="form">
+        <div className="add-modal form">
             <form onSubmit={handleSubmit}>
                 <div className="form-name">
-                    Company
+                    {
+                        company
+                        ? `Edit ${company.name}`
+                        : 'Add Company'
+                    }
                 </div>
 
                 <div className="form-group">
@@ -53,7 +74,7 @@ function AddCompanyModal({setAddCompany}) {
                 </div>
 
                 <div className="form-button">
-                    <button type="submit" >Save</button>
+                    <button type="submit"style={{marginRight:"10px"}} >Save</button>
                     <button onClick={()=> setAddCompany(false)}>Cancel</button>
                 </div>
             </form>

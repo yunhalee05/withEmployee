@@ -27,7 +27,7 @@ function CeoCompanyScreen(props) {
                     <div className="company-card-container">
                         {
                             company.companies.map((company,index)=>(
-                                <CompanyCard company={company} key={index}/>
+                                <CompanyCard company={company} key={index} />
                             ))
                         }
 

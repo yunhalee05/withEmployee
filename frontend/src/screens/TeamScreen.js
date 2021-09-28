@@ -56,19 +56,19 @@ function TeamScreen(props) {
                 <div className="user-card-container" >
                     {
                         ceos.map((user, index)=>(
-                            <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
+                            <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} ceos={ceos} leaders={leaders} members={members}/>
                         ))
                         
                     }
                     {
                         leaders.map((user, index)=>(
-                            <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
+                            <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} ceos={ceos} leaders={leaders} members={members}/>
                         ))
                         
                     }
                     {
                         members.map((user, index)=>(
-                            <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
+                            <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} ceos={ceos} leaders={leaders} members={members}/>
                         ))
                         
                     }
@@ -80,7 +80,7 @@ function TeamScreen(props) {
             }
             {
                 addMember && 
-                <AddMemberModal members={team.team.users} setAddMember={setAddMember} id={id} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} />
+                <AddMemberModal members={team.team.users} setAddMember={setAddMember} id={id} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} ceos={ceos} leaders={leaders} member={members} />
 
             }
         </div>

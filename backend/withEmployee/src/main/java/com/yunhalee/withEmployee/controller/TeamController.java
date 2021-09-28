@@ -29,13 +29,6 @@ public class TeamController {
 
     @GetMapping("/team/{id}")
     public TeamDTO getById(@PathVariable("id") Integer id){
-//        List <Team> teams = service.getByUserId(id);
-//        List<TeamDTO> teamDTOS = new ArrayList<TeamDTO>();
-//
-//        teams.forEach(team->{
-//            teamDTOS.add(new TeamDTO(team));
-//        });
-
         Team team = service.getById(id);
         TeamDTO teamDTO = new TeamDTO((team));
 

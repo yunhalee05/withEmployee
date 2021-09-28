@@ -4,8 +4,8 @@ import { authReducer } from './authReducers';
 import { companylistReducer, companyReducer } from './companyReducers';
 import { messageReducer } from './messageReducers';
 import { socketReducer } from './socketReducers';
-import { createTeamReducer, deleteTeamReducer, teamlistReducer, teamReducer } from './teamReducers';
-import { adduserteamReducer, deleteuserteamReducer, userlistReducer, userReducer } from './userReducers';
+import { teamlistReducer, teamReducer } from './teamReducers';
+import { userlistReducer, userReducer } from './userReducers';
 
 const initialState={
     auth : {
@@ -21,10 +21,6 @@ const reducer = combineReducers({
     auth : authReducer,
     team : teamReducer,
     company : companyReducer,
-    createdTeam : createTeamReducer,
-    deleteTeam : deleteTeamReducer,
-    addUsertoTeam : adduserteamReducer,
-    deleteUserFromTeam : deleteuserteamReducer,
     socket : socketReducer,
     message : messageReducer,
     

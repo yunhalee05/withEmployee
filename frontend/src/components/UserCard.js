@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 import userIcon from '../images/user.svg'
 
 
-function UserCard({user, teamId, setCeos, setLeaders, setMembers}) {
+function UserCard({user, teamId, setCeos, setLeaders, setMembers,ceos, leaders,members}) {
 
     const userId = user.id
     const dispatch = useDispatch()
@@ -14,12 +14,9 @@ function UserCard({user, teamId, setCeos, setLeaders, setMembers}) {
     const handleDelete = () =>{
         if(window.confirm("Are you sure to exclude this member?")){
             dispatch(deleteuserteam({userId, teamId})).then(res=>{
-                const id = res
-                dispatch(getteam({id})).then(res=>{
-                    setCeos(res.users.filter(user=>user.role==="CEO"))
-                    setLeaders(res.users.filter(user=>user.role==="Leader"))
-                    setMembers(res.users.filter(user=>user.role==="Member"))
-                })
+                setCeos(ceos.filter(ceo=>ceo.id!==userId))
+                setLeaders(leaders.filter(leader=>leader.id!==userId))
+                setMembers(members.filter(member=>member.id!==userId))
             })
         }
 

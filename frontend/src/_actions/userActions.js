@@ -112,13 +112,22 @@ export const adduserteam =({email, id}) => async(dispatch, getState)=>{
             headers : {Authorization : `Bearer ${token}`}
         })
 
+        const data = {
+            id:res.data.id,
+            name:res.data.name,
+            phoneNumber:res.data.phoneNumber,
+            role:res.data.role,
+            email:res.data.email,
+            imageUrl:res.data.imageUrl
+        }
+
         // console.log(res)
         dispatch({
             type:ADD_USER_TEAM_SUCCESS,
-            payload:res.data
+            payload:data
         })
 
-        return res.data.id
+        return data
     }catch(error){
         dispatch({
             type:ADD_USER_TEAM_FAIL,
@@ -146,10 +155,9 @@ export const deleteuserteam =({userId, teamId}) => async(dispatch, getState)=>{
         // console.log(res)
         dispatch({
             type:DELETE_USER_TEAM_SUCCESS,
-            payload:res.data
+            payload:userId
         })
 
-        return res.data
     }catch(error){
         dispatch({
             type:DELETE_USER_TEAM_FAIL,

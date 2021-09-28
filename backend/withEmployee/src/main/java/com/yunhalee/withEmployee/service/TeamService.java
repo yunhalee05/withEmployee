@@ -51,13 +51,18 @@ public class TeamService {
     }
 
     public TeamDTO save(TeamDTO teamDTO){
+        if(teamDTO.getId()!=null){
+            Team existingTeam = repo.findById(teamDTO.getId()).get();
+            existingTeam.setName(teamDTO.getName());
+            repo.save(existingTeam);
+            return new TeamDTO(existingTeam);
+        }
         Team team = new Team(teamDTO.getName());
         Company company = companyRepo.findById(teamDTO.getCompanyId()).get();
         team.setCompany(company);
         repo.save(team);
 
         return new TeamDTO(team);
-
     }
 
     public void delete(Integer id){

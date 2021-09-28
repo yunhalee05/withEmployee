@@ -1,9 +1,13 @@
 import React from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {Link} from 'react-router-dom'
 import { deleteCompany } from '../_actions/companyActions'
+import AddCompanyModal from './AddCompanyModal'
 
 function CompanyCard({company}) {
+
+    const [editCompany, setEditCompany] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -16,7 +20,7 @@ function CompanyCard({company}) {
     return (
         <div className="company-card">
             <div className="company-delete-button">
-                <i className="far fa-edit"></i>
+                <i className="far fa-edit" onClick={()=>setEditCompany(true)}></i>
                 <i className="far fa-trash-alt" onClick={handleDelete}></i>
                 {/* <button onClick={handleDelete}>DELETE</button> */}
             </div>
@@ -45,6 +49,10 @@ function CompanyCard({company}) {
                {company.description}
            </div>
 
+        {
+            editCompany &&
+            <AddCompanyModal setAddCompany={setEditCompany} company={company}/>
+        }
            
         </div>
     )

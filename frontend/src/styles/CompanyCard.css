@@ -92,3 +92,15 @@
     cursor: pointer;
     margin-top: 5rem;
 }
+
+.add-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.add-modal form{
+    margin: auto;
+}
+

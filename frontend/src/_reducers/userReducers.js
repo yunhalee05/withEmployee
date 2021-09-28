@@ -35,28 +35,3 @@ export const userReducer = (state={}, action)=>{
 }
 
 
-export const adduserteamReducer = (state={}, action)=>{
-    switch(action.type){
-        case ADD_USER_TEAM_REQUEST:
-            return {...state, loading:true}
-        case ADD_USER_TEAM_SUCCESS:
-            return {loading:false, ...action.payload}
-        case ADD_USER_TEAM_FAIL:
-            return {...state, loading:false, error:action.payload}
-        default:
-            return state;
-    }
-}
-
-export const deleteuserteamReducer = (state={}, action)=>{
-    switch(action.type){
-        case DELETE_USER_TEAM_REQUEST:
-            return {...state, loading:true}
-        case DELETE_USER_TEAM_SUCCESS:
-            return {loading:false, deletedId : action.payload}
-        case DELETE_USER_TEAM_FAIL:
-            return {...state, loading:false, error:action.payload}
-        default:
-            return state;
-    }
-}

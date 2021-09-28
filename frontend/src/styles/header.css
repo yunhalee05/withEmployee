@@ -57,7 +57,7 @@
     align-items: center;
     padding: 10px;
     border-bottom: 1px solid #f7f7f7;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .company-sort{
@@ -66,6 +66,7 @@
 .header-menu{
     display: flex;
     margin-top: 1rem;
+    /* font-weight: 600; */
 }
 
 .header-component{
@@ -80,29 +81,36 @@
 }
 
 .dropdown-menu{
+    width: 5rem;
     position: absolute;
     display: none;
-
     z-index: 1;
     background-color: white;
+    padding: 1rem;
     margin: 0;
     border-radius: 1rem;
     font-size: 13px;
     text-align: center;
     border: 1px solid black;
     transition: all 0.5s;
-
 }
 
 .dropdown:hover .dropdown-menu{
     display: block;
+}
 
-
-  }
+.dropdown-menu a:hover{
+    font-weight: 800;
+    background-color: white;
+}
 
 .dropdown button{
     background-color: white;
     border: none;
+}
+
+.dropdown button:hover{
+    font-weight: 800;
 }
 
 
@@ -127,7 +135,7 @@
 
 .header-menu .dropdown span{
     font-size: 1.2rem;
-    font-style: italic;
+    /* font-style: italic; */
 }
 
 @media (max-width:436px){
