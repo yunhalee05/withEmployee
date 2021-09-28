@@ -1,18 +1,37 @@
 
 .list{
+    max-width: 60rem;
+    margin: auto;
     justify-content: space-between;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #65ad8f;
+    border-radius: 20px;
+    margin-bottom: 10rem;
 }
 
+
 .list-name{
-    font-size: 5vw;
+    font-size: 4.5rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-top: 2rem;
 }
 
 .list-table{
-    border: 1px solid black;
+    border: 2px solid #bfbfbf;
+    border-radius: 20px;
     margin: 2rem;
-    padding: 1rem;
+    padding: 3rem;
+    background-color: white;
+}
+
+.page-active{
+    font-weight: 800;
+}
+
+.pagination{
+    cursor: pointer;
 }
 

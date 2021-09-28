@@ -7,6 +7,7 @@ function SearchCompanyCard({id, name, ceo, setSearchCompany}) {
     const handleOnClick = () =>{
         setSearchCompany([])
         history.push(`/company/${id}`)
+        setSearchCompany([])
     }
     return (
         <div className="search-company">

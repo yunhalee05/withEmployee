@@ -25,7 +25,7 @@ function CompanyListScreen(props) {
     return (
         <div className="list">
             <div className="list-name">
-                CompanyList
+                Company List
             </div>
             <div className="list-table">
                 <table className="table table-striped">
@@ -54,7 +54,7 @@ function CompanyListScreen(props) {
                     </tbody>
                 </table>
 
-                <nav aria-label="Page navigation example" style={{width:'100%'}}>
+                <nav aria-label="Page navigation example" style={{width:'100%', marginTop:"3rem"}}>
                     <ul className="pagination" style={{justifyContent:'center'}}>
                         <li className="page-item">
                             <a className="page-link" aria-label="Previous" onClick={e=>setPage(1)} style={{color:'black'}}>
@@ -64,7 +64,7 @@ function CompanyListScreen(props) {
                         </li>
                         {
                             pageRange.map(x=>(
-                                <li key={x} className="page-item"><a className="page-link" onClick={e=>setPage(x+1)} style={{color:'black'}}>{x+1}</a></li>
+                                <li key={x} className={`page-item ${page===x+1 && 'page-active'}`}><a className="page-link" onClick={e=>setPage(x+1)} style={{color:'black'}}>{x+1}</a></li>
                             ))
                         }
                         <li className="page-item">
