@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
 import { deleteCompany } from '../_actions/companyActions'
 import AddCompanyModal from './AddCompanyModal'
@@ -9,6 +9,7 @@ function CompanyCard({company}) {
 
     const [editCompany, setEditCompany] = useState(false)
 
+    const auth = useSelector(state => state.auth)
     const dispatch = useDispatch()
 
     const handleDelete = () =>{
@@ -19,11 +20,14 @@ function CompanyCard({company}) {
     }
     return (
         <div className="company-card">
-            <div className="company-delete-button">
-                <i className="far fa-edit" onClick={()=>setEditCompany(true)}></i>
-                <i className="far fa-trash-alt" onClick={handleDelete}></i>
-                {/* <button onClick={handleDelete}>DELETE</button> */}
-            </div>
+            {
+                auth.user.id === company.ceo.id &&
+                <div className="company-delete-button">
+                    <i className="far fa-edit" onClick={()=>setEditCompany(true)}></i>
+                    <i className="far fa-trash-alt" onClick={handleDelete}></i>
+                    {/* <button onClick={handleDelete}>DELETE</button> */}
+                </div>
+            }
 
             <div className="company-name">
                     <Link to={`/company/${company.id}`}>
