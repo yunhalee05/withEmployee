@@ -40,17 +40,6 @@ export const register =(bodyFormData) => async(dispatch, getState)=>{
         type:REGISTER_REQUEST
     })
 
-    // console.log(name, email, password)
-
-    // const userDTO = {
-    //     name: name, 
-    //     email : email, 
-    //     password :password,
-    //     description: description,
-    //     imageURL : imageURL,
-    //     phoneNumber : phoneNumber
-    // }
-
     const email = bodyFormData.get('email')
     const password = bodyFormData.get('password')
 

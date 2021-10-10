@@ -22,8 +22,9 @@ function LoginScreen(props) {
     const handleSubmit= (e) =>{
         e.preventDefault();
         dispatch(login({email, password}))
-        props.history.push('/')
+        props.history.push('/home')
     }
+
     return (
         <div className="form">
             <form onSubmit={handleSubmit}>

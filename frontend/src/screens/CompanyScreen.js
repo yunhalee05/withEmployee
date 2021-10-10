@@ -14,6 +14,7 @@ function CompanyScreen(props) {
     const id = props.match.params.id
 
     const company = useSelector(state => state.company)
+    const auth = useSelector(state => state.auth)
 
     const [addTeam, setAddTeam] = useState(false)
     const [editTeam, setEditTeam] = useState(false)
@@ -58,15 +59,18 @@ function CompanyScreen(props) {
                     </div>
                 </div>
 
-                <div className="showconversation-button" style={{marginTop:"10rem"}}>
-                    <button onClick={()=>setShowConversation(!showConversation)}>
-                        {
-                            showConversation
-                            ? 'Hide Company Talk'
-                            : 'Show Company Talk'
-                        }
-                    </button>
-                </div>
+                {
+                    (auth.user.teams.filter(t=>t.company===company.company.name).length ===1 ||company.company.ceo.id ===auth.user.id)&&
+                    <div className="showconversation-button" style={{marginTop:"10rem"}}>
+                        <button onClick={()=>setShowConversation(!showConversation)}>
+                            {
+                                showConversation
+                                ? 'Hide Company Talk'
+                                : 'Show Company Talk'
+                            }
+                        </button>
+                    </div>
+                }
                     
                 {
                     showConversation &&
@@ -88,21 +92,30 @@ function CompanyScreen(props) {
                         company.company.teams.map((team, index)=>(
                             <div>
                             <div className="team-card" key={index}>
-                                <div className="team-button">
-                                    <i className="far fa-edit" onClick={()=>setEditTeam(!editTeam)}></i>
-                                    <i className="far fa-trash-alt" onClick={()=>handleDelete(team.id)}></i>
-                                </div>
+                                {
+                                    company.company.ceo.id===auth.user.id &&
+                                    <div className="team-button">
+                                        <i className="far fa-edit" onClick={()=>setEditTeam(!editTeam)}></i>
+                                        <i className="far fa-trash-alt" onClick={()=>handleDelete(team.id)}></i>
+                                    </div>
+                                }
 
                                 <div style={{display:'flex',  justifyContent:"space-around", alignItems:"center"}}>
                                     <div className="total-number">
                                         <div>{team.totalNumber}</div>
                                         <div style={{fontSize:"9px"}}>Members  </div>
                                     </div>
-                                    <Link to={`/team/${team.id}`}>
-                                        <div className="team-name">
+                                    {
+                                        (auth.user.teams.filter(t=>t.id ===team.id).length===1 || company.company.ceo.id ===auth.user.id )
+                                        ?<Link to={`/team/${team.id}`}>
+                                            <div className="team-name">
+                                                {team.name}
+                                            </div>
+                                        </Link>
+                                        :<div className="team-name">
                                             {team.name}
                                         </div>
-                                    </Link>
+                                    }
                                 </div>
 
                             </div>
@@ -114,10 +127,13 @@ function CompanyScreen(props) {
                         ))
                     }
 
-                    <div className="team-add-button" onClick={()=>setAddTeam(!addTeam)}>
-                        <i class="far fa-plus-square fa-2x"></i>
-                        <div>ADD TEAM</div>
-                    </div>
+                    {
+                        company.company.ceo.id === auth.user.id &&
+                        <div className="team-add-button" onClick={()=>setAddTeam(!addTeam)}>
+                            <i class="far fa-plus-square fa-2x"></i>
+                            <div>ADD TEAM</div>
+                        </div>
+                    }
                 </div>
 
                 {company.company.members && 

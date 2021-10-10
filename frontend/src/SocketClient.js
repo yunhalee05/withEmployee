@@ -67,6 +67,7 @@ function SocketClient() {
 
 
         })  
+
         return () => client.disconnect();
 
     }, [client, auth.user.id, dispatch])

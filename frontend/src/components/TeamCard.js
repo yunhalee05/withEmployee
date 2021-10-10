@@ -11,9 +11,6 @@ function TeamCard({team}) {
         
         if(window.confirm("Are you sure to delete this team ? After this action, users related to this team are also deleted.")){
             dispatch(deleteteam({teamId}))
-            // .then(res=>{
-            //     dispatch(getcompany({id}))
-            // })
         }
 
     }

@@ -12,7 +12,6 @@ function HomeScreen() {
 
     const dispatch = useDispatch()
 
-
     const [conversation, setConversation] = useState({})
 
     const [page, setPage] = useState(1)
@@ -25,11 +24,15 @@ function HomeScreen() {
     const auth = useSelector(state => state.auth)
 
     useEffect(() => {
-        dispatch(getcompaniesrecommendation())
+        if(auth.user){
+            dispatch(getcompaniesrecommendation())
+        }
     }, [dispatch])
 
     useEffect(() => {
-        dispatch(getallcompaniesbypage(1, sort))
+        if(auth.user){
+            dispatch(getallcompaniesbypage(1, sort))
+        }
     }, [dispatch, sort])
 
     const handleRecommendation= () =>{
@@ -60,78 +63,83 @@ function HomeScreen() {
                     <img src={home} alt="" />
                 </div>
             </div>
-
-            <div className="showconversation-button">
-                <button onClick={()=>setShowConversation(!showConversation)}>
-                    {
-                        showConversation
-                        ? 'Hide Company Talk'
-                        : 'Show Company Talk'
-                    }
-                </button>
-            </div>
-
+            
             {
-                showConversation &&
-                <div className="messages">
-                    <CompanyConversationCard setConversation={setConversation} conversation={conversation} belongTo="Other"/>
-                    <MessageCard conversation={conversation} setConversation={setConversation}  />
-                </div>
-            }
-
-            <div className="home-recommendation">
-                <div className="home-mention" >
-                    {/* <span className="recommendation_button" onClick={handleRecommendation}>🥫</span> */}
-                    <span className="recommendation_button" onClick={handleRecommendation}>🥫</span>
-                    <span>Our Recommendations For you</span>
-                    {/* <i class="fas fa-sync-alt" onClick={handleRecommendation}></i> */}
-                </div>
-
-                {
-                    recommendation &&
-                    <div className="company-card-container">
-                    {   
-                        recommendation.map((company, index)=>(
-                            <CompanyCard company={company} key={index}/>
-                        ))
-                    }
-                    </div>
-                }
-            </div>
-
-            <div className="home-company">
-            <div className="home-mention">
-                <span>All the Companies</span>
-            </div>
-
-            <div className="company-sort">
-                SORT BY :&nbsp; &nbsp;
-                <select value={sort} onChange={e=>setSort(e.target.value)}>
-                    <option value="createdAtAsc">newest companies</option>
-                    <option value="createdAtDesc">classic companies</option>
-                    <option value="nameAsc">by name(ASC)</option>
-                    <option value="nameDesc">by name(DESC)</option>
-                </select>
-            </div>
-
-            {
-                companies &&
+                auth.user &&
                 <div>
-                    <div className="company-card-container">
-                        {
-                            companies.map((company, index)=>(
-                                <CompanyCard company={company} key={index}/>
-                            ))
-                        }
-
+                    <div className="showconversation-button">
+                        <button onClick={()=>setShowConversation(!showConversation)}>
+                            {
+                                showConversation
+                                ? 'Hide Company Talk'
+                                : 'Show Company Talk'
+                            }
+                        </button>
                     </div>
+
                     {
-                        companylist.totalPage >page &&
-                        <button onClick={handleLoadMore}>load more</button>
+                        showConversation &&
+                        <div className="messages">
+                            <CompanyConversationCard setConversation={setConversation} conversation={conversation} belongTo="Other"/>
+                            <MessageCard conversation={conversation} setConversation={setConversation}  />
+                        </div>
                     }
+
+                    <div className="home-recommendation">
+                        <div className="home-mention" >
+                            {/* <span className="recommendation_button" onClick={handleRecommendation}>🥫</span> */}
+                            <span className="recommendation_button" onClick={handleRecommendation}>🥫</span>
+                            <span>Our Recommendations For you</span>
+                            {/* <i class="fas fa-sync-alt" onClick={handleRecommendation}></i> */}
+                        </div>
+
+                        {
+                            recommendation &&
+                            <div className="company-card-container">
+                            {   
+                                recommendation.map((company, index)=>(
+                                    <CompanyCard company={company} key={index}/>
+                                ))
+                            }
+                            </div>
+                        }
+                    </div>
+
+                    <div className="home-company">
+                    <div className="home-mention">
+                        <span>All the Companies</span>
+                    </div>
+
+                    <div className="company-sort">
+                        SORT BY :&nbsp; &nbsp;
+                        <select value={sort} onChange={e=>setSort(e.target.value)}>
+                            <option value="createdAtAsc">newest companies</option>
+                            <option value="createdAtDesc">classic companies</option>
+                            <option value="nameAsc">by name(ASC)</option>
+                            <option value="nameDesc">by name(DESC)</option>
+                        </select>
+                    </div>
+
+                    {
+                        companies &&
+                        <div>
+                            <div className="company-card-container">
+                                {
+                                    companies.map((company, index)=>(
+                                        <CompanyCard company={company} key={index}/>
+                                    ))
+                                }
+
+                            </div>
+                            {
+                                companylist.totalPage >page &&
+                                <button onClick={handleLoadMore}>load more</button>
+                            }
+                        </div>
+                    }
+                    </div>
                 </div>
             }
-            </div>
         </div>
     )
 }

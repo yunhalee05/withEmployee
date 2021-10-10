@@ -1,5 +1,6 @@
 package com.yunhalee.withEmployee.dto;
 
+import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.entity.Team;
 import com.yunhalee.withEmployee.entity.User;
 import lombok.Getter;
@@ -28,6 +29,8 @@ public class UserDTO {
     private String phoneNumber;
 
     private List<UserTeam> teams;
+
+    private List<UserCompany> companies;
 
     private String role;
 
@@ -63,6 +66,7 @@ public class UserDTO {
         this.phoneNumber = user.getPhoneNumber();
         this.role = user.getRole().getName();
         this.teams = UserTeam.TeamList(user.getTeams());
+        this.companies = UserCompany.CompanyList(user.getCompanies());
     }
 
 
@@ -73,7 +77,6 @@ public class UserDTO {
         private String name;
 
         private String company;
-
 
         static List<UserTeam> TeamList(Set<Team> teams){
             List<UserTeam> list = new ArrayList<>();
@@ -90,6 +93,29 @@ public class UserDTO {
             if(team.getCompany()!=null){
                 this.company = team.getCompany().getName();
             }
+        }
+
+    }
+
+
+    @Getter
+    static class UserCompany{
+        private Integer id;
+
+        private String name;
+
+        static List<UserCompany> CompanyList(Set<Company> companies){
+            List<UserCompany> list = new ArrayList<>();
+            companies.forEach(company->{
+                list.add(new UserCompany(company));
+            });
+
+            return list;
+        }
+
+        public UserCompany(Company company){
+            this.id = company.getId();
+            this.name = company.getName();
         }
 
     }

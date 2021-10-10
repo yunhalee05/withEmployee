@@ -66,6 +66,27 @@
     opacity: 0;
 }
 
+.form .form-group img{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.form .form-group .image-input{
+    position: relative;
+
+}
+
+.form .form-group .image-input input{
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    overflow: hidden;
+    transform: translate(-5px, -20px);
+    opacity: 0;
+    cursor: pointer;
+}
+
 .form label{
     width: 20vw;
     text-transform: uppercase;

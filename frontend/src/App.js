@@ -41,33 +41,25 @@ function App() {
 
   }, [dispatch])
 
-  
-
-
   return (
     <BrowserRouter>
       {
         socket.client && <SocketClient/>
       }
-      {
-        auth.user &&
-          <Header/>
-      }
+  
+      <Header/>
       <div className="App">
 
-        <Route exact path="/" component={LoginScreen}/>
+        <Route exact path="/" component={HomeScreen}/>
+        <Route exact path="/home" component={HomeScreen}/>
         <Route exact path="/login" component={LoginScreen}/>
         <Route exact path="/register" component={RegisterScreen}/>
         
-        <PrivateRouter exact path="/home" component={HomeScreen}/>
-
         <PrivateRouter exact path="/company" component={CompanyListScreen}/>
         <PrivateRouter exact path="/team" component={TeamListScreen}/>
         <PrivateRouter exact path="/users" component={UserListScreen}/>
 
         <PrivateRouter exact path="/user/:id" component={ProfileScreen}/>
-        {/* <PrivateRouter exact path="/user/edit/:id" component={EditProfileScreen}/> */}
-
         <PrivateRouter exact path="/company/:id" component={CompanyScreen}/>
         <PrivateRouter exact path="/companies/:id" component={CeoCompanyScreen}/>
         <PrivateRouter exact path="/team/:id" component={TeamScreen}/>

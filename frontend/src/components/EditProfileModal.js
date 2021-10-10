@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { edituser } from '../_actions/userActions'
 import { editValid } from '../utils'
+import userImage from '../images/user.svg'
 import axios from 'axios'
 
 
@@ -70,17 +71,6 @@ function EditProfileModal({user, setOnEdit}) {
             bodyFormData.append('password', password)
             bodyFormData.append('description', description)
             bodyFormData.append('phoneNumber', phoneNumber)
-
-
-            // const userDTO={
-            //     id:user.id,
-            //     name:name,
-            //     email:email,
-            //     password: password,
-            //     description:description,
-            //     imageURL:imageURL,
-            //     phoneNumber:phoneNumber,
-            // }
     
             dispatch(edituser(bodyFormData))    
             setOnEdit(false)
@@ -92,10 +82,10 @@ function EditProfileModal({user, setOnEdit}) {
     }
 
     return (
-        <div className="form">
+        <div className="add-modal form">
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="form-name">
-                    {/* Edit {id} */}
+                    Edit {user.name} Profile
                 </div>
 
                 <div className="form-group">
@@ -146,8 +136,11 @@ function EditProfileModal({user, setOnEdit}) {
 
                 <div className="form-group">
                     <label htmlFor="image">Image</label>
-                    <img id="preview" src={''} alt="imageURL" />
-                    <input type="file" className="form-control" id="file_up" name="file" accept="image/*" onChange={handleImage} />
+                    <img id="preview" src={user.imageURL ? user.imageURL: userImage} alt="imageURL" />
+                    <div className="image-input">
+                        <i class="fas fa-camera"></i>
+                        <input type="file" className="form-control" id="file_up" name="file" accept="image/*" onChange={handleImage} />
+                    </div>
                 </div>
 
                 <div className="form-group">
@@ -172,11 +165,9 @@ function EditProfileModal({user, setOnEdit}) {
 
                 <div className="form-button">
                     <button type="submit" >Save</button>
-                    <button onClick={()=> setOnEdit(false)}>Cancel</button>
+                    <button onClick={()=> setOnEdit(false)} style={{marginLeft:"1rem"}} >Cancel</button>
                 </div>
 
-                <div className="form-button">
-                </div>
             </form>
 
         </div>

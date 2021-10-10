@@ -15,6 +15,9 @@ function ConversationCard({users, setConversation, conversation, belongTo}) {
     const message = useSelector(state => state.message)
     const {conversations} = message
 
+    const company = useSelector(state => state.company)
+    const team = useSelector(state => state.team)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -100,15 +103,21 @@ function ConversationCard({users, setConversation, conversation, belongTo}) {
                     ))
                     : belongTo==="Team"
                         ? conversations && conversations.filter(c=> c.isTeamMember===true || c.id==="new").map(c=>(
-                        <div className={conversation.id===c.id ? 'active' : ''} key={c.id} onClick={()=>setConversation(c)}>
-                            <ConversationUserCard conversation={c} handleDeleteConversation={handleDeleteConversation}/>
-                        </div>
-                    ))
-                        :  belongTo==="Company"
-                            ?conversations && conversations.filter(c=> c.isSameCompany===true || c.id==="new").map(c=>(
+                            team.team.users.map(m=>(
+                                c.users.filter(u=>u.id===m.id).length>0 &&
                             <div className={conversation.id===c.id ? 'active' : ''} key={c.id} onClick={()=>setConversation(c)}>
                                 <ConversationUserCard conversation={c} handleDeleteConversation={handleDeleteConversation}/>
                             </div>
+                            ))
+                    ))
+                        :  belongTo==="Company"
+                            ?conversations && conversations.filter(c=> c.isSameCompany===true || c.id==="new").map(c=>(
+                            company.company.members.map(m=>(
+                                c.users.filter(u=>u.id===m.id).length>0 &&
+                                <div className={conversation.id===c.id ? 'active' : ''} key={c.id} onClick={()=>setConversation(c)}>
+                                    <ConversationUserCard conversation={c} handleDeleteConversation={handleDeleteConversation}/>
+                                </div>
+                            ))
                         ))
                             :  conversations && conversations.filter(c=> c.isOtherCompany===true || c.id==="new").map(c=>(
                                 <div className={conversation.id===c.id ? 'active' : ''} key={c.id} onClick={()=>setConversation(c)}>

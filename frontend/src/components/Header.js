@@ -10,7 +10,6 @@ import { getcompaniessearch } from '../_actions/companyActions'
 function Header() {
 
     const auth = useSelector(state => state.auth)
-    
 
     const [search, setSearch] = useState('')
     const [searchCompany, setSearchCompany] = useState([])
@@ -40,53 +39,67 @@ function Header() {
                 <Link to="/home">With Employee</Link>
             </div>
             
-            <div className="search-company-container">
-                <form  onSubmit={handleSubmit}>
-                    <input type="text" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search Company By Name or CEO"/>
-                    <button type="submit" style={{display:'none'}}>Search</button>
-                    <i className="fas fa-eraser" style={searchCompany.length>0 ? {cursor:"pointer"}:{color:'gray'}} onClick={searchCompany.length>0 ? handleClear : null}></i>
-                </form>
-                <div className="search-company-card-container">
-                {
-                    searchCompany.length>0 &&
-                    searchCompany.map(company=>(
-                         <SearchCompanyCard id={company.id} name={company.name} ceo={company.ceo.name} setSearchCompany={setSearchCompany} key={company.id}/>
-                    ))
-                }
+            {
+                auth.user &&
+                <div className="search-company-container">
+                    <form  onSubmit={handleSubmit}>
+                        <input type="text" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search Company By Name or CEO"/>
+                        <button type="submit" style={{display:'none'}}>Search</button>
+                        <i className="fas fa-eraser" style={searchCompany.length>0 ? {cursor:"pointer"}:{color:'gray'}} onClick={searchCompany.length>0 ? handleClear : null}></i>
+                    </form>
+                    <div className="search-company-card-container">
+                    {
+                        searchCompany.length>0 &&
+                        searchCompany.map(company=>(
+                            <SearchCompanyCard id={company.id} name={company.name} ceo={company.ceo.name} setSearchCompany={setSearchCompany} key={company.id}/>
+                        ))
+                    }
+                    </div>
                 </div>
-            </div>
+            }
 
             <div className="header-menu">
-
-                <div className="dropdown dropdown-toggle">
-                    <span>List</span>
-                    <div className="dropdown-menu dropdown-menu-right" >
-                        <Link className="dropdown-item" to="/company">Company List</Link>
-                        <Link className="dropdown-item" to="/team">Teasm List</Link>
-                        <Link className="dropdown-item" to="/users">User List</Link>
-                    </div>
-                </div>
-                <div style={{position:"relative"}}>
-                    <img className="header-list-shape" src={ellipse2} alt="ellipse2" />
-                </div>
-
-                <div className="dropdown dropdown-toggle">
-                    <span >
-                        {auth.user.name}
-                    </span>
-                    <div className="dropdown-menu dropdown-menu-right" >
-                        <Link className="dropdown-item" to={`/user/${auth.user.id}`}>Profile</Link>
-                        {/* <Link className="dropdown-item" to={`/user/edit/${auth.user.id}`}>Edit Profile</Link> */}
-                        <Link className="dropdown-item" to={`/teams/${auth.user.id}`}>My Teams</Link>
-                        {
-                            auth.user.role ==="CEO" &&
-                            <Link className="dropdown-item" to={`/companies/${auth.user.id}`}>My Companies</Link>
-                        }
-                        <div>
-                            <button onClick={handleLogout}>Logout</button>
+                {
+                    auth.user && auth.user.role==="Admin" &&
+                    <div className="dropdown dropdown-toggle">
+                        <span>List</span>
+                        <div className="dropdown-menu dropdown-menu-right" >
+                            <Link className="dropdown-item" to="/company">Company List</Link>
+                            <Link className="dropdown-item" to="/team">Team List</Link>
+                            <Link className="dropdown-item" to="/users">User List</Link>
                         </div>
                     </div>
-                </div>
+                }
+                {
+                    auth.user &&auth.user.role==="Admin" &&
+                    <div style={{position:"relative"}}>
+                        <img className="header-list-shape" src={ellipse2} alt="ellipse2" />
+                    </div>
+                }
+                
+                {
+                    auth.user 
+                    ?<div className="dropdown dropdown-toggle">
+                        <span >
+                            {auth.user.name}
+                        </span>
+                        <div className="dropdown-menu dropdown-menu-right" >
+                            <Link className="dropdown-item" to={`/user/${auth.user.id}`}>Profile</Link>
+                            <Link className="dropdown-item" to={`/teams/${auth.user.id}`}>My Teams</Link>
+                            {
+                                auth.user.role ==="CEO" &&
+                                <Link className="dropdown-item" to={`/companies/${auth.user.id}`}>My Companies</Link>
+                            }
+                            <div>
+                                <button onClick={handleLogout}>Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                    :<div className="dropdown">
+                        <Link to="/login">Login</Link>
+                    </div>
+                }
+
                 <div style={{position:'relative'}}>
                     <img className="header-user-shape" src={ellipse1} alt="ellipse1" /> 
                 </div>

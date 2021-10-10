@@ -8,6 +8,7 @@ function ProfileScreen(props) {
     const id = props.match.params.id
 
     const profileuser = useSelector(state => state.profileuser)
+    const auth = useSelector(state => state.auth)
     
     const [onEdit, setOnEdit] = useState(false)   
 
@@ -53,9 +54,12 @@ function ProfileScreen(props) {
                         </div>
                     </div>
 
-                    <div className="profile-edit-button">
-                        <button onClick={()=>setOnEdit(!onEdit)}>Edit profile</button>
-                    </div>
+                    {
+                        auth.user.id === profileuser.id &&
+                        <div className="profile-edit-button">
+                            <button onClick={()=>setOnEdit(!onEdit)}>Edit profile</button>
+                        </div>
+                    }
                 </div>
             )
             }

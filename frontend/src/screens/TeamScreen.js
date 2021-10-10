@@ -13,6 +13,8 @@ function TeamScreen(props) {
 
     const dispatch = useDispatch()
 
+    const auth = useSelector(state => state.auth)
+
     const [ceos, setCeos] = useState([])
     const [leaders, setLeaders] = useState([])
     const [members, setMembers] = useState([])
@@ -22,12 +24,15 @@ function TeamScreen(props) {
     const [conversation, setConversation] = useState({})
 
     useEffect(() => {
-        dispatch(getteam({id})).then(res=>{
+        dispatch(getteam({id})).then(res=>{      
+            if(auth.user.teams.filter(t=>t.id===res.id).length>0 || auth.user.companies.filter(c=>c.id ===res.companyId).length>0){          
             setCeos(res.users.filter(user=>user.role==="CEO"))
             setLeaders(res.users.filter(user=>user.role==="Leader"))
             setMembers(res.users.filter(user=>user.role==="Member"))
+            }else{
+                props.history.goBack()
+            }
         })
-
     }, [dispatch])
 
     const team = useSelector(state => state.team)
@@ -58,24 +63,24 @@ function TeamScreen(props) {
                         ceos.map((user, index)=>(
                             <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} ceos={ceos} leaders={leaders} members={members}/>
                         ))
-                        
                     }
                     {
                         leaders.map((user, index)=>(
                             <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} ceos={ceos} leaders={leaders} members={members}/>
                         ))
-                        
                     }
                     {
                         members.map((user, index)=>(
                             <UserCard user={user} teamId={id} key={index} setCeos={setCeos} setLeaders={setLeaders} setMembers={setMembers} ceos={ceos} leaders={leaders} members={members}/>
                         ))
-                        
                     }
-                    <div className="card-button" onClick={()=>setAddMember(!addMember)}>
-                        <i class="fas fa-user-plus fa-3x"></i>
-                        <div style={{fontSize:'1.2rem', fontWeight:"800"}}>ADD Member</div> 
-                    </div>
+                    {
+                        (auth.user.role==="CEO" || auth.user.role==="Leader") &&
+                        <div className="card-button" onClick={()=>setAddMember(!addMember)}>
+                            <i class="fas fa-user-plus fa-3x"></i>
+                            <div style={{fontSize:'1.2rem', fontWeight:"800"}}>ADD Member</div> 
+                        </div>
+                    }
                 </div>
             }
             {
