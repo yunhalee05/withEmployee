@@ -87,8 +87,6 @@ public class UserController {
     public ResponseEntity<UserDTO> login(@RequestBody Map<String, String> body) throws IllegalAccessException {
         String email = body.get("username");
         String password = body.get("password");
-        System.out.println(email);
-        System.out.println(password);
 
         UserDTO user = service.getByEmail(email);
 

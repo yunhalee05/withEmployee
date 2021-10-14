@@ -20,9 +20,12 @@
 
 .profile .profile-image {
     width: 300px;
-    height: 350px;
+    height: 300px;
     overflow: hidden;
     margin: auto;
+    border: 2px solid black;
+    border-radius: 50%;
+    background-color: white;
 }
 
 .profile .profile-image img{

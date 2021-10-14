@@ -143,27 +143,4 @@ public class UserRepositoryTests {
 
     }
 
-//    @Test
-//    public void testUserListByPage(){
-//        int pageNumber = 0;
-//        int pageSize = 4;
-//
-//        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-//        Page<User> page = repo.findAllUsers(pageable);
-//        List<User> users = page.getContent();
-//
-//        System.out.println(page.getTotalElements());
-//        System.out.println(page.getTotalPages());
-//
-//        users.forEach(user -> System.out.println(user));
-//
-//        List<UserDTO> userDTOS = new ArrayList<>();
-//
-//        users.forEach(user -> userDTOS.add(new UserDTO(user)));
-//
-//        UserListDTO userListDTO = new UserListDTO(page.getTotalElements(), page.getTotalPages(), userDTOS);
-//
-//        System.out.println(userListDTO);
-//    }
-
 }
