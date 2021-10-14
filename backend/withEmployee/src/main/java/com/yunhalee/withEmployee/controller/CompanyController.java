@@ -5,10 +5,12 @@ import com.yunhalee.withEmployee.entity.Company;
 import com.yunhalee.withEmployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -64,7 +66,7 @@ public class CompanyController {
     @GetMapping("/companies")
     public ResponseEntity<?> allCompanies(@Param("page")String page, @Param("sort")String sort){
         Integer pageCompany = Integer.parseInt(page);
-        return service.getCompaniesByPage(pageCompany, sort);
+        return new ResponseEntity<HashMap<String, Object>>(service.getCompaniesByPage(pageCompany, sort), HttpStatus.OK);
     }
 
     @PostMapping("/company/check_name")

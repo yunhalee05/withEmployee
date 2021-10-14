@@ -78,7 +78,7 @@ public class TeamServiceTests {
         boolean check = teamService.isNameUnique(name, companyId);
 
         //then
-        assertEquals(check, false);
+        assertFalse(check);
     }
 
     @Test

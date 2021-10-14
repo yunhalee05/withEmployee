@@ -70,7 +70,7 @@ public class UserServiceTests {
 
         //then
         boolean match = passwordEncoder.matches(password, userDTO.getPassword());
-        assertEquals(match, true);
+        assertTrue(match);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class UserServiceTests {
         boolean check = userService.isEmailUnique(null, email);
 
         //then
-        assertEquals(false, check);
+        assertFalse(check);
     }
 
     @Test

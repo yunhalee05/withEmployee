@@ -93,7 +93,7 @@ public class CompanyService {
         return companyListDTOS;
     }
 
-    public ResponseEntity<?> getCompaniesByPage(Integer page, String sort){
+    public HashMap<String, Object> getCompaniesByPage(Integer page, String sort){
         Pageable pageable = PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by("createdAt"));
 
         if(sort.equals("createdAtDesc")){
@@ -115,7 +115,7 @@ public class CompanyService {
         response.put("companies", companyListDTOS);
 
 
-        return ResponseEntity.ok(response);
+        return response;
     }
 
 
