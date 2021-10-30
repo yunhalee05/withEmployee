@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Loading from '../components/Loading'
 import { getteamlist } from '../_actions/teamActions'
 
 function TeamListScreen() {
@@ -17,6 +18,9 @@ function TeamListScreen() {
 
     return (
         <div className="list" style={{maxWidth:"40rem"}}>
+            {
+                teamlist.loading && <Loading/>
+            }
             <div className="list-name">
                 Team List
             </div>

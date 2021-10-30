@@ -38,13 +38,13 @@ public class UserController {
 
 
     @PostMapping("/user/save")
-    public ResponseEntity<UserDTO> saveUser(@RequestParam("id")Integer id,
+    public ResponseEntity<UserDTO> saveUser(@RequestParam(value = "id",required = false)Integer id,
                                             @RequestParam("name")String name,
                                             @RequestParam("email")String email,
-                                            @RequestParam("password")String password,
-                                            @RequestParam("description")String description,
-                                            @RequestParam("phoneNumber")String phoneNumber,
-                                            @RequestParam("multipartFile")MultipartFile multipartFile) throws IOException {
+                                            @RequestParam(value = "password",required = false)String password,
+                                            @RequestParam(value = "description",required = false)String description,
+                                            @RequestParam(value = "phoneNumber", required = false)String phoneNumber,
+                                            @RequestParam(value = "multipartFile", required = false)MultipartFile multipartFile) throws IOException {
         UserDTO userDTO = new UserDTO(id, name, email, password, description, phoneNumber);
         UserDTO savedUserDTO = service.save(userDTO, multipartFile);
         userDTO.setPassword("");

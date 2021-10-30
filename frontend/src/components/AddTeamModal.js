@@ -1,12 +1,13 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getcompany } from '../_actions/companyActions'
 import { createteam, editTeam } from '../_actions/teamActions'
 
 function AddTeamModal({team, companyId, setAddTeam}) {
 
     const [name, setName] = useState(team? team.name :'')
+    const auth = useSelector(state => state.auth)
 
     const dispatch = useDispatch()
 
@@ -18,7 +19,9 @@ function AddTeamModal({team, companyId, setAddTeam}) {
         }
 
         if(!team || team.name!== name){
-            const res = await axios.get(`/team/check_name?name=${name}&id=${companyId}`)
+            const res = await axios.get(`/team/check_name?name=${name}&id=${companyId}`,{
+                headers : {Authorization : `Bearer ${auth.token}`}
+            })
             if(res.data!=="OK"){
                 return window.alert("Team name already exist.")
             }

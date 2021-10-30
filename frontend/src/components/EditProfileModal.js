@@ -64,13 +64,13 @@ function EditProfileModal({user, setOnEdit}) {
 
             const bodyFormData = new FormData()
             bodyFormData.append('multipartFile', imageURL)
-
             bodyFormData.append('id', user.id)
             bodyFormData.append('name', name)
             bodyFormData.append('email', email)
             bodyFormData.append('password', password)
             bodyFormData.append('description', description)
             bodyFormData.append('phoneNumber', phoneNumber)
+            console.log(bodyFormData)
     
             dispatch(edituser(bodyFormData))    
             setOnEdit(false)
@@ -136,7 +136,7 @@ function EditProfileModal({user, setOnEdit}) {
 
                 <div className="form-group">
                     <label htmlFor="image">Image</label>
-                    <img id="preview" src={user.imageURL ? user.imageURL: userImage} alt="imageURL" />
+                    <img id="preview" src={user.imageUrl ? user.imageUrl: userImage} alt="imageURL" />
                     <div className="image-input">
                         <i class="fas fa-camera"></i>
                         <input type="file" className="form-control" id="file_up" name="file" accept="image/*" onChange={handleImage} />

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import { logout } from '../_actions/authActions'
 import ellipse2 from '../images/Ellipse 2.png'
 import ellipse1 from '../images/Ellipse 1.png'
 import SearchCompanyCard from './SearchCompanyCard'
 import { getcompaniessearch } from '../_actions/companyActions'
 
-function Header() {
+function Header(props) {
 
     const auth = useSelector(state => state.auth)
 
@@ -15,9 +15,11 @@ function Header() {
     const [searchCompany, setSearchCompany] = useState([])
 
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const handleLogout= () =>{
         dispatch(logout())
+        history.push('/login')
     }
 
     const handleSubmit = (e)=>{

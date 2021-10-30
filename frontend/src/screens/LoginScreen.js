@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
+import Loading from '../components/Loading'
 import { login } from '../_actions/authActions'
 
 function LoginScreen(props) {
@@ -27,6 +28,9 @@ function LoginScreen(props) {
 
     return (
         <div className="form">
+            {
+                auth.loading && <Loading/>
+            }
             <form onSubmit={handleSubmit}>
                 <div className="form-name">
                     Login

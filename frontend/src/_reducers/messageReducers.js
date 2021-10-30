@@ -1,4 +1,4 @@
-import { ADD_NEWCONVERSATION, CREATE_CONVERSATION_FAIL, CREATE_CONVERSATION_REQUEST, CREATE_CONVERSATION_SUCCESS, DELETE_CONVERSATION_FAIL, DELETE_CONVERSATION_REQUEST, DELETE_CONVERSATION_SUCCESS, GET_CONVERSATIONS_FAIL, GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS } from "../_constants/conversationConstants";
+import { ADD_NEWCONVERSATION, CREATE_CONVERSATION_FAIL, CREATE_CONVERSATION_REQUEST, CREATE_CONVERSATION_SUCCESS, DELETE_CONVERSATION_FAIL, DELETE_CONVERSATION_REQUEST, DELETE_CONVERSATION_SUCCESS, GET_CONVERSATIONS_FAIL, GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS, UPDATE_CONVERSATION_SUCCESS } from "../_constants/conversationConstants";
 import { CREATE_MESSAGE_FAIL, CREATE_MESSAGE_REQUEST, CREATE_MESSAGE_SUCCESS, DELETE_MESSAGE_FAIL, DELETE_MESSAGE_REQUEST, DELETE_MESSAGE_SUCCESS, GET_MESSAGES_FAIL, GET_MESSAGES_REQUEST, GET_MESSAGES_SUCCESS } from "../_constants/messageConstants";
 
 export const messageReducer = (state={}, action)=>{
@@ -39,7 +39,7 @@ export const messageReducer = (state={}, action)=>{
         case CREATE_MESSAGE_REQUEST:
             return {...state, loading:true}
         case CREATE_MESSAGE_SUCCESS:
-            return {...state, loading:false, messages:(state.messages && (state.messages[0].conversationId===action.payload.conversationId))?[...state.messages, action.payload]: state.messages}
+            return {...state, loading:false, messages:(state.messages && (state.messages[0].conversationId===action.payload.conversationId))?[...state.messages, action.payload]: state.messages, conversations:state.conversations.map(conversation=>conversation.id ===action.payload.conversationId ? {...conversation, text:action.payload.content, imageUrl:action.payload.imageUrl}:conversation)}
         case CREATE_MESSAGE_FAIL:
             return {...state, loading:false, error:action.payload}
 

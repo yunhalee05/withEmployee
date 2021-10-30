@@ -30,13 +30,15 @@ function ConversationUserCard({conversation, handleDeleteConversation, belongTo}
                         </small>
                         
                     </div>
+
                     {
-                        belongTo&&
-                        belongTo==="Other" &&
+                        (belongTo&&
+                        belongTo==="Other") &&
                         conversation.users[0].companies[0].length>1
                         ? <div style={{color:"white", backgroundColor:"#d3cce6", fontWeight:"600", borderRadius:"5px", marginLeft:"1rem", padding:"0 3px 0 3px"}}>{conversation.users[0].companies[0]},...</div>
                         : <div style={{color:"white", backgroundColor:"#d3cce6", fontWeight:"600", borderRadius:"5px", marginLeft:"1rem", padding:"0 3px 0 3px"}}>{conversation.users[0].companies[0]}</div>
                     }
+
                 </div>
             }
             {
@@ -63,9 +65,11 @@ function ConversationUserCard({conversation, handleDeleteConversation, belongTo}
                     </div>
                     {
                         belongTo==="Other" &&
-                        conversation.users[0].companies[0].length>1
-                        ? <div style={{color:"white", backgroundColor:"#d3cce6", fontWeight:"600", borderRadius:"5px", marginLeft:"1rem", padding:"0 3px 0 3px"}}>{conversation.users[0].companies[0]},...</div>
-                        : <div style={{color:"white", backgroundColor:"#d3cce6", fontWeight:"600", borderRadius:"5px", marginLeft:"1rem", padding:"0 3px 0 3px"}}>{conversation.users[0].companies[0]}</div>
+                        (
+                            conversation.users[0].companies[0].length>1
+                            ? <div style={{color:"white", backgroundColor:"#d3cce6", fontWeight:"600", borderRadius:"5px", marginLeft:"1rem", padding:"0 3px 0 3px"}}>{conversation.users[0].companies[0]},...</div>
+                            : <div style={{color:"white", backgroundColor:"#d3cce6", fontWeight:"600", borderRadius:"5px", marginLeft:"1rem", padding:"0 3px 0 3px"}}>{conversation.users[0].companies[0]}</div>
+                        )
                     }
                 </div>
             }

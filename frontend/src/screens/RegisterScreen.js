@@ -6,6 +6,7 @@ import axios from 'axios'
 import { valid } from '../utils'
 import { createCompany } from '../_actions/companyActions'
 import user from '../images/user.svg'
+import Loading from '../components/Loading'
 
 
 function RegisterScreen(props) {
@@ -121,6 +122,9 @@ function RegisterScreen(props) {
 
     return (
         <div className="form">
+            {
+                auth.loading && <Loading/>
+            }
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="form-name">
                     Register

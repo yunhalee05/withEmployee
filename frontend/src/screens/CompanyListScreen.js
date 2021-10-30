@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getcompanylist } from '../_actions/companyActions'
 import {Link} from 'react-router-dom'
+import Loading from '../components/Loading'
 
 function CompanyListScreen(props) {
 
@@ -24,6 +25,9 @@ function CompanyListScreen(props) {
 
     return (
         <div className="list">
+            {
+                companylist.loading && <Loading/>
+            }
             <div className="list-name">
                 Company List
             </div>
@@ -41,7 +45,7 @@ function CompanyListScreen(props) {
 
                     <tbody>
                         {
-                            companylist && companylist.companies.map((company,index)=>(
+                            companylist.loading===false && companylist.companylist.map((company,index)=>(
                                 <tr key={index}>
                                     <td>{company.id}</td>
                                     <td onClick={()=>handleOnClick(company.id)}>{company.name}</td>
@@ -76,7 +80,7 @@ function CompanyListScreen(props) {
                     </ul>
                 </nav>
             </div>
-            
+ 
         </div>
     )
 }

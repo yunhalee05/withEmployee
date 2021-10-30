@@ -5,6 +5,7 @@ import UserCard from '../components/UserCard'
 import AddMemberModal from '../components/AddMemberModal'
 import MessageCard from '../components/messages/MessageCard'
 import ConversationCard from '../components/messages/ConversationCard'
+import Loading from '../components/Loading'
 
 
 function TeamScreen(props) {
@@ -40,7 +41,9 @@ function TeamScreen(props) {
 
     return (
         <div className="user-team team-screen" >
-
+            {
+                team.loading && <Loading/>
+            }
 
             {
                 (team.loading ===false && team.team) &&

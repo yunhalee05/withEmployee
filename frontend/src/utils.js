@@ -69,7 +69,7 @@ export const editValid = (name, email, password, confirmPassword, description, p
         err.description="Description is up to 200characters long."
     }
 
-    if(phoneNumber){
+    if(phoneNumber && phoneNumber.length>15){
         err.phoneNumber="PhoneNumber is up to 15characters long."
     }
     

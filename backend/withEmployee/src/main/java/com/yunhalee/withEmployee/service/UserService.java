@@ -85,7 +85,7 @@ public class UserService {
         if(userDTO.getId()!=null){
             User existingUser = repo.findById(userDTO.getId()).get();
             existingUser.setName(userDTO.getName());
-            if(userDTO.getPassword()!=null){
+            if(!userDTO.getPassword().equals("")){
                 existingUser.setPassword(userDTO.getPassword());
             }
             if(multipartFile != null){
@@ -102,6 +102,7 @@ public class UserService {
 
             }
             existingUser.setDescription(userDTO.getDescription());
+            existingUser.setPhoneNumber(userDTO.getPhoneNumber());
             repo.save(existingUser);
             return new UserDTO(existingUser);
         }else{

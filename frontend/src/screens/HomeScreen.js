@@ -7,6 +7,7 @@ import MessageCard from '../components/messages/MessageCard'
 import { getallcompaniesbypage, getcompaniesrecommendation, getcompanylist } from '../_actions/companyActions'
 import { GET_LOAD_MORE_COMPANIES } from '../_constants/companyConstants'
 import home from '../images/home.png'
+import Loading from '../components/Loading'
 
 function HomeScreen() {
 
@@ -54,6 +55,9 @@ function HomeScreen() {
 
     return (
         <div className="home-screen">
+            {
+                companylist.loading && <Loading/>
+            }
             <div className="home-background">
                 <div className="home-backgound-title">
                     Looking for company to work with?<br/>

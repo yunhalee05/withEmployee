@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getteam } from '../_actions/teamActions'
 import { deleteuserteam } from '../_actions/userActions'
 import {Link} from 'react-router-dom'
@@ -10,6 +10,7 @@ function UserCard({user, teamId, setCeos, setLeaders, setMembers,ceos, leaders,m
 
     const userId = user.id
     const dispatch = useDispatch()
+    const auth = useSelector(state => state.auth)
 
     const handleDelete = () =>{
         if(window.confirm("Are you sure to exclude this member?")){
@@ -29,7 +30,10 @@ function UserCard({user, teamId, setCeos, setLeaders, setMembers,ceos, leaders,m
                     <div className={`user-role ${user.role==='CEO'? 'ceo': user.role==="Leader"? 'leader':''}`}>
                         {user.role}
                     </div>
-                    <i onClick={handleDelete} className="fas fa-user-minus"></i>
+                    {
+                        (auth.user.role === "CEO" || auth.user.role ==="Admin" || auth.user.role ==="Leader")
+                         && <i onClick={handleDelete} className="fas fa-user-minus"></i>
+                    }
                 </div>
             }
 

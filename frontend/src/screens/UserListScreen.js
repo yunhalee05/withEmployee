@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getuserlist } from '../_actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
+import Loading from '../components/Loading'
 
 
 
@@ -25,6 +26,9 @@ function UserListScreen(props) {
 
     return (
         <div className="list">
+            {
+                userlist.loading && <Loading/>
+            }
             <div className="list-name">
                 User List
             </div>

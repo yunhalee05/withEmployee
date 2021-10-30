@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getuser } from '../_actions/userActions'
 import userIcon from '../images/user.svg'
 import EditProfileModal from '../components/EditProfileModal'
+import Loading from '../components/Loading'
 
 function ProfileScreen(props) {
     const id = props.match.params.id
@@ -20,6 +21,9 @@ function ProfileScreen(props) {
 
     return (
         <div className="profile">
+            {
+                profileuser.loading && <Loading/>
+            }
             {   profileuser.loading ===false &&
             (
                 <div className="user-info">

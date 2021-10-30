@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CREATE_CONVERSATION_SUCCESS, DELETE_CONVERSATION_SUCCESS } from './_constants/conversationConstants'
+import { CREATE_CONVERSATION_SUCCESS, DELETE_CONVERSATION_SUCCESS, UPDATE_CONVERSATION_SUCCESS } from './_constants/conversationConstants'
 import { CREATE_MESSAGE_SUCCESS, DELETE_MESSAGE_SUCCESS } from './_constants/messageConstants'
 
 function SocketClient() {
@@ -28,6 +28,7 @@ function SocketClient() {
                     type:CREATE_MESSAGE_SUCCESS,
                     payload:messagedto
                 })
+
             })
             // Delete Message
             client.subscribe('/queue/deleteChatToClient/'+auth.user.id,function(messageId){
@@ -70,7 +71,7 @@ function SocketClient() {
 
         return () => client.disconnect();
 
-    }, [client, auth.user.id, dispatch])
+    }, [dispatch])
 
 
     return (

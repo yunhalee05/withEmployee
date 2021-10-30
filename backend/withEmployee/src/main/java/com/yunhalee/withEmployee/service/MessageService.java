@@ -41,7 +41,9 @@ public class MessageService {
     public MessageDTO createMessage(MessageDTO messageDTO){
         User user = userRepo.findById(messageDTO.getUserId()).get();
         Conversation conversation = conversationRepo.findById(messageDTO.getConversationId()).get();
-
+        conversation.setText(messageDTO.getContent());
+        conversation.setImageUrl(messageDTO.getImageUrl());
+        conversationRepo.save(conversation);
         Message message = new Message();
         message.setUser(user);
         message.setConversation(conversation);

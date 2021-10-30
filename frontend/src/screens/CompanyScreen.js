@@ -7,6 +7,7 @@ import { deleteteam } from '../_actions/teamActions'
 import ConversationUserCard from '../components/messages/ConversationUserCard'
 import ConversationCard from '../components/messages/ConversationCard'
 import MessageCard from '../components/messages/MessageCard'
+import Loading from '../components/Loading'
 
 
 function CompanyScreen(props) {
@@ -41,6 +42,9 @@ function CompanyScreen(props) {
     return (
         
         <div className="user-team">
+            {
+                company.loading && <Loading/>
+            }
             {
                 company.loading===false &&company.company &&
                 <div>

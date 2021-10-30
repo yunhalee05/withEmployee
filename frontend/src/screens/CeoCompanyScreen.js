@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import AddCompanyModal from '../components/AddCompanyModal'
 import CompanyCard from '../components/CompanyCard'
 import { getcompanies } from '../_actions/companyActions'
+import Loading from '../components/Loading'
 
 function CeoCompanyScreen(props) {
 
@@ -22,6 +23,9 @@ function CeoCompanyScreen(props) {
     
     return (
         <div>
+            {
+                company.loading && <Loading/>
+            }
             {(company.loading===false && company.companies) &&
                 <div className="user-team">
                     <div className="company-card-container">

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import Loading from '../components/Loading';
 import TeamCard from '../components/TeamCard';
 import { getteams } from '../_actions/teamActions';
 
@@ -18,7 +19,9 @@ function UserTeamScreen(props) {
 
     return (
         <div className="user-team">
-
+            {
+                team.loading && <Loading/>
+            } 
             <div className="team-card-container">
                 {
                     team.loading===false && team.teams.map((team, index)=>(
