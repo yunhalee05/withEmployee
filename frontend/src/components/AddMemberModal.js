@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getteam } from '../_actions/teamActions'
 import { adduserteam } from '../_actions/userActions'
 
 function AddMemberModal({members,setAddMember, id, setCeos, setLeaders, setMembers, ceos, leaders, member}) {

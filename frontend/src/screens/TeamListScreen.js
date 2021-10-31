@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Error from '../components/Error'
 import Loading from '../components/Loading'
 import { getteamlist } from '../_actions/teamActions'
 
@@ -18,6 +19,9 @@ function TeamListScreen() {
 
     return (
         <div className="list" style={{maxWidth:"40rem"}}>
+            {
+                teamlist.error && <Error error = {teamlist.error}/>
+            }
             {
                 teamlist.loading && <Loading/>
             }

@@ -7,6 +7,8 @@ import Display from './Display'
 import usersIcon from '../../images/users.svg'
 import userIcon from '../../images/user.svg'
 import messageImage from '../../images/message.png'
+import Error from '../Error'
+import Loading from '../Loading'
 
 
 
@@ -123,6 +125,12 @@ function MessageCard({conversation, setConversation}) {
     return (
         <div className="message">
             {
+                message.error && <Error error ={message.error}/>
+            }
+            {
+                message.loading && <Loading/>
+            }
+            {
                 !conversation.id &&
                 <div className="no-message">
                     <img src={messageImage} alt="" />
@@ -139,7 +147,7 @@ function MessageCard({conversation, setConversation}) {
                         {
                             conversation.users.length >1 
                             ? <div className="message-header">
-                                <img src={usersIcon} alt="image" />
+                                <img src={usersIcon} alt="userIconImage" />
                                 {
                                     conversation.users.map(user=>(
                                         user.name
@@ -147,7 +155,7 @@ function MessageCard({conversation, setConversation}) {
                                 }
                             </div>
                             : <div className="message-header">
-                                <img src={conversation.users[0].imageUrl?conversation.users[0].imageUrl :userIcon} alt="image" />
+                                <img src={conversation.users[0].imageUrl?conversation.users[0].imageUrl :userIcon} alt="userIconImage" />
                                 <span>{conversation.users[0].name}</span>
                             </div>
                         }

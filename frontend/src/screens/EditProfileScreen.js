@@ -28,6 +28,9 @@ function EditProfileScreen(props) {
 
     return (
         <div className="form">
+            {
+                auth.erro && <Error error={auth.error}/>
+            }
             <form onSubmit={handleSubmit}>
                 <div className="form-name">
                     Edit {id}

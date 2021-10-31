@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getcompaniessearch } from '../../_actions/companyActions'
-import { createConversation, deleteConversation, getConversations } from '../../_actions/conversationActions'
+import { deleteConversation, getConversations } from '../../_actions/conversationActions'
 import { ADD_NEWCONVERSATION } from '../../_constants/conversationConstants'
-import SearchUserCard from '../SearchUserCard'
 import ConversationUserCard from './ConversationUserCard'
 
 function CompanyConversationCard({ setConversation, conversation, belongTo}) {
-
-    const auth = useSelector(state => state.auth)
 
     const [search, setSearch] = useState('')
     const [searchCompany, setSearchCompany] = useState([])

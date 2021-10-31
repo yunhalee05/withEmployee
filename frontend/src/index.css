@@ -50,3 +50,9 @@ code {
 
 /* Home Screen */
 @import url('./styles/HomeScreen.css');
+
+/* Loading */
+@import url('./styles/loading.css');
+
+/* Error */
+@import url('./styles/Error.css');

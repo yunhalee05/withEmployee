@@ -71,7 +71,7 @@ export const edituser =(bodyFormData) => async(dispatch, getState)=>{
             headers : {Authorization : `Bearer ${token}`}
         })
 
-        console.log(res) 
+        // console.log(res) 
         dispatch({
             type:EDIT_USER_SUCCESS,
             payload:res.data
@@ -148,7 +148,7 @@ export const deleteuserteam =({userId, teamId}) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.delete(`/user/deleteTeam?userId=${userId}&teamId=${teamId}`,null,{
+        await axios.delete(`/user/deleteTeam?userId=${userId}&teamId=${teamId}`,null,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

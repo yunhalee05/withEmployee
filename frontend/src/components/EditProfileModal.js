@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { edituser } from '../_actions/userActions'
 import { editValid } from '../utils'
 import userImage from '../images/user.svg'
 import axios from 'axios'
+import Error from './Error'
 
 
 function EditProfileModal({user, setOnEdit}) {
+    
+    const auth = useSelector(state => state.auth)
 
     const [name, setName] = useState(user.name ? user.name :'')
     const [email, setEmail] = useState(user.email ? user.email :'')
@@ -20,8 +23,6 @@ function EditProfileModal({user, setOnEdit}) {
     const [err, setErr] = useState({})
 
     const dispatch = useDispatch()
-
-
 
     const handleImage = async(e)=>{
         const file = e.target.files[0]
@@ -70,7 +71,7 @@ function EditProfileModal({user, setOnEdit}) {
             bodyFormData.append('password', password)
             bodyFormData.append('description', description)
             bodyFormData.append('phoneNumber', phoneNumber)
-            console.log(bodyFormData)
+            // console.log(bodyFormData)
     
             dispatch(edituser(bodyFormData))    
             setOnEdit(false)
@@ -83,6 +84,9 @@ function EditProfileModal({user, setOnEdit}) {
 
     return (
         <div className="add-modal form">
+            {
+                auth.error && <Error error={auth.error}/>
+            }
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="form-name">
                     Edit {user.name} Profile
@@ -138,7 +142,7 @@ function EditProfileModal({user, setOnEdit}) {
                     <label htmlFor="image">Image</label>
                     <img id="preview" src={user.imageUrl ? user.imageUrl: userImage} alt="imageURL" />
                     <div className="image-input">
-                        <i class="fas fa-camera"></i>
+                        <i className="fas fa-camera"></i>
                         <input type="file" className="form-control" id="file_up" name="file" accept="image/*" onChange={handleImage} />
                     </div>
                 </div>

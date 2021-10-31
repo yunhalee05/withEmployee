@@ -4,10 +4,10 @@ import AddTeamModal from '../components/AddTeamModal'
 import { getcompany } from '../_actions/companyActions'
 import {Link} from 'react-router-dom'
 import { deleteteam } from '../_actions/teamActions'
-import ConversationUserCard from '../components/messages/ConversationUserCard'
 import ConversationCard from '../components/messages/ConversationCard'
 import MessageCard from '../components/messages/MessageCard'
 import Loading from '../components/Loading'
+import Error from '../components/Error'
 
 
 function CompanyScreen(props) {
@@ -42,6 +42,9 @@ function CompanyScreen(props) {
     return (
         
         <div className="user-team">
+            {
+                company.error && <Error error={company.error}/>
+            }
             {
                 company.loading && <Loading/>
             }
@@ -134,7 +137,7 @@ function CompanyScreen(props) {
                     {
                         company.company.ceo.id === auth.user.id &&
                         <div className="team-add-button" onClick={()=>setAddTeam(!addTeam)}>
-                            <i class="far fa-plus-square fa-2x"></i>
+                            <i className="far fa-plus-square fa-2x"></i>
                             <div>ADD TEAM</div>
                         </div>
                     }

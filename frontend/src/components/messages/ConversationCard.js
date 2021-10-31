@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createConversation, deleteConversation, getConversations } from '../../_actions/conversationActions'
+import { deleteConversation, getConversations } from '../../_actions/conversationActions'
 import { ADD_NEWCONVERSATION } from '../../_constants/conversationConstants'
 import SearchUserCard from '../SearchUserCard'
 import ConversationUserCard from './ConversationUserCard'

@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import CompanyCard from '../components/CompanyCard'
 import CompanyConversationCard from '../components/messages/CompanyConversationCard'
 import MessageCard from '../components/messages/MessageCard'
-import { getallcompaniesbypage, getcompaniesrecommendation, getcompanylist } from '../_actions/companyActions'
+import { getallcompaniesbypage, getcompaniesrecommendation } from '../_actions/companyActions'
 import { GET_LOAD_MORE_COMPANIES } from '../_constants/companyConstants'
 import home from '../images/home.png'
 import Loading from '../components/Loading'
+import Error from '../components/Error'
 
 function HomeScreen() {
 
@@ -56,6 +57,9 @@ function HomeScreen() {
     return (
         <div className="home-screen">
             {
+                companylist.error && <Error error={companylist.error}/>
+            }
+            {
                 companylist.loading && <Loading/>
             }
             <div className="home-background">
@@ -91,10 +95,8 @@ function HomeScreen() {
 
                     <div className="home-recommendation">
                         <div className="home-mention" >
-                            {/* <span className="recommendation_button" onClick={handleRecommendation}>🥫</span> */}
                             <span className="recommendation_button" onClick={handleRecommendation}>🥫</span>
                             <span>Our Recommendations For you</span>
-                            {/* <i class="fas fa-sync-alt" onClick={handleRecommendation}></i> */}
                         </div>
 
                         {

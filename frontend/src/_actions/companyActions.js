@@ -186,7 +186,7 @@ export const deleteCompany =(id) => async(dispatch, getState)=>{
         const res = await axios.delete(`/company/delete/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
-        console.log(res)
+        // console.log(res)
         dispatch({
             type:DELETE_COMPANY_SUCCESS,
             payload:res.data

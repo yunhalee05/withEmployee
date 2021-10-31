@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getteam } from '../_actions/teamActions'
 import { deleteuserteam } from '../_actions/userActions'
 import {Link} from 'react-router-dom'
 import userIcon from '../images/user.svg'
@@ -40,7 +39,7 @@ function UserCard({user, teamId, setCeos, setLeaders, setMembers,ceos, leaders,m
             <div className="user-info-container">
 
                 <div className="user-info-image">
-                    <img src={user.imageUrl? user.imageUrl : userIcon} alt="image" />
+                    <img src={user.imageUrl? user.imageUrl : userIcon} alt="userIconImage" />
                 </div>
 
                 <div className="user-info">

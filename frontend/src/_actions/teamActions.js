@@ -158,7 +158,7 @@ export const deleteteam =({teamId}) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.delete(`/team/delete?id=${teamId}`, {
+        await axios.delete(`/team/delete?id=${teamId}`, {
             headers : {Authorization : `Bearer ${token}`}
         })
         

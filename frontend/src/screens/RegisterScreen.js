@@ -7,6 +7,7 @@ import { valid } from '../utils'
 import { createCompany } from '../_actions/companyActions'
 import user from '../images/user.svg'
 import Loading from '../components/Loading'
+import Error from '../components/Error'
 
 
 function RegisterScreen(props) {
@@ -34,7 +35,7 @@ function RegisterScreen(props) {
 
 
     useEffect(() => {
-        if(auth.user){
+        if(auth.user&& auth.user.id){
             props.history.push('/')
         }
     }, [])
@@ -90,14 +91,14 @@ function RegisterScreen(props) {
                 bodyFormData.append('role', ceo? "CEO" : "Member")
 
                 
-                const userDTO = {
-                    name: name, 
-                    email : email, 
-                    password :password,
-                    description: description,
-                    phoneNumber : phoneNumber,
-                    role : ceo? "CEO" : "Member",
-                }
+                // const userDTO = {
+                //     name: name, 
+                //     email : email, 
+                //     password :password,
+                //     description: description,
+                //     phoneNumber : phoneNumber,
+                //     role : ceo? "CEO" : "Member",
+                // }
                 
                 dispatch(register(bodyFormData)).then(res=> {
 
@@ -122,6 +123,9 @@ function RegisterScreen(props) {
 
     return (
         <div className="form">
+            {
+                auth.error && <Error error = {auth.error}/>
+            }
             {
                 auth.loading && <Loading/>
             }
@@ -184,7 +188,7 @@ function RegisterScreen(props) {
                             <img id="preview" src={user} alt="imageURL" />
                         </div>
                         <span>
-                            <i class="fas fa-camera fa-2x"></i>
+                            <i className="fas fa-camera fa-2x"></i>
                             <input type="file" className="form-control" id="file_up" name="file" accept="image/*" onChange={handleImage} />
                         </span>
                     </div>

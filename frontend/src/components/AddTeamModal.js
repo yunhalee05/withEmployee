@@ -1,7 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getcompany } from '../_actions/companyActions'
 import { createteam, editTeam } from '../_actions/teamActions'
 
 function AddTeamModal({team, companyId, setAddTeam}) {

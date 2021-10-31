@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CREATE_CONVERSATION_SUCCESS, DELETE_CONVERSATION_SUCCESS, UPDATE_CONVERSATION_SUCCESS } from './_constants/conversationConstants'
+import { CREATE_CONVERSATION_SUCCESS, DELETE_CONVERSATION_SUCCESS } from './_constants/conversationConstants'
 import { CREATE_MESSAGE_SUCCESS, DELETE_MESSAGE_SUCCESS } from './_constants/messageConstants'
 
 function SocketClient() {
@@ -9,8 +9,8 @@ function SocketClient() {
     const socket = useSelector(state => state.socket)
     const {client} = socket
 
-    const message = useSelector(state => state.message)
-    const {messages} = message
+    // const message = useSelector(state => state.message)
+    // const {messages} = message
 
     const dispatch = useDispatch()
 

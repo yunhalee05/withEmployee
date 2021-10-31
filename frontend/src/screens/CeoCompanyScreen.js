@@ -4,6 +4,7 @@ import AddCompanyModal from '../components/AddCompanyModal'
 import CompanyCard from '../components/CompanyCard'
 import { getcompanies } from '../_actions/companyActions'
 import Loading from '../components/Loading'
+import Error from '../components/Error'
 
 function CeoCompanyScreen(props) {
 
@@ -24,6 +25,9 @@ function CeoCompanyScreen(props) {
     return (
         <div>
             {
+                company.error &&<Error error={company.error}/>
+            }
+            {
                 company.loading && <Loading/>
             }
             {(company.loading===false && company.companies) &&
@@ -36,7 +40,7 @@ function CeoCompanyScreen(props) {
                         }
 
                         <div className="company-add-button" onClick={()=>setAddCompany(!addCompany)}>
-                            <i class="far fa-plus-square fa-2x"></i>
+                            <i className="far fa-plus-square fa-2x"></i>
                             <div>ADD COMPANY</div>
                         </div>
                     </div>

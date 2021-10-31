@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
+import Error from '../components/Error'
 import Loading from '../components/Loading'
 import { login } from '../_actions/authActions'
 
@@ -15,19 +16,21 @@ function LoginScreen(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if(auth.user){
+        if(auth.user && auth.user.id){
             props.history.push('/home')
         }
-    }, [])
+    }, [auth.user])
 
     const handleSubmit= (e) =>{
         e.preventDefault();
         dispatch(login({email, password}))
-        props.history.push('/home')
     }
 
     return (
         <div className="form">
+            {
+               auth.error && <Error error={auth.error}/>
+            }
             {
                 auth.loading && <Loading/>
             }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getcompanylist } from '../_actions/companyActions'
-import {Link} from 'react-router-dom'
 import Loading from '../components/Loading'
+import Error from '../components/Error'
 
 function CompanyListScreen(props) {
 
@@ -25,6 +25,9 @@ function CompanyListScreen(props) {
 
     return (
         <div className="list">
+            {
+                companylist.error && <Error error={companylist.error}/>
+            }
             {
                 companylist.loading && <Loading/>
             }

@@ -6,6 +6,7 @@ import AddMemberModal from '../components/AddMemberModal'
 import MessageCard from '../components/messages/MessageCard'
 import ConversationCard from '../components/messages/ConversationCard'
 import Loading from '../components/Loading'
+import Error from '../components/Error'
 
 
 function TeamScreen(props) {
@@ -41,6 +42,9 @@ function TeamScreen(props) {
 
     return (
         <div className="user-team team-screen" >
+            {
+                team.error && <Error error={team.error}/>
+            }
             {
                 team.loading && <Loading/>
             }
@@ -80,7 +84,7 @@ function TeamScreen(props) {
                     {
                         (auth.user.role==="CEO" || auth.user.role==="Leader") &&
                         <div className="card-button" onClick={()=>setAddMember(!addMember)}>
-                            <i class="fas fa-user-plus fa-3x"></i>
+                            <i className="fas fa-user-plus fa-3x"></i>
                             <div style={{fontSize:'1.2rem', fontWeight:"800"}}>ADD Member</div> 
                         </div>
                     }

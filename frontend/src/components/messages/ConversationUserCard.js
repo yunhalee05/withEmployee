@@ -9,7 +9,7 @@ function ConversationUserCard({conversation, handleDeleteConversation, belongTo}
             {
                 conversation.users.length>1 &&
                 <div className="d-flex align-items-center" >
-                    <img src={usersIcon} alt="image" />
+                    <img src={usersIcon} alt="userIconImage" />
                     <div className="ml-1 pl-1">
                         <span className="d-block">{conversation.users[0].name} and {conversation.users.length}people</span>
 
@@ -44,7 +44,7 @@ function ConversationUserCard({conversation, handleDeleteConversation, belongTo}
             {
                 conversation.users.length ===1 &&
                 <div className="d-flex align-items-center" >
-                    <img src={conversation.users[0].imageUrl?conversation.users[0].imageUrl :userIcon} alt="image" />
+                    <img src={conversation.users[0].imageUrl?conversation.users[0].imageUrl :userIcon} alt="userIconImage" />
                     <div className="ml-1 pl-1">
                         <span className="d-block">{conversation.users[0].name}</span>
                         <small style={{opacity:0.7}}>

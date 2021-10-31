@@ -15,7 +15,7 @@ export const getConversations =() => async(dispatch, getState)=>{
             headers : {Authorization : `Bearer ${token}`}
         })
 
-        console.log(res)
+        // console.log(res)
         const newArr = [];
 
         res.data.forEach(item=> {
@@ -103,7 +103,7 @@ export const deleteConversation = (conversation) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.delete(`/conversation/${conversation.id}`,{
+        await axios.delete(`/conversation/${conversation.id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

@@ -4,6 +4,7 @@ import { getuser } from '../_actions/userActions'
 import userIcon from '../images/user.svg'
 import EditProfileModal from '../components/EditProfileModal'
 import Loading from '../components/Loading'
+import Error from '../components/Error'
 
 function ProfileScreen(props) {
     const id = props.match.params.id
@@ -21,6 +22,9 @@ function ProfileScreen(props) {
 
     return (
         <div className="profile">
+            {
+                profileuser.error && <Error error={profileuser.error}/>
+            }
             {
                 profileuser.loading && <Loading/>
             }
@@ -68,7 +72,7 @@ function ProfileScreen(props) {
             )
             }
 
-            <div className="profile-userteam-title">WHERE I BELONG TO <i class="far fa-hand-point-down"></i></div>
+            <div className="profile-userteam-title">WHERE I BELONG TO <i className="far fa-hand-point-down"></i></div>
 
             <div className="team-card-container">
                 {

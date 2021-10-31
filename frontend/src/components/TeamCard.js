@@ -19,8 +19,8 @@ function TeamCard({team}) {
         <div className="team-card">
                 <div className="team-name">
                     <div className="team-button">
-                        <i class="far fa-edit"></i>
-                        <i class="far fa-trash-alt" onClick={()=>handleDelete(team.id)}></i>
+                        <i className="far fa-edit"></i>
+                        <i className="far fa-trash-alt" onClick={()=>handleDelete(team.id)}></i>
                     </div>
                     <Link to={`/team/${team.id}`}>
                     {team.name}
