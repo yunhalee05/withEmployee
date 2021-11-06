@@ -149,6 +149,23 @@
             </li>
           </ul>
       </li>
+      <li>
+        <h3>✔️ Frontend-maven-plugins (Heroku Deployment)</h3> 
+          <ul>
+            <li>
+              <h4>Challenge : </h4>
+              <p>
+                스프링부트와 리액트를 활용하여 각각의 프로젝트를 완성 시킨 후 서비스를 배포하기 위해서는 두 프로젝트를 합친 프로젝트로 변경하는 것이 요구되었습니다. 
+              </p>
+            </li>
+            <li>
+              <h4>Solution : </h4>
+              <p>
+                heroku 서비를 이용하여 앱을 배포하기 위해서 스프링부트로 완성시킨 서버프로젝트 안으로 프론트엔드를 옮겨 frontend-maven-plugins를 이용해 두 프로젝드를 동시에 실행시키도록 하는 .jar 파일을 생성해내도록 하였습니다. 생성된 .jar파일을 해로쿠에 등록하여 앱 실행시 .jar파일을 실행하도록 설정하였습니다. 
+              </p>
+            </li>
+          </ul>
+      </li>          
     </ul>
 </div>
     <br/>
