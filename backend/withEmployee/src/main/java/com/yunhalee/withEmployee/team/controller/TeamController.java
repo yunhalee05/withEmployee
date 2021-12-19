@@ -18,14 +18,14 @@ public class TeamController {
     @Autowired
     private TeamService service;
 
-    @GetMapping("/team/teamlist")
+    @GetMapping("/teams")
     public TeamListByPageDTO listAll(@Param("page")String page){
         Integer pageTeam = Integer.parseInt(page);
 
         return service.listAll(pageTeam);
     }
 
-    @GetMapping("/team/{id}")
+    @GetMapping("/teams/{id}")
     public TeamDTO getById(@PathVariable("id") Integer id){
         Team team = service.getById(id);
         TeamDTO teamDTO = new TeamDTO((team));
@@ -33,7 +33,7 @@ public class TeamController {
         return teamDTO;
     }
 
-    @GetMapping("/teams/{id}")
+    @GetMapping("/teams/{userId}/users")
     public List<TeamListDTO> getByUserId(@PathVariable("id") Integer id){
         List<TeamListDTO> teamListDTOS = new ArrayList<>();
         List<Team> teams= service.getByUserId(id);
@@ -42,13 +42,13 @@ public class TeamController {
         return teamListDTOS;
     }
 
-    @PostMapping("/team/save")
+    @PostMapping("/teams")
     public TeamDTO save(@RequestBody TeamDTO teamDTO){
         return service.save(teamDTO);
     }
 
-    @DeleteMapping("/team/delete")
-    public void delete(@Param("id") Integer id){
+    @DeleteMapping("/teams/{id}")
+    public void delete(@PathVariable("id") Integer id){
         service.delete(id);
     }
 

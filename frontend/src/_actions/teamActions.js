@@ -9,7 +9,7 @@ export const getteamlist =(page) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/team/teamlist?page=${page}`,{
+        const res = await axios.get(`/teams?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({
@@ -35,7 +35,7 @@ export const getteam =({id}) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/team/${id}`, {
+        const res = await axios.get(`/teams/${id}`, {
             headers : {Authorization : `Bearer ${token}`}
         })
         
@@ -65,7 +65,7 @@ export const getteams =({id}) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/teams/${id}`, {
+        const res = await axios.get(`/teams/${id}/users`, {
             headers : {Authorization : `Bearer ${token}`}
         })
         
@@ -93,7 +93,7 @@ export const createteam =(teamDTO) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/team/save',teamDTO, {
+        const res = await axios.post('/teams',teamDTO, {
             headers : {Authorization : `Bearer ${token}`}
         })
         
@@ -125,7 +125,7 @@ export const editTeam =(teamDTO) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/team/save',teamDTO, {
+        const res = await axios.post('/teams',teamDTO, {
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -158,7 +158,7 @@ export const deleteteam =({teamId}) => async(dispatch, getState)=>{
     })
 
     try{
-        await axios.delete(`/team/delete?id=${teamId}`, {
+        await axios.delete(`/teams/${teamId}`, {
             headers : {Authorization : `Bearer ${token}`}
         })
         
