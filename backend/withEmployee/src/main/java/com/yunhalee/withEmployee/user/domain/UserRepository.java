@@ -1,6 +1,7 @@
 package com.yunhalee.withEmployee.user.domain;
 
 import com.yunhalee.withEmployee.team.domain.Team;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByName(String name);
 
 //    @Query(value = "SELECT u FROM User u WHERE u.email=:email")
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
     boolean existsByEmail(String email);
 

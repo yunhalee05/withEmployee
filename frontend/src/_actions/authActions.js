@@ -12,18 +12,14 @@ export const login =({email, password}) => async(dispatch, getState)=>{
     }
 
     try{
-        const res1 = await axios.post('/user/login', body)
-        const res2 = await axios.post('authenticate',body)
+        const res = await axios.post('/login', body)
 
         dispatch({
             type:LOGIN_SUCCESS,
-            payload:{
-                user:res1.data,
-                token:res2.data
-            }
+            payload:res.data
         })
 
-        localStorage.setItem("auth", JSON.stringify({user:res1.data, token:res2.data}))
+        localStorage.setItem("token", JSON.stringify(res.data.token))
     }catch(error){
         dispatch({
             type:LOGIN_FAIL,

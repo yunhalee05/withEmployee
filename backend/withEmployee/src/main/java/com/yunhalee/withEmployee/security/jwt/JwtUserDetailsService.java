@@ -2,6 +2,12 @@ package com.yunhalee.withEmployee.security.jwt;
 
 import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.user.domain.User;
+import com.yunhalee.withEmployee.user.dto.UserCompanyResponse;
+import com.yunhalee.withEmployee.user.dto.UserResponse;
+import com.yunhalee.withEmployee.user.dto.UserTeamResponse;
+import com.yunhalee.withEmployee.user.exception.UserNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,11 +22,37 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByEmail(username);
-        if(user != null) return new JwtUserDetails(user);
+        User user = userRepo.findByEmail(username).get();
+        if (user != null) {
+            return new JwtUserDetails(user);
+        }
         throw new UsernameNotFoundException("Could not find user with email : " + username);
+    }
+
+    public UserTokenResponse login(String email) {
+        User user = userRepo.findByEmail(email)
+            .orElseThrow(() -> new UserNotFoundException("Could not find user with email : " + email));
+        String token = jwtTokenUtil.generateToken(user.getEmail());
+        return UserTokenResponse
+            .of(UserResponse
+                .of(user, userTeamResponses(user), userCompanyResponses(user)), token);
+    }
+
+    private List<UserTeamResponse> userTeamResponses(User user) {
+        return user.getTeams().stream()
+            .map(UserTeamResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    private List<UserCompanyResponse> userCompanyResponses(User user) {
+        return user.getCompanies().stream()
+            .map(UserCompanyResponse::of)
+            .collect(Collectors.toList());
     }
 }

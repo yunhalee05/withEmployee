@@ -76,7 +76,7 @@ public class UserService {
 
     public UserDTO getByEmail(String email) throws UserNotFoundException {
         try {
-            User user = repo.findByEmail(email);
+            User user = repo.findByEmail(email).get();
             UserDTO userDTO = new UserDTO(user);
             return userDTO;
         } catch (NoSuchElementException ex) {
@@ -170,7 +170,7 @@ public class UserService {
 //    }
 
     public UserDTO addTeam(String email, Integer id) {
-        User user = repo.findByEmail(email);
+        User user = repo.findByEmail(email).get();
         Team team = teamRepo.findByTeamId(id);
 
         user.addTeam(team);
@@ -190,7 +190,7 @@ public class UserService {
     }
 
     public boolean isEmailUnique(Integer id, String email) {
-        User existingUser = repo.findByEmail(email);
+        User existingUser = repo.findByEmail(email).get();
 
         if (existingUser == null) {
             return true;

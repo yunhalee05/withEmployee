@@ -34,7 +34,7 @@ public class ConversationService {
 
         System.out.println(conversationListDTO.isTeamMember());
         conversationListDTO.getUserEmails().forEach(email->{
-            conversation.addUser(userRepo.findByEmail(email));
+            conversation.addUser(userRepo.findByEmail(email).get());
         });
 
         conversation.setTeamMember(conversationListDTO.isTeamMember());

@@ -1,6 +1,7 @@
 package com.yunhalee.withEmployee.security.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,10 +23,10 @@ public class JwtAuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private JwtUserDetailsService userDetailsService;
 
     @Autowired
-    private JwtUserDetailsService userDetailsService;
+    private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/authenticate")
     public String createAuthenticationToken(@RequestBody JwtRequest request) throws Exception {
@@ -46,5 +47,10 @@ public class JwtAuthenticationController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<UserTokenResponse> login(@RequestBody JwtRequest request) throws Exception {
+        authenticate(request.getUsername(), request.getPassword());
+        return ResponseEntity.ok(userDetailsService.login(request.getUsername()));
+    }
 
 }
