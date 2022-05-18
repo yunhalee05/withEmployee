@@ -23,18 +23,20 @@ export const valid = (name, email, password, confirmPassword, description, phone
         err.description="Description is up to 200characters long."
     }
 
-    if(phoneNumber){
+    if(phoneNumber && phoneNumber.length>15){
         err.phoneNumber="PhoneNumber is up to 15characters long."
     }
     
     if(password !== confirmPassword){
         err.confirmPassword = "Confirm password did not match."
     }
+    console.log(err)
 
     return{
         err,
         errLength:Object.keys(err).length
     }
+
 }
 
 const validateEmail = (email)=>{
