@@ -32,8 +32,7 @@ public class UserResponse {
         this.role = user.getRole();
     }
 
-    public static UserResponse of(User user, List<UserTeamResponse> teams,
-        List<UserCompanyResponse> companies) {
+    public static UserResponse of(User user, List<UserTeamResponse> teams, List<UserCompanyResponse> companies) {
         return new UserResponse(user, teams, companies);
     }
 

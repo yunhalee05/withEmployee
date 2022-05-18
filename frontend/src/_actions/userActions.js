@@ -38,7 +38,7 @@ export const getuser =(id) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/user/${id}`,{
+        const res = await axios.get(`/users/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

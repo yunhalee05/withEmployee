@@ -33,11 +33,9 @@ public class UserController {
         return service.listAll(page);
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<UserDTO> detailUser(@PathVariable("id") Integer id){
-            UserDTO userDTO = service.get(id);
-            userDTO.setPassword("");
-            return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserResponse> get(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.get(id));
     }
 
 

@@ -1,7 +1,9 @@
 package com.yunhalee.withEmployee.user.service;
 
+import com.yunhalee.withEmployee.user.dto.UserCompanyResponse;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
+import com.yunhalee.withEmployee.user.dto.UserTeamResponse;
 import com.yunhalee.withEmployee.user.exception.DuplicatedEmailException;
 import com.yunhalee.withEmployee.util.FileUploadService;
 
@@ -63,25 +65,9 @@ public class UserService {
         return userListByPageDTO;
     }
 
-    public UserDTO get(Integer id) throws UserNotFoundException {
-        try {
-            User user = repo.findById(id).get();
-            UserDTO userDTO = new UserDTO(user);
-            return userDTO;
-        } catch (NoSuchElementException ex) {
-            throw new UserNotFoundException("This User doesn't exist");
-        }
-
-    }
-
-    public UserDTO getByEmail(String email) throws UserNotFoundException {
-        try {
-            User user = repo.findByEmail(email).get();
-            UserDTO userDTO = new UserDTO(user);
-            return userDTO;
-        } catch (NoSuchElementException ex) {
-            throw new UserNotFoundException("This User doesn't exist");
-        }
+    public UserResponse get(Integer id) {
+        User user = findUserById(id);
+        return UserResponse.of(user, userTeamResponses(user), userCompanyResponses(user));
     }
 
     @Transactional
@@ -212,5 +198,22 @@ public class UserService {
     public User findUserById(Integer id) {
         return repo.findById(id)
             .orElseThrow(() -> new UserNotFoundException("This User doesn't exist"));
+    }
+
+    public User findUserByEmail(String email) {
+        return repo.findByEmail(email)
+            .orElseThrow(() -> new UserNotFoundException("This User doesn't exist"));
+    }
+
+    private List<UserTeamResponse> userTeamResponses(User user) {
+        return user.getTeams().stream()
+            .map(UserTeamResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    private List<UserCompanyResponse> userCompanyResponses(User user) {
+        return user.getCompanies().stream()
+            .map(UserCompanyResponse::of)
+            .collect(Collectors.toList());
     }
 }
