@@ -3,6 +3,9 @@ package com.yunhalee.withEmployee.user.domain;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.conversation.domain.Conversation;
 import com.yunhalee.withEmployee.team.domain.Team;
+import java.util.Collections;
+import java.util.Objects;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,14 +18,12 @@ import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.util.StringUtils;
 
 @Entity
-@Table(name="user")
-//@Getter
-@Setter
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
+    @Column(name = "user_id")
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 40)
@@ -37,7 +38,7 @@ public class User {
     @Column(name = "description")
     private String description;
 
-    @Column(name="image_name")
+    @Column(name = "image_name")
     private String imageName;
 
     @Column(name = "image_url")
@@ -51,25 +52,19 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
-            name = "member_team",
-            joinColumns = @JoinColumn(name = "member_id"),
-            inverseJoinColumns = @JoinColumn(name = "team_id")
+        name = "member_team",
+        joinColumns = @JoinColumn(name = "member_id"),
+        inverseJoinColumns = @JoinColumn(name = "team_id")
     )
     private Set<Team> teams = new HashSet<>();
 
     @OneToMany(mappedBy = "ceo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Company> companies = new HashSet<>();
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="role_id")
-//    private Role role;
-
     @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private Set<Conversation> conversations = new HashSet<>();
 
-
-    public User(){
-        super();
+    public User() {
     }
 
     public User(String name, String email, String password) {
@@ -78,31 +73,31 @@ public class User {
         this.password = password;
     }
 
-    private User(String name, String email, String password, String description, String phoneNumber, Role role) {
+    @Builder
+    public User(Integer id, String name, String email, String password, String description,
+        String imageName, String imageUrl, String phoneNumber, Role role) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.description = description;
+        this.imageName = imageName;
+        this.imageUrl = imageUrl;
         this.phoneNumber = phoneNumber;
         this.role = role;
     }
 
     public static User of(String name, String email, String password, String description, String phoneNumber, Role role) {
-        return new User(name, email, password, description, phoneNumber, role);
+        return User.builder()
+            .name(name)
+            .email(email)
+            .password(password)
+            .description(description)
+            .phoneNumber(phoneNumber)
+            .role(role).build();
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
-    }
-
-    public void addTeam(Team team){
+    public void addTeam(Team team) {
         this.teams.add(team);
     }
 
@@ -143,21 +138,21 @@ public class User {
     }
 
     public Set<Team> getTeams() {
-        return teams;
+        return Collections.unmodifiableSet(teams);
     }
 
     public Set<Company> getCompanies() {
-        return companies;
+        return Collections.unmodifiableSet(companies);
     }
 
     @Transient
-    public List<String> getCompanyNames(){
+    public List<String> getCompanyNames() {
         List<String> companies = new ArrayList<>();
         this.companies.forEach(company -> companies.add(company.getName()));
         return companies;
     }
 
-    public List<String> getTeamNames(){
+    public List<String> getTeamNames() {
         List<String> teams = new ArrayList<>();
 
         this.teams.forEach(team -> teams.add(team.getName()));
@@ -168,6 +163,24 @@ public class User {
         this.imageUrl = imageUrl;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name)
+            && Objects.equals(email, user.email) && Objects
+            .equals(password, user.password) && Objects.equals(description, user.description)
+            && Objects.equals(imageUrl, user.imageUrl) && Objects
+            .equals(phoneNumber, user.phoneNumber) && role == user.role;
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, password, description, imageUrl, phoneNumber, role);
+    }
 }

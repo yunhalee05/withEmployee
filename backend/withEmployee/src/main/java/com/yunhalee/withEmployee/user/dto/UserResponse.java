@@ -13,7 +13,6 @@ public class UserResponse {
     private Integer id;
     private String name;
     private String email;
-    private String password;
     private String description;
     private String imageUrl;
     private String phoneNumber;
@@ -25,7 +24,6 @@ public class UserResponse {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
-        this.password = user.getPassword();
         this.description = user.getDescription();
         this.imageUrl = user.getImageUrl();
         this.phoneNumber = user.getPhoneNumber();
@@ -42,4 +40,5 @@ public class UserResponse {
     public static UserResponse of(User user) {
         return new UserResponse(user, new ArrayList<>(), new ArrayList<>());
     }
+
 }

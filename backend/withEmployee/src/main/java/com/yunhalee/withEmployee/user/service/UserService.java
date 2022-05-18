@@ -12,7 +12,6 @@ import com.yunhalee.withEmployee.user.dto.UserListByPageDTO;
 import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.exception.UserNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,23 +34,23 @@ public class UserService {
 
     public static final int USER_PER_PAGE = 9;
 
-    @Value("${profileUpload.path")
     private String uploadFolder;
-
-    @Autowired
     private UserRepository repo;
-
-//    @Autowired
-//    private RoleRepository roleRepository;
-
-    @Autowired
     private FileUploadService fileUploadService;
-
-    @Autowired
     private TeamRepository teamRepo;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public UserService(@Value("${profileUpload.path") String uploadFolder,
+        UserRepository repo,
+        FileUploadService fileUploadService,
+        TeamRepository teamRepo,
+        PasswordEncoder passwordEncoder) {
+        this.uploadFolder = uploadFolder;
+        this.repo = repo;
+        this.fileUploadService = fileUploadService;
+        this.teamRepo = teamRepo;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public UserListByPageDTO listAll(Integer page) {
         Pageable pageable = PageRequest.of(page - 1, USER_PER_PAGE, Sort.by("id"));
@@ -185,7 +184,7 @@ public class UserService {
             .collect(Collectors.toSet());
 
         System.out.println(teams);
-        user.setTeams(teams);
+//        user.setTeams(teams);
         repo.save(user);
         return teamId;
     }

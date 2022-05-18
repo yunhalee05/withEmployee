@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRequest {
 
-    private String id;
     private String name;
     private String email;
     private String password;
@@ -17,18 +16,7 @@ public class UserRequest {
     private String phoneNumber;
     private boolean isCEO;
 
-    public UserRequest(String id, String name, String email, String password, String description, String phoneNumber, boolean isCEO) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.description = description;
-        this.phoneNumber = phoneNumber;
-        this.isCEO = isCEO;
-    }
-
-    public UserRequest(String name, String email, String password, String description,
-        String phoneNumber, boolean isCEO) {
+    public UserRequest(String name, String email, String password, String description, String phoneNumber, boolean isCEO) {
         this.name = name;
         this.email = email;
         this.password = password;
