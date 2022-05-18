@@ -114,7 +114,7 @@ export const getcompanies =({id}) => async(dispatch, getState)=>{
     }
 }
 
-export const createCompany =(companyDTO) => async(dispatch, getState)=>{
+export const createCompany =(companyRequest) => async(dispatch, getState)=>{
 
     const {auth : {token}} = getState()
 
@@ -123,7 +123,7 @@ export const createCompany =(companyDTO) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/company/save',companyDTO,{
+        const res = await axios.post('/companies',companyRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
         

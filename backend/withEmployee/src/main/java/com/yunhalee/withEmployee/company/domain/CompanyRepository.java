@@ -13,6 +13,8 @@ import java.util.Optional;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
+    boolean existsByName(String name);
+
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH e.companies p LEFT JOIN FETCH c.teams t  LEFT JOIN FETCH t.users u")
     List<Company> findAllCompanies();
 

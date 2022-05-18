@@ -70,33 +70,26 @@ export const login =({email, password}) => async(dispatch, getState)=>{
 //         })
 //     }
 // }
-export const register =(bodyFormData) => async(dispatch, getState)=>{
+export const register =(bodyFormData, email, password) => async(dispatch, getState)=>{
     dispatch({
         type:REGISTER_REQUEST
     })
 
-    // const email = bodyFormData.get('email')
-    // const password = bodyFormData.get('password')
-
     try{
-        // console.log(userRequest)
-        // console.log(bodyFormData.get('multipartFile'))
         const res1 = await axios.post('/users', bodyFormData)
-        // const res2 = await axios.post('authenticate',{username:email,password:password })
+        const res2 = await axios.post('authenticate',{username:email,password:password })
 
-        // dispatch({
-        //     type:REGISTER_SUCCESS,
-        //     payload:{
-        //         user: res1.data,
-        //         token:res2.data
-        //     }
-        // })
+        dispatch({
+            type:REGISTER_SUCCESS,
+            payload:{
+                user: res1.data,
+                token:res2.data
+            }
+        })
 
-        // localStorage.setItem("token", JSON.stringify(res2.data))
-
-        // return res1.data
-        
-
+        localStorage.setItem("token", JSON.stringify(res2.data))
+        return res1.data
+    
     }catch(error){
         dispatch({
             type:REGISTER_FAIL,

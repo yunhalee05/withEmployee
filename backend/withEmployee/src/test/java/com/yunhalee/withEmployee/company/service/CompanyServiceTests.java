@@ -1,10 +1,9 @@
 package com.yunhalee.withEmployee.company.service;
 
 import com.yunhalee.withEmployee.company.domain.CompanyRepository;
-import com.yunhalee.withEmployee.company.dto.CompanyCreateDTO;
+import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.dto.CompanyDTO;
 import com.yunhalee.withEmployee.company.dto.CompanyListDTO;
-import com.yunhalee.withEmployee.company.service.CompanyService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +33,10 @@ public class CompanyServiceTests {
         String companyName = "testCompany";
         String companyDescription = "This is test.";
         Integer ceoId = 17;
-        CompanyCreateDTO companyCreateDTO = new CompanyCreateDTO(companyName,companyDescription,ceoId);
+        CompanyRequest companyRequest = new CompanyRequest(companyName,companyDescription,ceoId);
 
         //when
-        CompanyDTO companyDTO = companyService.save(companyCreateDTO);
+        CompanyDTO companyDTO = companyService.save(companyRequest);
 
         //then
         assertEquals(companyName, companyDTO.getName());
@@ -50,12 +49,12 @@ public class CompanyServiceTests {
         String companyName = "testCompany";
         String companyDescription = "This is test.";
         Integer ceoId = 17;
-        CompanyCreateDTO companyCreateDTO = new CompanyCreateDTO(companyName,companyDescription,ceoId);
-        CompanyDTO companyDTO = companyService.save(companyCreateDTO);
-        CompanyCreateDTO companyCreateDTO1 = new CompanyCreateDTO(companyDTO.getId(),"testUpdateCompany","testD",ceoId);
+        CompanyRequest companyRequest = new CompanyRequest(companyName,companyDescription,ceoId);
+        CompanyDTO companyDTO = companyService.save(companyRequest);
+        CompanyRequest companyRequest1 = new CompanyRequest(companyDTO.getId(),"testUpdateCompany","testD",ceoId);
 
         //when
-        CompanyDTO companyDTO1 = companyService.save(companyCreateDTO1);
+        CompanyDTO companyDTO1 = companyService.save(companyRequest1);
 
         //then
         assertNotEquals(companyName, companyDTO1.getName());

@@ -1,10 +1,11 @@
 package com.yunhalee.withEmployee.company.controller;
 
-import com.yunhalee.withEmployee.company.dto.CompanyCreateDTO;
+import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.dto.CompanyDTO;
 import com.yunhalee.withEmployee.company.dto.CompanyListByPageDTO;
 import com.yunhalee.withEmployee.company.dto.CompanyListDTO;
 import com.yunhalee.withEmployee.company.domain.Company;
+import com.yunhalee.withEmployee.company.dto.CompanyResponse;
 import com.yunhalee.withEmployee.company.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -36,8 +37,13 @@ public class CompanyController {
     }
 
     @PostMapping("/company/save")
-    public CompanyDTO save(@RequestBody CompanyCreateDTO companyCreateDTO){
-        return service.save(companyCreateDTO);
+    public CompanyDTO save(@RequestBody CompanyRequest companyRequest){
+        return service.save(companyRequest);
+    }
+
+    @PostMapping("/companies")
+    public ResponseEntity<CompanyResponse> create(@RequestBody CompanyRequest companyRequest){
+        return ResponseEntity.ok(service.create(companyRequest));
     }
 
 

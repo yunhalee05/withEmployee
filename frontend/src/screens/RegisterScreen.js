@@ -69,63 +69,35 @@ function RegisterScreen(props) {
     const handleSubmit = async(e) =>{
         e.preventDefault();
 
-        // const check = valid(name, email, password, confirmPassword, description, phoneNumber)
+        const check = valid(name, email, password, confirmPassword, description, phoneNumber)
 
 
-        // if(check.errLength===0){
-        //     const res = await axios.post(`/user/check_email?email=${email}`,null)
-        //     const companyres = await axios.post(`/company/check_name?name=${cName}`, null)
-        //     if(res.data ==="Duplicated"){
-        //         window.alert('This email already exist.')
-        //     }else if(companyres.data ==="Duplicated"){
-        //         window.alert('This Company name already exist.')
-        //     }else{
-                // const bodyFormData = new FormData()
-                // bodyFormData.append('multipartFile', imageURL)
-
-                // bodyFormData.append('name', name)
-                // bodyFormData.append('email', email)
-                // bodyFormData.append('password', password)
-                // bodyFormData.append('description', description)
-                // bodyFormData.append('phoneNumber', phoneNumber)
-                // bodyFormData.append('role', ceo? "CEO" : "Member")
-
-                
+        if(check.errLength===0){                
                 const userRequest = {
                     name: name, 
                     email : email, 
                     password :password,
                     description: description,
                     phoneNumber : phoneNumber,
-                    isCEO : ceo? true : false,
+                    ceo : ceo? true : false,
                 }
 
                 const bodyFormData = new FormData()
                 bodyFormData.append('multipartFile', imageURL)
                 bodyFormData.append('userRequest', new Blob([JSON.stringify(userRequest)], {type: 'application/json'}))
-                dispatch(register(bodyFormData))
-
-
-                
-                // dispatch(register(bodyFormData)).then(res=> {
-
-                //     if(ceo){
-                //         const companyDTO={
-                //             name:cName,
-                //             description:cDescription,
-                //             ceoId: res.id
-                //         }
-    
-                //         dispatch(createCompany(companyDTO))
-                //     }
-
-                // })
-
-        //     }
-        // }else {
-        //     setErr(check.err)
-        // }
-
+                dispatch(register(bodyFormData, email, password)).then(res=> {
+                    if(ceo){
+                        const companyRequest={
+                            name:cName,
+                            description:cDescription,
+                            ceoId: res.id
+                        }
+                        dispatch(createCompany(companyRequest))
+                    }
+                })
+            }else {
+                setErr(check.err)
+        }
     }
 
     return (

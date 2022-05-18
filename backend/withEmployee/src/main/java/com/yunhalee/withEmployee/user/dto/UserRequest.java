@@ -14,19 +14,19 @@ public class UserRequest {
     private String password;
     private String description;
     private String phoneNumber;
-    private boolean isCEO;
+    private boolean ceo;
 
-    public UserRequest(String name, String email, String password, String description, String phoneNumber, boolean isCEO) {
+    public UserRequest(String name, String email, String password, String description, String phoneNumber, boolean ceo) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.description = description;
         this.phoneNumber = phoneNumber;
-        this.isCEO = isCEO;
+        this.ceo = ceo;
     }
 
     public User toUser(String encodedPassword) {
-        if (isCEO) {
+        if (ceo) {
             return User.of(name, email, encodedPassword, description, phoneNumber, Role.CEO);
         }
         return User.of(name, email, encodedPassword, description, phoneNumber, Role.MEMBER);

@@ -208,4 +208,9 @@ public class UserService {
 
         return true;
     }
+
+    public User findUserById(Integer id) {
+        return repo.findById(id)
+            .orElseThrow(() -> new UserNotFoundException("This User doesn't exist"));
+    }
 }

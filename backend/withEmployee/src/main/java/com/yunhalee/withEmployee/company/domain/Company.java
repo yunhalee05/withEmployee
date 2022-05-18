@@ -44,6 +44,16 @@ public class Company extends BaseTimeEntity {
         this.description = description;
     }
 
+    public Company(String name, String description, User ceo) {
+        this.name = name;
+        this.description = description;
+        this.ceo = ceo;
+    }
+
+    public static Company of(String name, String description, User ceo)    {
+        return new Company(name, description, ceo);
+    }
+
     @Override
     public String toString() {
         return "Company{" +

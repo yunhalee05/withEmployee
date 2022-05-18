@@ -1,14 +1,16 @@
 package com.yunhalee.withEmployee.company.service;
 
 import com.yunhalee.withEmployee.company.domain.CompanyRepository;
-import com.yunhalee.withEmployee.company.dto.CompanyCreateDTO;
+import com.yunhalee.withEmployee.company.dto.CompanyCeoResponse;
+import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.dto.CompanyDTO;
 import com.yunhalee.withEmployee.company.dto.CompanyListByPageDTO;
 import com.yunhalee.withEmployee.company.dto.CompanyListDTO;
-import com.yunhalee.withEmployee.user.domain.UserRepository;
+import com.yunhalee.withEmployee.company.dto.CompanyResponse;
+import com.yunhalee.withEmployee.company.exception.CompanyNameAlreadyInUserException;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.user.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.yunhalee.withEmployee.user.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,60 +27,75 @@ public class CompanyService {
     public static final int COMPANY_PER_PAGE = 9;
     public static final int COMPANY_RECOMMENDATION_PER_PAGE = 3;
 
-    @Autowired
-    private CompanyRepository repo;
+    private CompanyRepository companyRepository;
+    private UserService userService;
 
-    @Autowired
-    private UserRepository userRepo;
+    public CompanyService(CompanyRepository companyRepository, UserService userService) {
+        this.companyRepository = companyRepository;
+        this.userService = userService;
+    }
 
     public CompanyListByPageDTO listAll(Integer page){
         Pageable pageable = PageRequest.of(page-1, COMPANY_PER_PAGE, Sort.by("id"));
-        Page<Company> pageCompany = repo.findAllCompanies(pageable);
+        Page<Company> pageCompany = companyRepository.findAllCompanies(pageable);
         List<Company> companies = pageCompany.getContent();
         CompanyListByPageDTO companyListByPageDTO = new CompanyListByPageDTO(pageCompany.getTotalElements(), pageCompany.getTotalPages(), companies);
         return companyListByPageDTO;
     }
 
     public Company findById(Integer id){
-        return repo.findById(id).get();
+        return companyRepository.findById(id).get();
     }
 
-    public CompanyDTO save(CompanyCreateDTO companyCreateDTO){
+    public CompanyResponse create(CompanyRequest request) {
+        checkCompanyName(request.getName());
+        User ceo = userService.findUserById(request.getCeoId());
+        Company company = companyRepository.save(request.toCompany(ceo));
+        return CompanyResponse.of(company, CompanyCeoResponse.of(ceo));
+    }
 
-        User ceo = userRepo.findById(companyCreateDTO.getCeoId()).get();
+    private void checkCompanyName(String name){
+        if (companyRepository.existsByName(name)){
+            throw new CompanyNameAlreadyInUserException("This company name is already in use. name : " + name);
+        }
+    }
 
-        if(companyCreateDTO.getId() !=null){
-            Company existingCompany = repo.findById(companyCreateDTO.getId()).get();
+    public CompanyDTO save(CompanyRequest companyRequest){
 
-            existingCompany.setName(companyCreateDTO.getName());
-            existingCompany.setDescription(companyCreateDTO.getDescription());
+        User ceo = userService.findUserById(companyRequest.getCeoId());
+
+        if(companyRequest.getId() !=null){
+            Company existingCompany = companyRepository.findById(companyRequest.getId()).get();
+
+            existingCompany.setName(companyRequest.getName());
+            existingCompany.setDescription(companyRequest.getDescription());
             existingCompany.setCeo(ceo);
 
-            repo.save(existingCompany);
+            companyRepository.save(existingCompany);
 
             return new CompanyDTO(existingCompany);
 
         }else{
 
-            Company newCompany = new Company(companyCreateDTO.getName(),companyCreateDTO.getDescription());
+            Company newCompany = new Company(companyRequest.getName(), companyRequest.getDescription());
             newCompany.setCeo(ceo);
-            repo.save(newCompany);
+            companyRepository.save(newCompany);
             return new CompanyDTO(newCompany);
         }
 
     }
 
     public List<Company> findByCeoId(Integer id){
-        return repo.findByUserId(id);
+        return companyRepository.findByUserId(id);
     }
 
     public void deleteCompany(Integer id) {
-         repo.deleteById(id);
+         companyRepository.deleteById(id);
     }
 
     public List<CompanyListDTO> companyRecommendation(){
         Pageable pageable = PageRequest.of(0, COMPANY_RECOMMENDATION_PER_PAGE);
-        Page<Company> page = repo.findByRandom(pageable);
+        Page<Company> page = companyRepository.findByRandom(pageable);
         List<Company> companies = page.getContent();
 
         List<CompanyListDTO> companyListDTOS = new ArrayList<>();
@@ -88,7 +105,7 @@ public class CompanyService {
     }
 
     public List<CompanyListDTO> searchCompany(String keyword){
-        List<Company> companies = repo.findByKeyword(keyword);
+        List<Company> companies = companyRepository.findByKeyword(keyword);
         List<CompanyListDTO> companyListDTOS = new ArrayList<>();
         companies.forEach(company -> companyListDTOS.add(new CompanyListDTO(company)));
 
@@ -105,7 +122,7 @@ public class CompanyService {
         }else if(sort.equals("nameDesc")){
             pageable = PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by(Sort.Direction.DESC,"name"));
         }
-        Page<Company> companies = repo.findAllCompanies(pageable);
+        Page<Company> companies = companyRepository.findAllCompanies(pageable);
         List<Company> allCompanies = companies.getContent();
 
         List<CompanyListDTO> companyListDTOS = new ArrayList<>();
@@ -123,7 +140,7 @@ public class CompanyService {
 
 
     public boolean isNameUnique(String name){
-        Company existingCompany = repo.findByName(name);
+        Company existingCompany = companyRepository.findByName(name);
         if(existingCompany==null){
             return true;
         }
