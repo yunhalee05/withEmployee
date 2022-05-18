@@ -9,6 +9,8 @@ import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
 import com.yunhalee.withEmployee.user.exception.DuplicatedEmailException;
+import com.yunhalee.withEmployee.user.exception.UserNotFoundException;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserServiceTest extends MockBeans {
 
     private static final String DUPLICATED_EMAIL_EXCEPTION = "This email is already in use.";
+    private static final String USER_NOT_FOUND_EXCEPTION = "This User doesn't exist";
 
     private final String TEST_UPLOAD_FOLDER = "testUploadFolder";
     private final Integer ID = 1;
@@ -87,6 +91,25 @@ class UserServiceTest extends MockBeans {
         assertThatThrownBy(() -> userService.register(request, MULTIPART_FILE))
             .isInstanceOf(DuplicatedEmailException.class)
             .hasMessageContaining(DUPLICATED_EMAIL_EXCEPTION);
+    }
+
+    @Test
+    void get_user_by_id() {
+        // when
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        UserResponse response = userService.get(ID);
+
+        // then
+        checkEquals(response, user);
+    }
+
+    @Test
+    void get_user_by_not_existing_id_is_invalid() {
+        // when
+        when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> userService.get(ID))
+            .isInstanceOf(UserNotFoundException.class)
+            .hasMessage(USER_NOT_FOUND_EXCEPTION);
     }
 
     private void checkEquals(UserResponse response, User user) {

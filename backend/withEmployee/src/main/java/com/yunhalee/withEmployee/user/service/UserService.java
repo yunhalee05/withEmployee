@@ -11,7 +11,6 @@ import com.yunhalee.withEmployee.util.FileUploadService;
 import com.yunhalee.withEmployee.team.domain.TeamRepository;
 import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.user.dto.UserDTO;
-import com.yunhalee.withEmployee.user.dto.UserListByPageDTO;
 import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.exception.UserNotFoundException;
