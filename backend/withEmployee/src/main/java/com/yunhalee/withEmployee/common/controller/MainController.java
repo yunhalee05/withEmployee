@@ -1,6 +1,5 @@
 package com.yunhalee.withEmployee.common.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +13,4 @@ public class MainController {
         return "Hello world";
     }
 
-//    @GetMapping("/login")
-//    public String loginPage(){
-//        return "/login";
-//    }
 }
