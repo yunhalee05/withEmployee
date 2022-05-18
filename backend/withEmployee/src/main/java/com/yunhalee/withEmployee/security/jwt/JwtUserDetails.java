@@ -1,6 +1,5 @@
 package com.yunhalee.withEmployee.security.jwt;
 
-import com.yunhalee.withEmployee.user.domain.Role;
 import com.yunhalee.withEmployee.user.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,13 +18,10 @@ public class JwtUserDetails implements UserDetails {
         this.user = user;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Role role = user.getRole();
         List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-
-        authorities.add(new SimpleGrantedAuthority(role.getName()));
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
         return authorities;
     }
 

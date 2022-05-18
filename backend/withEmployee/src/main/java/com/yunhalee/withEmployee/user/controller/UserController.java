@@ -2,10 +2,13 @@ package com.yunhalee.withEmployee.user.controller;
 
 import com.yunhalee.withEmployee.user.dto.UserDTO;
 import com.yunhalee.withEmployee.user.dto.UserListByPageDTO;
+import com.yunhalee.withEmployee.user.dto.UserRequest;
+import com.yunhalee.withEmployee.user.dto.UserResponse;
 import com.yunhalee.withEmployee.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -46,27 +49,34 @@ public class UserController {
                                             @RequestParam(value = "phoneNumber", required = false)String phoneNumber,
                                             @RequestParam(value = "multipartFile", required = false)MultipartFile multipartFile) throws IOException {
         UserDTO userDTO = new UserDTO(id, name, email, password, description, phoneNumber);
-        UserDTO savedUserDTO = service.save(userDTO, multipartFile);
-        userDTO.setPassword("");
-        return new ResponseEntity<UserDTO>(savedUserDTO, HttpStatus.CREATED);
+//        UserDTO savedUserDTO = service.save(userDTO, multipartFile);
+//        userDTO.setPassword("");
+        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);
     }
 
 
-    @PostMapping("/user/register")
-    public ResponseEntity<UserDTO> register(@RequestParam("name")String name,
-                                            @RequestParam("email")String email,
-                                            @RequestParam("password")String password,
-                                            @RequestParam("description")String description,
-                                            @RequestParam("phoneNumber")String phoneNumber,
-                                            @RequestParam("role")String role,
-                                            @RequestParam("multipartFile")MultipartFile multipartFile) throws IOException {
+//    @PostMapping("/user/register")
+//    public ResponseEntity<UserDTO> register(@RequestParam("name")String name,
+//                                            @RequestParam("email")String email,
+//                                            @RequestParam("password")String password,
+//                                            @RequestParam("description")String description,
+//                                            @RequestParam("phoneNumber")String phoneNumber,
+//                                            @RequestParam("role")String role,
+//                                            @RequestParam("multipartFile")MultipartFile multipartFile) throws IOException {
+//
+//        UserDTO userDTO = new UserDTO(name, email, password, description, phoneNumber, role);
+//        System.out.println(name + email + password +description + phoneNumber+ role);
+//        UserDTO savedUserDTO = service.save(userDTO, multipartFile);
+//
+//        savedUserDTO.setPassword("");
+//        return new ResponseEntity<UserDTO>(savedUserDTO, HttpStatus.OK);
+//    }
 
-        UserDTO userDTO = new UserDTO(name, email, password, description, phoneNumber, role);
-        UserDTO savedUserDTO = service.save(userDTO, multipartFile);
-
-        savedUserDTO.setPassword("");
-        return new ResponseEntity<UserDTO>(savedUserDTO, HttpStatus.OK);
+    @PostMapping(value = "/users", consumes = { "multipart/form-data" })
+    public ResponseEntity<UserResponse> register(@RequestPart("multipartFile")MultipartFile multipartFile, @RequestPart("userRequest") UserRequest userRequest) throws IOException {
+        return ResponseEntity.ok(service.register(userRequest, multipartFile));
     }
+
     @PostMapping("/user/addTeam")
     public UserDTO addTeam(@Param("email")String email, @Param("id")Integer id){
         return service.addTeam(email, id);

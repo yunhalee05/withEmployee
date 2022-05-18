@@ -13,13 +13,15 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByName(String name);
 
-    @Query(value = "SELECT u FROM User u INNER JOIN FETCH u.role r WHERE u.email=:email")
+//    @Query(value = "SELECT u FROM User u WHERE u.email=:email")
     User findByEmail(String email);
 
-    @Query(value = "SELECT u FROM User u INNER JOIN FETCH u.role r LEFT JOIN FETCH u.teams t LEFT JOIN FETCH t.company c")
+    boolean existsByEmail(String email);
+
+    @Query(value = "SELECT u FROM User u LEFT JOIN FETCH u.teams t LEFT JOIN FETCH t.company c")
     List<User> findAllUsers();
 
-    @Query(value = "SELECT DISTINCT u FROM User u INNER JOIN FETCH u.role r LEFT JOIN FETCH u.companies c LEFT JOIN FETCH u.teams t ",
+    @Query(value = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.companies c LEFT JOIN FETCH u.teams t ",
             countQuery = "SELECT count(DISTINCT u) FROM User u")
     Page<User> findAllUsers(Pageable pageable);
 

@@ -19,11 +19,8 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        User entityUser = userRepo.findByEmail(username);
-
-        if(entityUser != null) return new JwtUserDetails(entityUser);
-
+        User user = userRepo.findByEmail(username);
+        if(user != null) return new JwtUserDetails(user);
         throw new UsernameNotFoundException("Could not find user with email : " + username);
     }
 }

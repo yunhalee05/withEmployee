@@ -105,7 +105,7 @@ public class CompanyDTO {
             this.id = user.getId();
             this.name = user.getName();
             this.email = user.getEmail();
-            this.role = user.getRole().getName();
+            this.role = user.getRole();
         }
     }
 }
