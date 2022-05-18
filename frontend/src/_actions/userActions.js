@@ -10,7 +10,7 @@ export const getuserlist =(page) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/user/userlist?page=${page}`, {
+        const res = await axios.get(`/users?page=${page}`, {
             headers : {Authorization : `Bearer ${token}`}
         })
         // console.log(res)

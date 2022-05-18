@@ -1,22 +1,20 @@
 package com.yunhalee.withEmployee.user.controller;
 
 import com.yunhalee.withEmployee.user.dto.UserDTO;
-import com.yunhalee.withEmployee.user.dto.UserListByPageDTO;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
+import com.yunhalee.withEmployee.user.dto.UserResponses;
 import com.yunhalee.withEmployee.user.service.UserService;
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Map;
 
 @RestController
 public class UserController {
@@ -27,10 +25,9 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/user/userlist")
-    public UserListByPageDTO listAll(@Param("page") Integer page){
-
-        return service.listAll(page);
+    @GetMapping("/users")
+    public ResponseEntity<UserResponses> getAll(@Param("page") Integer page){
+        return ResponseEntity.ok(service.getAll(page));
     }
 
     @GetMapping("/users/{id}")

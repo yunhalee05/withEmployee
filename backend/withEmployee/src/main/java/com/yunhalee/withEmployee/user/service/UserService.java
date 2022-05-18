@@ -3,6 +3,7 @@ package com.yunhalee.withEmployee.user.service;
 import com.yunhalee.withEmployee.user.dto.UserCompanyResponse;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
+import com.yunhalee.withEmployee.user.dto.UserResponses;
 import com.yunhalee.withEmployee.user.dto.UserTeamResponse;
 import com.yunhalee.withEmployee.user.exception.DuplicatedEmailException;
 import com.yunhalee.withEmployee.util.FileUploadService;
@@ -54,20 +55,19 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserListByPageDTO listAll(Integer page) {
+    public UserResponses getAll(Integer page) {
         Pageable pageable = PageRequest.of(page - 1, USER_PER_PAGE, Sort.by("id"));
         Page<User> pageUser = repo.findAllUsers(pageable);
-        List<User> users = pageUser.getContent();
-
-        UserListByPageDTO userListByPageDTO = new UserListByPageDTO(pageUser.getTotalElements(),
-            pageUser.getTotalPages(), users);
-
-        return userListByPageDTO;
+        return UserResponses.of(pageUser.getTotalElements(),
+            pageUser.getTotalPages(),
+            pageUser.getContent().stream()
+                .map(UserResponse::of)
+                .collect(Collectors.toList()));
     }
 
     public UserResponse get(Integer id) {
         User user = findUserById(id);
-        return UserResponse.of(user, userTeamResponses(user), userCompanyResponses(user));
+        return userResponse(user);
     }
 
     @Transactional
@@ -203,6 +203,10 @@ public class UserService {
     public User findUserByEmail(String email) {
         return repo.findByEmail(email)
             .orElseThrow(() -> new UserNotFoundException("This User doesn't exist"));
+    }
+
+    private UserResponse userResponse(User user) {
+        return UserResponse.of(user, userTeamResponses(user), userCompanyResponses(user));
     }
 
     private List<UserTeamResponse> userTeamResponses(User user) {
