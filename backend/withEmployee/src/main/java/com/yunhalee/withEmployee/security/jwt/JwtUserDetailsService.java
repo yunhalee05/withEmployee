@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepository;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -28,15 +28,13 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByEmail(username).get();
-        if (user != null) {
-            return new JwtUserDetails(user);
-        }
-        throw new UsernameNotFoundException("Could not find user with email : " + username);
+        User user = userRepository.findByEmail(username)
+            .orElseThrow(() -> new UsernameNotFoundException("Could not find user with email : " + username));
+        return new JwtUserDetails(user);
     }
 
     public UserTokenResponse login(String email) {
-        User user = userRepo.findByEmail(email)
+        User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new UserNotFoundException("Could not find user with email : " + email));
         String token = jwtTokenUtil.generateToken(user.getEmail());
         return UserTokenResponse

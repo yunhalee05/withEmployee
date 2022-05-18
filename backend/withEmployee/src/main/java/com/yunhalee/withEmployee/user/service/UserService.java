@@ -85,11 +85,11 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponse register(UserRequest request, MultipartFile multipartFile) {
+    public Integer register(UserRequest request, MultipartFile multipartFile) {
         checkEmail(request.getEmail());
         User user = repo.save(request.toUser(encodePassword(request)));
         saveProfileImage(user, multipartFile);
-        return UserResponse.of(user);
+        return user.getId();
     }
 
     private String saveProfileImage(User user, MultipartFile multipartFile) {

@@ -5,6 +5,7 @@ import com.yunhalee.withEmployee.user.dto.UserListByPageDTO;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
 import com.yunhalee.withEmployee.user.service.UserService;
+import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -73,8 +74,9 @@ public class UserController {
 //    }
 
     @PostMapping(value = "/users", consumes = { "multipart/form-data" })
-    public ResponseEntity<UserResponse> register(@RequestPart("multipartFile")MultipartFile multipartFile, @RequestPart("userRequest") UserRequest userRequest) throws IOException {
-        return ResponseEntity.ok(service.register(userRequest, multipartFile));
+    public ResponseEntity register(@RequestPart("multipartFile")MultipartFile multipartFile, @RequestPart("userRequest") UserRequest userRequest) throws IOException {
+        Integer id = service.register(userRequest, multipartFile);
+        return ResponseEntity.created(URI.create("/users/" + id)).build();
     }
 
     @PostMapping("/user/addTeam")
@@ -91,21 +93,6 @@ public class UserController {
     @PostMapping("/user/check_email")
     public String checkDuplicateEmail(@Param("id") Integer id, @Param("email") String email){
         return service.isEmailUnique(id, email)? "OK" : "Duplicated";
-    }
-
-    @PostMapping("/user/login")
-    public ResponseEntity<UserDTO> login(@RequestBody Map<String, String> body) throws IllegalAccessException {
-        String email = body.get("username");
-        String password = body.get("password");
-
-        UserDTO user = service.getByEmail(email);
-
-        if(!passwordEncoder.matches( password ,user.getPassword())){
-            throw new IllegalAccessException("Wrong Password");
-        }
-
-        user.setPassword("");
-        return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
     }
 
 

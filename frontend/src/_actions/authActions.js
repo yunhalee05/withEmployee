@@ -72,19 +72,18 @@ export const register =(bodyFormData, email, password) => async(dispatch, getSta
     })
 
     try{
-        const res1 = await axios.post('/users', bodyFormData)
-        const res2 = await axios.post('authenticate',{username:email,password:password })
+        let res;
+        await axios.post('/users', bodyFormData).then(async(r)=>{
+            res = await axios.post('/login',{username:email,password:password })
+        })
 
         dispatch({
             type:REGISTER_SUCCESS,
-            payload:{
-                user: res1.data,
-                token:res2.data
-            }
+            payload:res.data
         })
 
-        localStorage.setItem("token", JSON.stringify(res2.data))
-        return res1.data
+        localStorage.setItem("token", JSON.stringify(res.data.token))
+        return res.data.user
     
     }catch(error){
         dispatch({

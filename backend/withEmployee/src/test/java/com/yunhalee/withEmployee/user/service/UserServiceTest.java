@@ -74,11 +74,10 @@ class UserServiceTest extends MockBeans {
         when(userRepository.save(any())).thenReturn(user);
         when(fileUploadService.saveProfileImage(any(), any())).thenReturn(IMAGE_URL);
         when(passwordEncoder.encode(PASSWORD)).thenReturn(PASSWORD);
-        UserResponse response = userService.register(request, MULTIPART_FILE);
+        Integer id = userService.register(request, MULTIPART_FILE);
 
-        //then
-        checkEquals(response, user);
-        assertThat(response.getRole()).isEqualTo(Role.MEMBER.name());
+        // then
+        assertThat(id).isEqualTo(user.getId());
     }
 
     @Test
