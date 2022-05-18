@@ -1,7 +1,9 @@
 package com.yunhalee.withEmployee;
 
+import com.yunhalee.withEmployee.company.domain.CompanyRepository;
 import com.yunhalee.withEmployee.team.domain.TeamRepository;
 import com.yunhalee.withEmployee.user.domain.UserRepository;
+import com.yunhalee.withEmployee.user.service.UserService;
 import com.yunhalee.withEmployee.util.FileUploadService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -27,6 +29,12 @@ public class MockBeans {
 
     @MockBean
     protected FileUploadService fileUploadService;
+
+    @MockBean
+    protected UserService userService;
+
+    @MockBean
+    protected CompanyRepository companyRepository;
 
 
 }

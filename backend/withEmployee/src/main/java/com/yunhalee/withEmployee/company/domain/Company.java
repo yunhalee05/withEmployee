@@ -44,7 +44,15 @@ public class Company extends BaseTimeEntity {
         this.description = description;
     }
 
-    public Company(String name, String description, User ceo) {
+    private Company(String name, String description, User ceo) {
+        this.name = name;
+        this.description = description;
+        this.ceo = ceo;
+    }
+
+    public Company(Integer id, String name, String description,
+        User ceo) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.ceo = ceo;
