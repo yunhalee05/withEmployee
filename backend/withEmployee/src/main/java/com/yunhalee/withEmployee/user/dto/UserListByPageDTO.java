@@ -57,7 +57,7 @@ public class UserListByPageDTO {
             this.phoneNumber = user.getPhoneNumber();
             this.teams = user.getTeamNames();
             this.companies = user.getCompanyNames();
-            this.role = user.getRole().getName();
+            this.role = user.getRole();
         }
     }
 }

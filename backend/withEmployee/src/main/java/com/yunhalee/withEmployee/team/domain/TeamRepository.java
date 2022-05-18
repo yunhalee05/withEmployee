@@ -21,7 +21,7 @@ interface TeamRepository extends JpaRepository<Team, Integer> {
     Page<Team> findAllTeams(Pageable pageable);
 
 
-    @Query(value = "SELECT DISTINCT t FROM Team t LEFT JOIN FETCH t.users u LEFT JOIN FETCH u.role INNER JOIN FETCH t.company c  WHERE t.id=:id")
+    @Query(value = "SELECT DISTINCT t FROM Team t LEFT JOIN FETCH t.users u INNER JOIN FETCH t.company c  WHERE t.id=:id")
     Team findByTeamId(Integer id);
 
     @Query(value = "SELECT DISTINCT t FROM Team t LEFT JOIN FETCH t.users u LEFT JOIN FETCH t.company c WHERE u.id=:id")

@@ -70,7 +70,7 @@ public class TeamDTO {
             this.id = user.getId();
             this.phoneNumber = user.getPhoneNumber();
             this.email = user.getEmail();
-            this.role = user.getRoleName();
+            this.role = user.getRole();
             this.imageUrl = user.getImageUrl();
         }
 

@@ -11,10 +11,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Table(name="user")
-@Getter
+//@Getter
 @Setter
 public class User {
 
@@ -44,6 +46,8 @@ public class User {
     @Column(name = "phone_Number")
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -56,9 +60,9 @@ public class User {
     @OneToMany(mappedBy = "ceo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Company> companies = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="role_id")
-    private Role role;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="role_id")
+//    private Role role;
 
     @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private Set<Conversation> conversations = new HashSet<>();
@@ -72,6 +76,19 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    private User(String name, String email, String password, String description, String phoneNumber, Role role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.description = description;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
+
+    public static User of(String name, String email, String password, String description, String phoneNumber, Role role) {
+        return new User(name, email, password, description, phoneNumber, role);
     }
 
     @Override
@@ -89,9 +106,48 @@ public class User {
         this.teams.add(team);
     }
 
-    @Transient
-    public String getRoleName(){
-        return this.role.getName();
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getRole() {
+        return role.name();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public Set<Company> getCompanies() {
+        return companies;
     }
 
     @Transient
@@ -107,5 +163,11 @@ public class User {
         this.teams.forEach(team -> teams.add(team.getName()));
         return teams;
     }
+
+    public void changeImageURL(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+
 
 }

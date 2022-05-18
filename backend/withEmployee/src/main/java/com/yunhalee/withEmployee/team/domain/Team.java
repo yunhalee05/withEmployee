@@ -51,4 +51,8 @@ public class Team {
         return this.users.size();
     }
 
+    public String getCompanyName() {
+        return this.company.getName();
+    }
+
 }

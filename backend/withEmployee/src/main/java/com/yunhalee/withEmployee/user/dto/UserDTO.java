@@ -64,7 +64,7 @@ public class UserDTO {
         this.description = user.getDescription();
         this.imageUrl = user.getImageUrl();
         this.phoneNumber = user.getPhoneNumber();
-        this.role = user.getRole().getName();
+        this.role = user.getRole();
         this.teams = UserTeam.TeamList(user.getTeams());
         this.companies = UserCompany.CompanyList(user.getCompanies());
     }
