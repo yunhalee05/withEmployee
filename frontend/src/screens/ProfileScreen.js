@@ -17,8 +17,10 @@ function ProfileScreen(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getuser(id))
-    }, [dispatch, id])
+        if(!profileuser.id || profileuser.id != id){
+            dispatch(getuser(id))
+        }
+    }, [id])
 
     return (
         <div className="profile">

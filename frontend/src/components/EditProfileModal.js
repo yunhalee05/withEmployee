@@ -56,24 +56,18 @@ function EditProfileModal({user, setOnEdit}) {
         const check = editValid(name, email, password, confirmPassword, description, phoneNumber)
 
         if(check.errLength===0){
-            if(email !== user.email){
-                const res = await axios.post(`/user/check_email?email=${email}`,null)
-                if(res.data ==="Duplicated"){
-                    return window.alert('This email already exist.')
-                }
+            const userRequest = {
+                name: name, 
+                email : email, 
+                password :password,
+                description: description,
+                phoneNumber : phoneNumber,
             }
 
             const bodyFormData = new FormData()
             bodyFormData.append('multipartFile', imageURL)
-            bodyFormData.append('id', user.id)
-            bodyFormData.append('name', name)
-            bodyFormData.append('email', email)
-            bodyFormData.append('password', password)
-            bodyFormData.append('description', description)
-            bodyFormData.append('phoneNumber', phoneNumber)
-            // console.log(bodyFormData)
-    
-            dispatch(edituser(bodyFormData))    
+            bodyFormData.append('userRequest', new Blob([JSON.stringify(userRequest)], {type: 'application/json'}))
+            dispatch(edituser(bodyFormData, auth.user.id))    
             setOnEdit(false)
 
         }else {

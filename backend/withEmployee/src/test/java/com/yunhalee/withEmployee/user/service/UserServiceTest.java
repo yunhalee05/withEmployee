@@ -53,7 +53,7 @@ class UserServiceTest extends MockBeans {
 
     @InjectMocks
     private UserService userService = new UserService(TEST_UPLOAD_FOLDER, userRepository,
-        fileUploadService, teamRepository, passwordEncoder);
+        fileUploadService, teamRepository, passwordEncoder, jwtUserDetailsService);
 
     private UserRequest request;
     private User user;

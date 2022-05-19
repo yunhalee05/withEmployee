@@ -31,4 +31,8 @@ public class UserRequest {
         }
         return User.of(name, email, encodedPassword, description, phoneNumber, Role.MEMBER);
     }
+
+    public User toUser() {
+        return User.of(name, email, "", description, phoneNumber, Role.MEMBER);
+    }
 }

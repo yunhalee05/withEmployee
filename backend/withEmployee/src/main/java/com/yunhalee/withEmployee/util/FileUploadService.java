@@ -21,7 +21,7 @@ public class FileUploadService {
         String fileName = id + "." + type.substring(type.lastIndexOf("/") + 1);
         deleteOriginalProfileImage(PROFILE_DIRECTORY + fileName);
         uploadFile(Paths.get(PROFILE_DIRECTORY), fileName, multipartFile);
-        return PROFILE_DIRECTORY + fileName;
+        return "/" + PROFILE_DIRECTORY + fileName;
     }
 
     private void deleteOriginalProfileImage(String filePath) {

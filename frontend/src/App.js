@@ -19,6 +19,8 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs'
 import { SOCKET } from "./_constants/socketConstants";
 import SocketClient from './SocketClient';
+import axios from 'axios';
+import { LOGIN_SUCCESS } from './_constants/authConstants';
 
 
 
@@ -31,6 +33,17 @@ function App() {
   let client = Stomp.over(sock);
 
   const dispatch = useDispatch()
+
+  useEffect(async() => {
+    if (!auth.user && localStorage.getItem("token") != null) {
+      const res = await axios.get(`/login?token=${localStorage.getItem("token")}`)
+      dispatch({
+        type:LOGIN_SUCCESS,
+        payload:res.data
+    })
+    }
+  }, [])
+  
 
   useEffect(() => {
     if(auth.user){

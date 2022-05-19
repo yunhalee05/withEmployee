@@ -1,6 +1,7 @@
 package com.yunhalee.withEmployee;
 
 import com.yunhalee.withEmployee.company.domain.CompanyRepository;
+import com.yunhalee.withEmployee.security.jwt.JwtUserDetailsService;
 import com.yunhalee.withEmployee.team.domain.TeamRepository;
 import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.user.service.UserService;
@@ -35,6 +36,9 @@ public class MockBeans {
 
     @MockBean
     protected CompanyRepository companyRepository;
+
+    @MockBean
+    protected JwtUserDetailsService jwtUserDetailsService;
 
 
 }

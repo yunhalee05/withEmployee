@@ -58,7 +58,7 @@ export const getuser =(id) => async(dispatch, getState)=>{
     }
 }
 
-export const edituser =(bodyFormData) => async(dispatch, getState)=>{
+export const edituser =(bodyFormData, id) => async(dispatch, getState)=>{
 
     const {auth : {token}} = getState()
 
@@ -67,25 +67,16 @@ export const edituser =(bodyFormData) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/user/save',bodyFormData,{
+        const res = await axios.post(`/users/${id}`,bodyFormData,{
             headers : {Authorization : `Bearer ${token}`}
         })
-
-        // console.log(res) 
+        console.log(res.data) 
         dispatch({
             type:EDIT_USER_SUCCESS,
             payload:res.data
         })
 
-        dispatch({
-            type:LOGIN_SUCCESS,
-            payload:{
-                user:res.data,
-                token:token
-            }
-        })
-
-        localStorage.setItem("auth", JSON.stringify({user:res.data, token:token}))
+        localStorage.setItem("token", JSON.stringify(res.data.token).replace(/\"/gi, ""))
 
     }catch(error){
         dispatch({

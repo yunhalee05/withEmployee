@@ -1,6 +1,7 @@
 package com.yunhalee.withEmployee.security.jwt;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class JwtTokenUtil implements Serializable {
     //for retrieveing any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-            .setSigningKey(secret)
+            .setSigningKey(secret.getBytes(StandardCharsets.UTF_8))
             .parseClaimsJws(token)
             .getBody();
     }
@@ -67,7 +68,7 @@ public class JwtTokenUtil implements Serializable {
             .setSubject(subject)
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-            .signWith(SignatureAlgorithm.HS512, secret)
+            .signWith(SignatureAlgorithm.HS512, secret.getBytes(StandardCharsets.UTF_8))
             .compact();
     }
 

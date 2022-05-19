@@ -36,9 +36,24 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserTokenResponse login(String email) {
         User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new UserNotFoundException("Could not find user with email : " + email));
+        return getUserTokenResponse(user);
+    }
+
+
+    public UserTokenResponse getUserTokenResponse(User user) {
         String token = jwtTokenUtil.generateToken(user.getEmail());
-        return UserTokenResponse
-            .of(UserResponse
+        return userTokenResponse(user, token);
+    }
+
+    public UserTokenResponse loginWithToken(String token) {
+        String email = jwtTokenUtil.getUsernameFromToken(token);
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("Could not find user with email : " + email));
+        return userTokenResponse(user, token);
+    }
+
+    private UserTokenResponse userTokenResponse(User user, String token) {
+        return UserTokenResponse.of(UserResponse
                 .of(user, userTeamResponses(user), userCompanyResponses(user)), token);
     }
 
@@ -53,4 +68,5 @@ public class JwtUserDetailsService implements UserDetailsService {
             .map(UserCompanyResponse::of)
             .collect(Collectors.toList());
     }
+
 }

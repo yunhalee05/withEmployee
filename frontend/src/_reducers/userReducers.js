@@ -25,7 +25,7 @@ export const userReducer = (state={}, action)=>{
         case EDIT_USER_REQUEST:
             return {...state, loading:true, error: ""}
         case EDIT_USER_SUCCESS:
-            return {loading:false, ...action.payload, error: ""}
+            return {loading:false, ...action.payload.user, error: ""}
         case EDIT_USER_FAIL:
             return {...state, loading:false, error:action.payload}
             

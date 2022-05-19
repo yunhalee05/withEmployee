@@ -5,6 +5,7 @@ import com.yunhalee.withEmployee.conversation.domain.Conversation;
 import com.yunhalee.withEmployee.team.domain.Team;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -87,7 +88,8 @@ public class User {
         this.role = role;
     }
 
-    public static User of(String name, String email, String password, String description, String phoneNumber, Role role) {
+    public static User of(String name, String email, String password, String description,
+        String phoneNumber, Role role) {
         return User.builder()
             .name(name)
             .email(email)
@@ -147,20 +149,39 @@ public class User {
 
     @Transient
     public List<String> getCompanyNames() {
-        List<String> companies = new ArrayList<>();
-        this.companies.forEach(company -> companies.add(company.getName()));
-        return companies;
+        return this.companies.stream()
+            .map(Company::getName)
+            .collect(Collectors.toList());
+//        List<String> companies = new ArrayList<>();
+//        this.companies.forEach(company -> companies.add(company.getName()));
+//        return companies;
     }
 
     public List<String> getTeamNames() {
-        List<String> teams = new ArrayList<>();
-
-        this.teams.forEach(team -> teams.add(team.getName()));
-        return teams;
+        return this.teams.stream()
+            .map(Team::getName)
+            .collect(Collectors.toList());
+//        List<String> teams = new ArrayList<>();
+//        this.teams.forEach(team -> teams.add(team.getName()));
+//        return teams;
     }
 
     public void changeImageURL(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void update(User user) {
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.description = user.getDescription();
+        this.phoneNumber = user.getPhoneNumber();
+        updatePassword(user.getPassword());
+    }
+
+    private void updatePassword(String updatedPassword) {
+        if (!updatedPassword.equals("")) {
+            this.password = updatedPassword;
+        }
     }
 
     @Override

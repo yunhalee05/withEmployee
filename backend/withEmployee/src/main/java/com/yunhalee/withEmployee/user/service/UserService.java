@@ -1,5 +1,8 @@
 package com.yunhalee.withEmployee.user.service;
 
+import com.yunhalee.withEmployee.security.jwt.JwtRequest;
+import com.yunhalee.withEmployee.security.jwt.JwtUserDetailsService;
+import com.yunhalee.withEmployee.security.jwt.UserTokenResponse;
 import com.yunhalee.withEmployee.user.dto.UserCompanyResponse;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
@@ -39,17 +42,20 @@ public class UserService {
     private FileUploadService fileUploadService;
     private TeamRepository teamRepo;
     private PasswordEncoder passwordEncoder;
+    private JwtUserDetailsService jwtUserDetailsService;
 
     public UserService(@Value("${profileUpload.path") String uploadFolder,
         UserRepository repo,
         FileUploadService fileUploadService,
         TeamRepository teamRepo,
-        PasswordEncoder passwordEncoder) {
+        PasswordEncoder passwordEncoder,
+        JwtUserDetailsService jwtUserDetailsService) {
         this.uploadFolder = uploadFolder;
         this.repo = repo;
         this.fileUploadService = fileUploadService;
         this.teamRepo = teamRepo;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
     public UserResponses getAll(Integer page) {
@@ -76,9 +82,13 @@ public class UserService {
     }
 
     private String saveProfileImage(User user, MultipartFile multipartFile) {
-        String imageUrl = fileUploadService.uploadProfileImage(String.valueOf(user.getId()), multipartFile);
-        user.changeImageURL(imageUrl);
-        repo.save(user);
+        String imageUrl = "";
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            imageUrl = fileUploadService
+                .uploadProfileImage(String.valueOf(user.getId()), multipartFile);
+            user.changeImageURL(imageUrl);
+            repo.save(user);
+        }
         return imageUrl;
     }
 
@@ -93,65 +103,29 @@ public class UserService {
         }
     }
 
-//
-//    public UserDTO save(UserDTO userDTO, MultipartFile multipartFile) throws IOException {
-//
-//        if(userDTO.getId()!=null){
-//            User existingUser = repo.findById(userDTO.getId()).get();
-//            existingUser.setName(userDTO.getName());
-//            if(!userDTO.getPassword().equals("")){
-//                existingUser.setPassword(userDTO.getPassword());
-//            }
-//            if(multipartFile != null){
-//                String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-//                try{
-//                    existingUser.setImageName(fileName);
-//                    String uploadDir = "profileUploads/"+ existingUser.getId();
-//                    FileUploadUtils.cleanDir(uploadDir);
-//                    FileUploadUtils.saveFile(uploadDir, fileName, multipartFile);
-//                    existingUser.setImageUrl("/profileUploads/"+ existingUser.getId() + "/" + fileName);
-//                }catch (IOException e){
-//                    new IOException("Could not save file : " + multipartFile.getOriginalFilename());
-//                }
-//
-//            }
-//            existingUser.setDescription(userDTO.getDescription());
-//            existingUser.setPhoneNumber(userDTO.getPhoneNumber());
-//            repo.save(existingUser);
-//            return new UserDTO(existingUser);
-//        }else{
-//            User user = new User();
-//            userDTO.setId(user.getId());
-//            user.setName(userDTO.getName());
-//            user.setEmail(userDTO.getEmail());
-//            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-//            user.setDescription(userDTO.getDescription());
-//
-//            if(userDTO.getRole()!=null){
-//                Role role = roleRepository.findByName("CEO");
-//                user.setRole(role);
-//            }else{
-//                Role role = roleRepository.findByName("Member");
-//                user.setRole(role);
-//            }
-//            repo.save(user);
-//
-//            if(multipartFile != null){
-//                String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-//                user.setImageName(fileName);
-//                String uploadDir = "profileUploads/"+ user.getId();
-//                FileUploadUtils.saveFile(uploadDir, fileName, multipartFile);
-//                user.setImageUrl("/profileUploads/"+ user.getId() + "/" + fileName);
-//
-//            }
-//
-//            repo.save(user);
-//
-//            return new UserDTO(user);
-//
-//        }
-//    }
+    @Transactional
+    public UserTokenResponse update(Integer id, UserRequest request, MultipartFile multipartFile) {
+        checkEmail(request.getEmail(), id);
+        User user = findUserById(id);
+        user.update(getUpdateUser(request));
+        saveProfileImage(user, multipartFile);
+        return jwtUserDetailsService.getUserTokenResponse(user);
+    }
 
+    private void checkEmail(String email, Integer id) {
+        if (repo.existsByEmail(email) && (findUserByEmail(email).getId() != id)) {
+            throw new DuplicatedEmailException("This email is already in use. email : " + email);
+        }
+    }
+
+    private User getUpdateUser(UserRequest request) {
+        if (!request.getPassword().equals("")) {
+            return request.toUser(encodePassword(request));
+        }
+        return request.toUser();
+    }
+
+    @Transactional
     public UserDTO addTeam(String email, Integer id) {
         User user = repo.findByEmail(email).get();
         Team team = teamRepo.findByTeamId(id);
@@ -161,6 +135,7 @@ public class UserService {
         return new UserDTO(user);
     }
 
+    @Transactional
     public Integer deleteTeam(Integer userId, Integer teamId) {
         User user = repo.findById(userId).get();
         Set<Team> teams = user.getTeams().stream().filter(t -> !t.getId().equals(teamId))

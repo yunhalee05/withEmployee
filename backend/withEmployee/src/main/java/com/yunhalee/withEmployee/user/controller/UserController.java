@@ -1,5 +1,6 @@
 package com.yunhalee.withEmployee.user.controller;
 
+import com.yunhalee.withEmployee.security.jwt.UserTokenResponse;
 import com.yunhalee.withEmployee.user.dto.UserDTO;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
@@ -36,19 +37,26 @@ public class UserController {
     }
 
 
-    @PostMapping("/user/save")
-    public ResponseEntity<UserDTO> saveUser(@RequestParam(value = "id",required = false)Integer id,
-                                            @RequestParam("name")String name,
-                                            @RequestParam("email")String email,
-                                            @RequestParam(value = "password",required = false)String password,
-                                            @RequestParam(value = "description",required = false)String description,
-                                            @RequestParam(value = "phoneNumber", required = false)String phoneNumber,
-                                            @RequestParam(value = "multipartFile", required = false)MultipartFile multipartFile) throws IOException {
-        UserDTO userDTO = new UserDTO(id, name, email, password, description, phoneNumber);
-//        UserDTO savedUserDTO = service.save(userDTO, multipartFile);
-//        userDTO.setPassword("");
-        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);
+    @PostMapping(value = "/users/{id}", consumes = { "multipart/form-data" })
+    public ResponseEntity<UserTokenResponse> update(@PathVariable("id") Integer id, @RequestPart("userRequest") UserRequest userRequest, @RequestPart(value = "multipartFile", required = false)MultipartFile multipartFile){
+        System.out.println(userRequest);
+        return ResponseEntity.ok(service.update(id, userRequest, multipartFile));
     }
+
+
+//    @PostMapping("/user/save")
+//    public ResponseEntity<UserDTO> saveUser(@RequestParam(value = "id",required = false)Integer id,
+//                                            @RequestParam("name")String name,
+//                                            @RequestParam("email")String email,
+//                                            @RequestParam(value = "password",required = false)String password,
+//                                            @RequestParam(value = "description",required = false)String description,
+//                                            @RequestParam(value = "phoneNumber", required = false)String phoneNumber,
+//                                            @RequestParam(value = "multipartFile", required = false)MultipartFile multipartFile) throws IOException {
+//        UserDTO userDTO = new UserDTO(id, name, email, password, description, phoneNumber);
+////        UserDTO savedUserDTO = service.save(userDTO, multipartFile);
+////        userDTO.setPassword("");
+//        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);
+//    }
 
 
 //    @PostMapping("/user/register")
@@ -69,7 +77,7 @@ public class UserController {
 //    }
 
     @PostMapping(value = "/users", consumes = { "multipart/form-data" })
-    public ResponseEntity register(@RequestPart("multipartFile")MultipartFile multipartFile, @RequestPart("userRequest") UserRequest userRequest) throws IOException {
+    public ResponseEntity register(@RequestPart("multipartFile")MultipartFile multipartFile, @RequestPart("userRequest") UserRequest userRequest) {
         Integer id = service.register(userRequest, multipartFile);
         return ResponseEntity.created(URI.create("/users/" + id)).build();
     }

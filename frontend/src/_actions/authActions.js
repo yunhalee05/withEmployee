@@ -19,7 +19,7 @@ export const login =({email, password}) => async(dispatch, getState)=>{
             payload:res.data
         })
 
-        localStorage.setItem("token", JSON.stringify(res.data.token))
+        localStorage.setItem("token", JSON.stringify(res.data.token).replace(/\"/gi, ""))
     }catch(error){
         dispatch({
             type:LOGIN_FAIL,
