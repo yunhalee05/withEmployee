@@ -1,25 +1,31 @@
 package com.yunhalee.withEmployee.user.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.yunhalee.withEmployee.MockBeans;
 import com.yunhalee.withEmployee.user.domain.Role;
 import com.yunhalee.withEmployee.user.domain.User;
+import com.yunhalee.withEmployee.user.domain.UserTest;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
+import com.yunhalee.withEmployee.user.dto.UserResponses;
 import com.yunhalee.withEmployee.user.exception.DuplicatedEmailException;
 import com.yunhalee.withEmployee.user.exception.UserNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +52,8 @@ class UserServiceTest extends MockBeans {
 
 
     @InjectMocks
-    private UserService userService = new UserService(TEST_UPLOAD_FOLDER, userRepository, fileUploadService, teamRepository, passwordEncoder);
+    private UserService userService = new UserService(TEST_UPLOAD_FOLDER, userRepository,
+        fileUploadService, teamRepository, passwordEncoder);
 
     private UserRequest request;
     private User user;
@@ -76,7 +83,7 @@ class UserServiceTest extends MockBeans {
         // when
         when(userRepository.existsByEmail(any())).thenReturn(false);
         when(userRepository.save(any())).thenReturn(user);
-        when(fileUploadService.saveProfileImage(any(), any())).thenReturn(IMAGE_URL);
+        when(fileUploadService.uploadProfileImage(any(), any())).thenReturn(IMAGE_URL);
         when(passwordEncoder.encode(PASSWORD)).thenReturn(PASSWORD);
         Integer id = userService.register(request, MULTIPART_FILE);
 
@@ -85,7 +92,7 @@ class UserServiceTest extends MockBeans {
     }
 
     @Test
-    void register_with_already_exists_email_is_invalid(){
+    void register_with_already_exists_email_is_invalid() {
         // when
         when(userRepository.existsByEmail(any())).thenReturn(true);
         assertThatThrownBy(() -> userService.register(request, MULTIPART_FILE))
@@ -112,6 +119,23 @@ class UserServiceTest extends MockBeans {
             .hasMessage(USER_NOT_FOUND_EXCEPTION);
     }
 
+    @Test
+    void get_user_list() {
+        // given
+        Integer page = 1;
+        List<User> expectedUsers = Arrays.asList(UserTest.MEMBER, UserTest.CEO, UserTest.LEADER, UserTest.ADMIN);
+
+        // when
+        doReturn(new PageImpl<>(expectedUsers)).when(userRepository).findAllUsers(any());
+        UserResponses responses = userService.getAll(page);
+
+        //then
+        assertThat(responses.getTotalElement()).isEqualTo(4);
+        assertThat(responses.getTotalPage()).isEqualTo(1);
+        assertThat(responses.getUsers().size()).isEqualTo(4);
+        checkEquals(responses, expectedUsers);
+    }
+
     private void checkEquals(UserResponse response, User user) {
         assertThat(response.getId()).isEqualTo(user.getId());
         assertThat(response.getName()).isEqualTo(user.getName());
@@ -119,6 +143,13 @@ class UserServiceTest extends MockBeans {
         assertThat(response.getImageUrl()).isEqualTo(user.getImageUrl());
         assertThat(response.getDescription()).isEqualTo(user.getDescription());
         assertThat(response.getPhoneNumber()).isEqualTo(user.getPhoneNumber());
+    }
+
+    private void checkEquals(UserResponses responses, List<User> expectedUsers) {
+        List<UserResponse> users = responses.getUsers();
+        for (int i = 0; i < users.size(); i++) {
+            checkEquals(users.get(i), expectedUsers.get(i));
+        }
     }
 
 }

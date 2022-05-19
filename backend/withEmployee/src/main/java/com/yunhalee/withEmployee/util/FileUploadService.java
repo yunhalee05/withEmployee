@@ -16,11 +16,11 @@ public class FileUploadService {
 
     private static String PROFILE_DIRECTORY = "profileUploads/";
 
-    public String saveProfileImage(String id, MultipartFile multipartFile) {
+    public String uploadProfileImage(String id, MultipartFile multipartFile) {
         String type = StringUtils.cleanPath(multipartFile.getContentType());
         String fileName = id + "." + type.substring(type.lastIndexOf("/") + 1);
         deleteOriginalProfileImage(PROFILE_DIRECTORY + fileName);
-        saveFile(Paths.get(PROFILE_DIRECTORY), fileName, multipartFile);
+        uploadFile(Paths.get(PROFILE_DIRECTORY), fileName, multipartFile);
         return PROFILE_DIRECTORY + fileName;
     }
 
@@ -34,7 +34,7 @@ public class FileUploadService {
         }
     }
 
-    private void saveFile(Path uploadPath, String fileName, MultipartFile multipartFile) {
+    private void uploadFile(Path uploadPath, String fileName, MultipartFile multipartFile) {
         try (InputStream inputStream = multipartFile.getInputStream()) {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);

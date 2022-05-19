@@ -24,9 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -78,7 +76,7 @@ public class UserService {
     }
 
     private String saveProfileImage(User user, MultipartFile multipartFile) {
-        String imageUrl = fileUploadService.saveProfileImage(String.valueOf(user.getId()), multipartFile);
+        String imageUrl = fileUploadService.uploadProfileImage(String.valueOf(user.getId()), multipartFile);
         user.changeImageURL(imageUrl);
         repo.save(user);
         return imageUrl;
@@ -172,26 +170,6 @@ public class UserService {
 //        user.setTeams(teams);
         repo.save(user);
         return teamId;
-    }
-
-    public boolean isEmailUnique(Integer id, String email) {
-        User existingUser = repo.findByEmail(email).get();
-
-        if (existingUser == null) {
-            return true;
-        }
-        boolean isCreatingNew = (id == null);
-        if (isCreatingNew) {
-            if (existingUser != null) {
-                return false;
-            }
-        } else {
-            if (existingUser.getId() != id) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public User findUserById(Integer id) {

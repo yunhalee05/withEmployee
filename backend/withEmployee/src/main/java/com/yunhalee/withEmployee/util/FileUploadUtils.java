@@ -20,8 +20,6 @@ public class FileUploadUtils {
             Files.createDirectories(uploadPath);
         }
 
-
-
         try(InputStream inputStream = multipartFile.getInputStream()) {
             Path filePath = uploadPath.resolve(id);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
