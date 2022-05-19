@@ -3,6 +3,7 @@ package com.yunhalee.withEmployee.user.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.yunhalee.withEmployee.MockBeans;
+import com.yunhalee.withEmployee.security.jwt.UserTokenResponse;
 import com.yunhalee.withEmployee.user.domain.Role;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.domain.UserTest;
@@ -41,7 +42,7 @@ class UserServiceTest extends MockBeans {
     private final String NAME = "testUser";
     private final String EMAIL = "test@example.com";
     private final String PASSWORD = "123456";
-    private final String IMAGE_URL = "testUploadFolder/testImage.png";
+    private final String IMAGE_URL = "/testUploadFolder/testImage.png";
     private final String DESCRIPTION = "testDescription";
     private final String PHONE_NUMBER = "01000000000";
     private final boolean IS_CEO = false;
@@ -52,8 +53,12 @@ class UserServiceTest extends MockBeans {
 
 
     @InjectMocks
-    private UserService userService = new UserService(TEST_UPLOAD_FOLDER, userRepository,
-        fileUploadService, teamRepository, passwordEncoder, jwtUserDetailsService);
+    private UserService userService = new UserService(TEST_UPLOAD_FOLDER,
+        userRepository,
+        fileUploadService,
+        teamRepository,
+        passwordEncoder,
+        jwtUserDetailsService);
 
     private UserRequest request;
     private User user;
@@ -134,6 +139,38 @@ class UserServiceTest extends MockBeans {
         assertThat(responses.getTotalPage()).isEqualTo(1);
         assertThat(responses.getUsers().size()).isEqualTo(4);
         checkEquals(responses, expectedUsers);
+    }
+
+    @Test
+    void update_user() {
+        // given
+        UserRequest updateRequest = new UserRequest(UserTest.MEMBER.getName(),
+            UserTest.MEMBER.getEmail(),
+            UserTest.MEMBER.getPassword(),
+            UserTest.MEMBER.getDescription(),
+            UserTest.MEMBER.getPhoneNumber(),
+            false);
+
+        // when
+        when(userRepository.existsByEmail(EMAIL)).thenReturn(false);
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        when(fileUploadService.uploadProfileImage(any(), any())).thenReturn(UserTest.MEMBER.getImageUrl());
+        when(passwordEncoder.encode(PASSWORD)).thenReturn(UserTest.MEMBER.getPassword());
+        when(jwtUserDetailsService.generateToken(any())).thenReturn("token");
+        UserTokenResponse response = userService.update(ID, updateRequest, MULTIPART_FILE);
+
+        // then
+        checkEquals(response.getUser(), UserTest.MEMBER);
+    }
+
+    @Test
+    void update_user_with_already_in_use_email_is_invalid() {
+        when(userRepository.existsByEmail(EMAIL)).thenReturn(true);
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(UserTest.CEO));
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        assertThatThrownBy(() -> userService.update(1, request, MULTIPART_FILE))
+            .isInstanceOf(DuplicatedEmailException.class)
+            .hasMessageContaining(DUPLICATED_EMAIL_EXCEPTION);
     }
 
     private void checkEquals(UserResponse response, User user) {

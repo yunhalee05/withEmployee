@@ -109,7 +109,8 @@ public class UserService {
         User user = findUserById(id);
         user.update(getUpdateUser(request));
         saveProfileImage(user, multipartFile);
-        return jwtUserDetailsService.getUserTokenResponse(user);
+        return UserTokenResponse.of(UserResponse
+            .of(user, userTeamResponses(user), userCompanyResponses(user)), jwtUserDetailsService.generateToken(user));
     }
 
     private void checkEmail(String email, Integer id) {

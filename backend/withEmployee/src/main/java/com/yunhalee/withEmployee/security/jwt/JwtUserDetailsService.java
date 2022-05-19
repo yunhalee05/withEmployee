@@ -45,6 +45,10 @@ public class JwtUserDetailsService implements UserDetailsService {
         return userTokenResponse(user, token);
     }
 
+    public String generateToken(User user) {
+        return jwtTokenUtil.generateToken(user.getEmail());
+    }
+
     public UserTokenResponse loginWithToken(String token) {
         String email = jwtTokenUtil.getUsernameFromToken(token);
         User user = userRepository.findByEmail(email)
