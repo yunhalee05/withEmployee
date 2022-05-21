@@ -15,24 +15,20 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     boolean existsByName(String name);
 
-    @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH e.companies p LEFT JOIN FETCH c.teams t  LEFT JOIN FETCH t.users u")
-    List<Company> findAllCompanies();
+    Optional<Company> findByName(String name);
 
+    @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH e.companies p LEFT JOIN FETCH c.teams t  LEFT JOIN FETCH t.users u")
+    List<Company> findCompanies();
 
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH e.companies p LEFT JOIN FETCH c.teams t  LEFT JOIN FETCH t.users u",
             countQuery = "SELECT count(DISTINCT c) FROM Company c")
-    Page<Company> findAllCompanies(Pageable pageable);
+    Page<Company> findCompanies(Pageable pageable);
 
-    Company findByTeams(Team team);
-
-    @Override
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH c.teams t LEFT JOIN FETCH t.users u WHERE c.id=:integer")
-    Optional<Company> findById(Integer integer);
+    Optional<Company> findByCompanyId(Integer integer);
 
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH c.teams t LEFT JOIN FETCH t.users u WHERE e.id=:id")
     List<Company> findByUserId(Integer id);
-
-    Optional<Company> findByName(String name);
 
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH e.companies p LEFT JOIN FETCH c.teams t  LEFT JOIN FETCH t.users u ORDER BY RAND()")
     List<Company> findByRandom();

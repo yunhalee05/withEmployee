@@ -41,7 +41,7 @@ public class CompanyService {
 
     public CompanyResponses listAll(Integer page){
         Pageable pageable = PageRequest.of(page-1, COMPANY_PER_PAGE, Sort.by("id"));
-        Page<Company> pageCompany = companyRepository.findAllCompanies(pageable);
+        Page<Company> pageCompany = companyRepository.findCompanies(pageable);
         return CompanyResponses.of(pageCompany.getTotalElements(),
             pageCompany.getTotalPages(),
             pageCompany.getContent().stream()
@@ -51,7 +51,7 @@ public class CompanyService {
 
     public CompanyListResponses getCompaniesByPage(Integer page, String sort){
         Pageable pageable = getPageable(page, sort);
-        Page<Company> pageCompanies = companyRepository.findAllCompanies(pageable);
+        Page<Company> pageCompanies = companyRepository.findCompanies(pageable);
         return CompanyListResponses.of(pageCompanies.getTotalElements(),
             pageCompanies.getTotalPages(),
             pageCompanies.getContent().stream()
@@ -157,7 +157,7 @@ public class CompanyService {
 
 
     public Company findCompanyById(Integer id) {
-        return companyRepository.findById(id)
+        return companyRepository.findByCompanyId(id)
             .orElseThrow(() -> new CompanyNotFoundException("Company does not exist with id : " + id));
     }
 

@@ -88,7 +88,7 @@ class CompanyServiceTest extends MockBeans {
 
         // when
         when(companyRepository.existsByName(anyString())).thenReturn(false);
-        when(companyRepository.findById(any())).thenReturn(Optional.of(company));
+        when(companyRepository.findByCompanyId(any())).thenReturn(Optional.of(company));
         when(userService.findUserById(anyInt())).thenReturn(UserTest.SECOND_CEO);
         CompanyResponse response = companyService.update(ID, companyRequest);
 
