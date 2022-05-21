@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CompanyResponses {
 
-
     private Long totalElement;
     private Integer totalPage;
     private List<CompanyResponse> companies;

@@ -1,5 +1,6 @@
 package com.yunhalee.withEmployee.company.controller;
 
+import com.yunhalee.withEmployee.company.dto.CompanyListResponses;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.dto.CompanyDTO;
 import com.yunhalee.withEmployee.company.dto.CompanyListByPageDTO;
@@ -24,10 +25,10 @@ public class CompanyController {
     @Autowired
     private CompanyService service;
 
-    @GetMapping("/companies")
-    public ResponseEntity<CompanyResponses> listAll(@RequestParam("page") Integer page){
-        return ResponseEntity.ok(service.listAll(page));
-    }
+//    @GetMapping("/companies")
+//    public ResponseEntity<CompanyResponses> listAll(@RequestParam("page") Integer page){
+//        return ResponseEntity.ok(service.listAll(page));
+//    }
 
     @GetMapping("/company/{id}")
     public CompanyDTO getByName(@PathVariable("id") Integer id){
@@ -73,9 +74,8 @@ public class CompanyController {
     }
 
     @GetMapping("/companies")
-    public ResponseEntity<?> allCompanies(@Param("page")String page, @Param("sort")String sort){
-        Integer pageCompany = Integer.parseInt(page);
-        return new ResponseEntity<HashMap<String, Object>>(service.getCompaniesByPage(pageCompany, sort), HttpStatus.OK);
+    public ResponseEntity<CompanyListResponses> allCompanies(@RequestParam("page")Integer page, @RequestParam("sort")String sort){
+        return ResponseEntity.ok(service.getCompaniesByPage(page, sort));
     }
 
     @PostMapping("/company/check_name")

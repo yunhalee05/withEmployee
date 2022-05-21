@@ -1,6 +1,8 @@
 package com.yunhalee.withEmployee.company.service;
 
 import com.yunhalee.withEmployee.company.domain.CompanyRepository;
+import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
+import com.yunhalee.withEmployee.company.dto.CompanyListResponses;
 import com.yunhalee.withEmployee.company.dto.CompanyResponses;
 import com.yunhalee.withEmployee.user.dto.CeoResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
@@ -117,32 +119,26 @@ public class CompanyService {
         return companyListDTOS;
     }
 
-    public HashMap<String, Object> getCompaniesByPage(Integer page, String sort){
-        Pageable pageable = PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by("createdAt"));
-
-        if(sort.equals("createdAtDesc")){
-            pageable = PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by(Sort.Direction.DESC,"createdAt"));
-        }else if(sort.equals("nameAsc")){
-            pageable = PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by("name"));
-        }else if(sort.equals("nameDesc")){
-            pageable = PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by(Sort.Direction.DESC,"name"));
-        }
-        Page<Company> companies = companyRepository.findAllCompanies(pageable);
-        List<Company> allCompanies = companies.getContent();
-
-        List<CompanyListDTO> companyListDTOS = new ArrayList<>();
-        allCompanies.forEach(company -> companyListDTOS.add(new CompanyListDTO(company)));
-
-        HashMap<String, Object> response= new HashMap<>();
-        response.put("totalElement", companies.getTotalElements());
-        response.put("totalPage", companies.getTotalPages());
-        response.put("companies", companyListDTOS);
-
-
-        return response;
+    public CompanyListResponses getCompaniesByPage(Integer page, String sort){
+        Pageable pageable = getPageable(page, sort);
+        Page<Company> pageCompanies = companyRepository.findAllCompanies(pageable);
+        return CompanyListResponses.of(pageCompanies.getTotalElements(),
+            pageCompanies.getTotalPages(),
+            pageCompanies.getContent().stream()
+        .map(company -> CompanyListResponse.of(company, CeoResponse.of(company.getCeo())))
+        .collect(Collectors.toList()));
     }
 
-
+    private Pageable getPageable(Integer page, String sort) {
+        if(sort.equals("createdAtDesc")){
+            return PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by(Sort.Direction.DESC,"createdAt"));
+        }else if(sort.equals("nameAsc")){
+            return PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by("name"));
+        }else if(sort.equals("nameDesc")){
+            return PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by(Sort.Direction.DESC,"name"));
+        }
+        return PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by("createdAt"));
+    }
 
     public boolean isNameUnique(String name){
         Company existingCompany = companyRepository.findByName(name);
