@@ -31,4 +31,8 @@ public class CompanyRequest {
     public Company toCompany(User ceo){
         return Company.of(this.name, this.description, ceo);
     }
+
+    public Company toCompany(){
+        return new Company(this.name, this.description);
+    }
 }

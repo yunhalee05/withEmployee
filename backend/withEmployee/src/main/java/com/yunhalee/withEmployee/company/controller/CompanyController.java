@@ -1,10 +1,8 @@
 package com.yunhalee.withEmployee.company.controller;
 
+import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyListResponses;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
-import com.yunhalee.withEmployee.company.dto.CompanyDTO;
-import com.yunhalee.withEmployee.company.dto.CompanyListByPageDTO;
-import com.yunhalee.withEmployee.company.dto.CompanyListDTO;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.company.dto.CompanyResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyResponses;
@@ -30,55 +28,52 @@ public class CompanyController {
 //        return ResponseEntity.ok(service.listAll(page));
 //    }
 
+    @GetMapping("/companies/recommendation")
+    public ResponseEntity<CompanyListResponses> companyRecommendation(){
+        return ResponseEntity.ok(service.companyRecommendation());
+    }
+
+    @GetMapping(value = "/companies", params = "keyword")
+    public  ResponseEntity<CompanyListResponses> searchCompany(@RequestParam("keyword")String keyword){
+        return ResponseEntity.ok(service.searchCompany(keyword));
+    }
+
+    @GetMapping(value = "/companies", params = {"page", "sort"})
+    public ResponseEntity<CompanyListResponses> allCompanies(@RequestParam("page")Integer page, @RequestParam("sort")String sort){
+        return ResponseEntity.ok(service.getCompaniesByPage(page, sort));
+    }
+
+    @GetMapping("/users/{ceoId}/companies")
+    public ResponseEntity<CompanyListResponses> getByCeoId(@PathVariable("ceoId") Integer ceoId){
+        return ResponseEntity.ok(service.findByCeoId(ceoId));
+    }
+
     @GetMapping("/companies/{id}")
     public ResponseEntity<CompanyResponse> getByName(@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @PostMapping("/company/save")
-    public CompanyDTO save(@RequestBody CompanyRequest companyRequest){
-        return service.save(companyRequest);
-    }
+//    @PostMapping("/company/save")
+//    public CompanyDTO save(@RequestBody CompanyRequest companyRequest){
+//        return service.save(companyRequest);
+//    }
 
     @PostMapping("/companies")
     public ResponseEntity<CompanyResponse> create(@RequestBody CompanyRequest companyRequest){
         return ResponseEntity.ok(service.create(companyRequest));
     }
 
-
-    @GetMapping("/companies/{id}")
-    public List<CompanyListDTO> getByCeoId(@PathVariable("id") Integer id){
-        List<Company> companies = service.findByCeoId(id);
-        List<CompanyListDTO> companyListDTOS = new ArrayList<>();
-        companies.forEach(company -> companyListDTOS.add(new CompanyListDTO(company)));
-
-        return companyListDTOS;
+    @PostMapping("/companies/{id}")
+    public ResponseEntity<CompanyResponse> update(@PathVariable("id") Integer id, @RequestBody CompanyRequest companyRequest){
+        return ResponseEntity.ok(service.update(id, companyRequest));
     }
 
-    @DeleteMapping("/company/delete/{id}")
-    public Integer deleteCompany(@PathVariable("id") Integer id){
+
+    @DeleteMapping("/companies/{id}")
+    public ResponseEntity deleteCompany(@PathVariable("id") Integer id){
         service.deleteCompany(id);
-        return id;
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/company/recommendation")
-    public List<CompanyListDTO> companyRecommendation(){
-        return service.companyRecommendation();
-    }
-
-    @GetMapping("/company/search")
-    public List<CompanyListDTO> searchCompany(@Param("keyword")String keyword){
-        return service.searchCompany(keyword);
-    }
-
-    @GetMapping("/companies")
-    public ResponseEntity<CompanyListResponses> allCompanies(@RequestParam("page")Integer page, @RequestParam("sort")String sort){
-        return ResponseEntity.ok(service.getCompaniesByPage(page, sort));
-    }
-
-    @PostMapping("/company/check_name")
-    public String checkNameUnique(@Param("name")String name){
-        return service.isNameUnique(name) ? "OK" : "Duplicated";
-    }
 
 }

@@ -23,7 +23,7 @@ public class Team {
     @Column(name = "name", nullable = false, length = 40)
     private String name;
 
-    @ManyToMany(mappedBy = "teams", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "teams")
     private Set<User> users= new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

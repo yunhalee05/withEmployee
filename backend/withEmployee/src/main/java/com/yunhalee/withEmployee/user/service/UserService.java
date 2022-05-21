@@ -159,6 +159,7 @@ public class UserService {
             .orElseThrow(() -> new UserNotFoundException("This User doesn't exist"));
     }
 
+
     public List<SimpleUserResponse> simpleUserResponses(Set<User> users) {
         return users.stream()
             .map(SimpleUserResponse::of)

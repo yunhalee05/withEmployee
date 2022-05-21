@@ -21,31 +21,24 @@ function AddCompanyModal({setAddCompany, company}) {
         }
 
 
-        if(!company || cName!==company.name){
-            const res = await axios.post(`/company/check_name?name=${cName}`, null)
-            if(res.data ==="Duplicated"){
-                return window.alert('This Company name already exist.')
-            }
+        // if(!company || cName!==company.name){
+        //     const res = await axios.post(`/company/check_name?name=${cName}`, null)
+        //     if(res.data ==="Duplicated"){
+        //         return window.alert('This Company name already exist.')
+        //     }
+        // }
+        const companyRequest={
+            name:cName,
+            description:cDescription,
+            ceoId: auth.user.id
         }
 
-
         if(!company){
-            const companyDTO={
-                name:cName,
-                description:cDescription,
-                ceoId: auth.user.id
-            }
-            dispatch(createCompany(companyDTO))
+            dispatch(createCompany(companyRequest))
 
 
         }else{
-            const companyDTO={
-                id:company.id,
-                name:cName,
-                description:cDescription,
-                ceoId: auth.user.id
-            }
-            dispatch(editCompany(companyDTO))
+            dispatch(editCompany(company.id, companyRequest))
 
         }
         setAddCompany(false)

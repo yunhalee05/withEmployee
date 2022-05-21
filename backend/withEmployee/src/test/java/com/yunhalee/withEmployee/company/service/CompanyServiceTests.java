@@ -2,8 +2,6 @@ package com.yunhalee.withEmployee.company.service;
 
 import com.yunhalee.withEmployee.company.domain.CompanyRepository;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
-import com.yunhalee.withEmployee.company.dto.CompanyDTO;
-import com.yunhalee.withEmployee.company.dto.CompanyListDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

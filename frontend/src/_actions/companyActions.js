@@ -93,13 +93,13 @@ export const getcompanies =({id}) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/companies/${id}`,{
+        const res = await axios.get(`/users/${id}/companies`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         // console.log(res)
         dispatch({
             type:GET_COMPANIES_SUCCESS,
-            payload:res.data
+            payload:res.data.companies
         })
 
         return res.data
@@ -144,7 +144,7 @@ export const createCompany =(companyRequest) => async(dispatch, getState)=>{
     }
 }
 
-export const editCompany =(companyDTO) => async(dispatch, getState)=>{
+export const editCompany =(id, companyRequest) => async(dispatch, getState)=>{
 
     const {auth : {token}} = getState()
 
@@ -153,7 +153,7 @@ export const editCompany =(companyDTO) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/company/save',companyDTO,{
+        const res = await axios.post(`/companies/${id}`,companyRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -183,7 +183,7 @@ export const deleteCompany =(id) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.delete(`/company/delete/${id}`,{
+        const res = await axios.delete(`/companies/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         // console.log(res)
@@ -215,7 +215,7 @@ export const getcompaniesrecommendation =() => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get('/company/recommendation',{
+        const res = await axios.get('/companies/recommendation',{
             headers : {Authorization : `Bearer ${token}`}
         })
         // console.log(res)
@@ -245,7 +245,7 @@ export const getcompaniessearch =(keyword) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/company/search?keyword=${keyword}`,{
+        const res = await axios.get(`/companies?keyword=${keyword}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         // console.log(res)

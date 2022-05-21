@@ -75,6 +75,18 @@ public class Company extends BaseTimeEntity {
             .collect(Collectors.toSet());
     }
 
+    public boolean isCompany(Integer id) {
+        return this.id.equals(id);
+    }
+
+    public void update(Company company) {
+        if (company.getCeo() != null) {
+            this.ceo = company.getCeo();
+        }
+        this.name = company.getName();
+        this.description = company.getDescription();
+    }
+
     @Override
     public String toString() {
         return "Company{" +

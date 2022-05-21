@@ -7,9 +7,6 @@ import com.yunhalee.withEmployee.company.dto.CompanyResponses;
 import com.yunhalee.withEmployee.team.dto.SimpleTeamResponse;
 import com.yunhalee.withEmployee.user.dto.CeoResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
-import com.yunhalee.withEmployee.company.dto.CompanyDTO;
-import com.yunhalee.withEmployee.company.dto.CompanyListByPageDTO;
-import com.yunhalee.withEmployee.company.dto.CompanyListDTO;
 import com.yunhalee.withEmployee.company.dto.CompanyResponse;
 import com.yunhalee.withEmployee.company.exception.CompanyNameAlreadyInUserException;
 import com.yunhalee.withEmployee.company.domain.Company;
@@ -77,56 +74,51 @@ public class CompanyService {
         }
     }
 
-    public CompanyDTO save(CompanyRequest companyRequest){
-
-        User ceo = userService.findUserById(companyRequest.getCeoId());
-
-        if(companyRequest.getId() !=null){
-            Company existingCompany = companyRepository.findById(companyRequest.getId()).get();
-
-            existingCompany.setName(companyRequest.getName());
-            existingCompany.setDescription(companyRequest.getDescription());
-            existingCompany.setCeo(ceo);
-
-            companyRepository.save(existingCompany);
-
-            return new CompanyDTO(existingCompany);
-
-        }else{
-
-            Company newCompany = new Company(companyRequest.getName(), companyRequest.getDescription());
-            newCompany.setCeo(ceo);
-            companyRepository.save(newCompany);
-            return new CompanyDTO(newCompany);
-        }
-
+    public CompanyResponse update(Integer id, CompanyRequest request) {
+        checkCompanyName(id, request);
+        Company company = findCompanyById(id);
+        company.update(getToUpdateUser(company.getCeo().getId(), request));
+        return CompanyResponse.of(company, CeoResponse.of(company.getCeo()));
     }
 
-    public List<Company> findByCeoId(Integer id){
-        return companyRepository.findByUserId(id);
+    private Company getToUpdateUser(Integer ceoId, CompanyRequest request){
+        if (!request.getCeoId().equals(ceoId)){
+            User ceo = userService.findUserById(request.getCeoId());
+            return request.toCompany(ceo);
+        }
+        return request.toCompany();
+    }
+
+    private void checkCompanyName(Integer id, CompanyRequest request) {
+        if (companyRepository.existsByName(request.getName()) && companyRepository.findByName(request.getName()).isCompany(id)){
+            throw new CompanyNameAlreadyInUserException("This company name is already in use. name : " + request.getName());
+        }
+    }
+
+    public CompanyListResponses findByCeoId(Integer ceoId){
+        List<Company> companies = companyRepository.findByUserId(ceoId);
+        return CompanyListResponses.of((long)companies.size(), 1,
+            companies.stream().map(company -> CompanyListResponse.of(company, CeoResponse.of(company.getCeo()))).collect(Collectors.toList()));
     }
 
     public void deleteCompany(Integer id) {
          companyRepository.deleteById(id);
     }
 
-    public List<CompanyListDTO> companyRecommendation(){
+    public CompanyListResponses companyRecommendation(){
         Pageable pageable = PageRequest.of(0, COMPANY_RECOMMENDATION_PER_PAGE);
-        Page<Company> page = companyRepository.findByRandom(pageable);
-        List<Company> companies = page.getContent();
-
-        List<CompanyListDTO> companyListDTOS = new ArrayList<>();
-        companies.forEach(company -> companyListDTOS.add(new CompanyListDTO(company)));
-
-        return companyListDTOS;
+        Page<Company> pageCompanies = companyRepository.findByRandom(pageable);
+        return CompanyListResponses.of(pageCompanies.getTotalElements(),
+            pageCompanies.getTotalPages(),
+            pageCompanies.getContent().stream()
+                .map(company -> CompanyListResponse.of(company, CeoResponse.of(company.getCeo())))
+                .collect(Collectors.toList()));
     }
 
-    public List<CompanyListDTO> searchCompany(String keyword){
+    public CompanyListResponses searchCompany(String keyword){
         List<Company> companies = companyRepository.findByKeyword(keyword);
-        List<CompanyListDTO> companyListDTOS = new ArrayList<>();
-        companies.forEach(company -> companyListDTOS.add(new CompanyListDTO(company)));
-
-        return companyListDTOS;
+        return CompanyListResponses.of((long)companies.size(), 1,
+            companies.stream().map(company -> CompanyListResponse.of(company, CeoResponse.of(company.getCeo()))).collect(Collectors.toList()));
     }
 
     public CompanyListResponses getCompaniesByPage(Integer page, String sort){
@@ -148,14 +140,6 @@ public class CompanyService {
             return PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by(Sort.Direction.DESC,"name"));
         }
         return PageRequest.of(page-1,COMPANY_PER_PAGE, Sort.by("createdAt"));
-    }
-
-    public boolean isNameUnique(String name){
-        Company existingCompany = companyRepository.findByName(name);
-        if(existingCompany==null){
-            return true;
-        }
-        return false;
     }
 
     public Company findCompanyById(Integer id) {
