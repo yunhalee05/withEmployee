@@ -62,6 +62,10 @@ public class Company extends BaseTimeEntity {
         return new Company(name, description, ceo);
     }
 
+    public String getCeoName() {
+        return this.ceo.getName();
+    }
+
     @Override
     public String toString() {
         return "Company{" +

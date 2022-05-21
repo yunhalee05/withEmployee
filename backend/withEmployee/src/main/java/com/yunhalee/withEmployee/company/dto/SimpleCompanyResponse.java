@@ -13,9 +13,9 @@ public class SimpleCompanyResponse {
     private String ceo;
 
     private SimpleCompanyResponse(Company company) {
-        this.id = id;
-        this.name = name;
-        this.ceo = ceo;
+        this.id = company.getId();
+        this.name = company.getName();
+        this.ceo = company.getCeoName();
     }
 
     public static SimpleCompanyResponse of(Company company) {

@@ -1,8 +1,6 @@
 package com.yunhalee.withEmployee.company.domain;
 
-import com.yunhalee.withEmployee.company.domain.CompanyRepository;
 import com.yunhalee.withEmployee.company.dto.CompanyListDTO;
-import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.user.domain.User;
 import org.junit.jupiter.api.Test;
@@ -126,7 +124,7 @@ public class CompanyRepositoryTests {
         Page<Company> page = repo.findByRandom(pageable);
         List<Company> companies = page.getContent();
 
-        companies.forEach(company -> System.out.println(company.getCeo()));
+        companies.forEach(company -> System.out.println(company.getCeoName()));
 
         List<CompanyListDTO> companyListDTOS = new ArrayList<>();
 

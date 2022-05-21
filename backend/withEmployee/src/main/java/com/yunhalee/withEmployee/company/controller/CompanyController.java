@@ -6,6 +6,7 @@ import com.yunhalee.withEmployee.company.dto.CompanyListByPageDTO;
 import com.yunhalee.withEmployee.company.dto.CompanyListDTO;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.company.dto.CompanyResponse;
+import com.yunhalee.withEmployee.company.dto.CompanyResponses;
 import com.yunhalee.withEmployee.company.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -23,10 +24,9 @@ public class CompanyController {
     @Autowired
     private CompanyService service;
 
-    @GetMapping("/company/companylist")
-    public CompanyListByPageDTO listAll(@Param("page") String page){
-        Integer pageCompany = Integer.parseInt(page);
-        return service.listAll(pageCompany);
+    @GetMapping("/companies")
+    public ResponseEntity<CompanyResponses> listAll(@RequestParam("page") Integer page){
+        return ResponseEntity.ok(service.listAll(page));
     }
 
     @GetMapping("/company/{id}")

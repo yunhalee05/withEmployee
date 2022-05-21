@@ -10,7 +10,7 @@ export const getcompanylist =(page) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/company/companylist?page=${page}`,{
+        const res = await axios.get(`/companies?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({

@@ -1,7 +1,8 @@
 package com.yunhalee.withEmployee.company.service;
 
 import com.yunhalee.withEmployee.company.domain.CompanyRepository;
-import com.yunhalee.withEmployee.company.dto.CompanyCeoResponse;
+import com.yunhalee.withEmployee.company.dto.CompanyResponses;
+import com.yunhalee.withEmployee.user.dto.CeoResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.dto.CompanyDTO;
 import com.yunhalee.withEmployee.company.dto.CompanyListByPageDTO;
@@ -12,6 +13,7 @@ import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.company.exception.CompanyNotFoundException;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.service.UserService;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,12 +38,14 @@ public class CompanyService {
         this.userService = userService;
     }
 
-    public CompanyListByPageDTO listAll(Integer page){
+    public CompanyResponses listAll(Integer page){
         Pageable pageable = PageRequest.of(page-1, COMPANY_PER_PAGE, Sort.by("id"));
         Page<Company> pageCompany = companyRepository.findAllCompanies(pageable);
-        List<Company> companies = pageCompany.getContent();
-        CompanyListByPageDTO companyListByPageDTO = new CompanyListByPageDTO(pageCompany.getTotalElements(), pageCompany.getTotalPages(), companies);
-        return companyListByPageDTO;
+        return CompanyResponses.of(pageCompany.getTotalElements(),
+            pageCompany.getTotalPages(),
+            pageCompany.getContent().stream()
+                .map(company -> CompanyResponse.of(company, CeoResponse.of(company.getCeo())))
+                .collect(Collectors.toList()));
     }
 
     public Company findById(Integer id){
@@ -52,7 +56,7 @@ public class CompanyService {
         checkCompanyName(request.getName());
         User ceo = userService.findUserById(request.getCeoId());
         Company company = companyRepository.save(request.toCompany(ceo));
-        return CompanyResponse.of(company, CompanyCeoResponse.of(ceo));
+        return CompanyResponse.of(company, CeoResponse.of(ceo));
     }
 
     private void checkCompanyName(String name){

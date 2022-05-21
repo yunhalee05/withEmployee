@@ -50,7 +50,7 @@ public class CompanyListByPageDTO {
             this.name = company.getName();
             this.description = company.getDescription();
             this.totalNumber = company.getTotalNumber();
-            this.ceo = company.getCeo().getName();
+            this.ceo = company.getCeoName();
         }
     }
 }

@@ -23,8 +23,6 @@ public class CompanyListDTO {
     private CompanyCeo ceo;
 
 
-
-
     public CompanyListDTO(Company company) {
         this.id = company.getId();
         this.name = company.getName();

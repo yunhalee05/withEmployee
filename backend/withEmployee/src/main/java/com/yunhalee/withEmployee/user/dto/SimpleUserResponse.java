@@ -15,6 +15,7 @@ public class SimpleUserResponse {
     private String email;
     private String imageUrl;
 
+
     private SimpleUserResponse(User user) {
         this.id = user.getId();
         this.name = user.getName();
