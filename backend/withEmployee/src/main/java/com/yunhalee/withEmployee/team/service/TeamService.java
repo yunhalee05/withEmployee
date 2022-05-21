@@ -59,8 +59,9 @@ public class TeamService {
             .collect(Collectors.toList()));
     }
 
-    public Team getById(Integer id){
-        return repo.findByTeamId(id);
+    public TeamResponse getById(Integer id){
+        Team team = repo.findByTeamId(id);
+        return TeamResponse.of(team, userService.simpleUserResponses(team.getUsers()));
     }
 
     public TeamDTO save(TeamDTO teamDTO){

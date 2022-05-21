@@ -81,17 +81,17 @@ public class TeamServiceTests {
         assertFalse(check);
     }
 
-    @Test
-    public void getTeamById(){
-        //given
-        Integer id =1;
-
-        //when
-        Team team = teamService.getById(id);
-
-        //then
-        assertEquals(team.getId(), id);
-    }
+//    @Test
+//    public void getTeamById(){
+//        //given
+//        Integer id =1;
+//
+//        //when
+//        Team team = teamService.getById(id);
+//
+//        //then
+//        assertEquals(team.getId(), id);
+//    }
 
 //    @Test
 //    public void getTeamByUserId(){
