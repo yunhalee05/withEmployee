@@ -53,6 +53,10 @@ public class Team {
         this.name = name;
     }
 
+    public void addMember(User user) {
+        this.users.add(user);
+    }
+
 
     @Transient
     public Integer getTotalNumber(){

@@ -58,7 +58,7 @@ public class TeamService {
     }
 
     public TeamResponse getById(Integer id){
-        Team team = teamRepository.findByTeamId(id);
+        Team team = findById(id);
         return TeamResponse.of(team, userService.simpleUserResponses(team.getUsers()));
     }
 
@@ -112,6 +112,11 @@ public class TeamService {
 //
 //        return true;
 //    }
+
+    private Team findById(Integer id) {
+        return teamRepository.findByTeamId(id)
+            .orElseThrow(() ->new TeamNotFoundException("Team does not exist with id : " + id));
+    }
 
     public Team findTeamById(Integer id) {
         return teamRepository.findById(id)
