@@ -5,11 +5,15 @@ import com.yunhalee.withEmployee.company.dto.SimpleCompanyResponse;
 import com.yunhalee.withEmployee.team.domain.TeamRepository;
 import com.yunhalee.withEmployee.team.dto.SimpleTeamResponse;
 import com.yunhalee.withEmployee.team.dto.SimpleTeamResponses;
+import com.yunhalee.withEmployee.team.dto.TeamResponse;
+import com.yunhalee.withEmployee.team.dto.TeamResponses;
 import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.team.dto.TeamDTO;
 import com.yunhalee.withEmployee.team.dto.TeamListByPageDTO;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.team.domain.Team;
+import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
+import com.yunhalee.withEmployee.user.service.UserService;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,13 +38,17 @@ public class TeamService {
     @Autowired
     private CompanyRepository companyRepo;
 
-    public TeamListByPageDTO listAll(Integer page){
+    @Autowired
+    private UserService userService;
+
+    public TeamResponses listAll(Integer page){
         Pageable pageable = PageRequest.of(page-1,TEAM_PER_PAGE, Sort.by("id"));
         Page<Team> pageTeam = repo.findAllTeams(pageable);
-        List<Team> teams = pageTeam.getContent();
-
-        TeamListByPageDTO teamListByPageDTO = new TeamListByPageDTO(pageTeam.getTotalElements(), pageTeam.getTotalPages(), teams);
-        return teamListByPageDTO;
+        return TeamResponses.of(pageTeam.getTotalElements(),
+            pageTeam.getTotalPages(),
+            pageTeam.getContent().stream()
+                .map(team -> TeamResponse.of(team, userService.simpleUserResponses(team.getUsers())))
+                .collect(Collectors.toList()));
 
     }
 

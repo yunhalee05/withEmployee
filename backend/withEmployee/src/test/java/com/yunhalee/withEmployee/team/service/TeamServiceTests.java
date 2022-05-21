@@ -109,15 +109,15 @@ public class TeamServiceTests {
 //        assertEquals(teams.size(), users.size());
 //    }
 
-    @Test
-    public void getTeamByPage(){
-        //given
-        Integer page = 1;
-
-        //when
-        TeamListByPageDTO teamListByPageDTO = teamService.listAll(page);
-
-        //then
-        assertEquals(9, teamListByPageDTO.getTeams().size());
-    }
+//    @Test
+//    public void getTeamByPage(){
+//        //given
+//        Integer page = 1;
+//
+//        //when
+//        TeamListByPageDTO teamListByPageDTO = teamService.listAll(page);
+//
+//        //then
+//        assertEquals(9, teamListByPageDTO.getTeams().size());
+//    }
 }

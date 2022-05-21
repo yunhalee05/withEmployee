@@ -2,7 +2,6 @@ package com.yunhalee.withEmployee.team.dto;
 
 import com.yunhalee.withEmployee.company.dto.SimpleCompanyResponse;
 import com.yunhalee.withEmployee.team.domain.Team;
-import com.yunhalee.withEmployee.team.dto.TeamListDTO.TeamCompany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

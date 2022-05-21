@@ -3,6 +3,7 @@ package com.yunhalee.withEmployee.user.service;
 import com.yunhalee.withEmployee.security.jwt.JwtRequest;
 import com.yunhalee.withEmployee.security.jwt.JwtUserDetailsService;
 import com.yunhalee.withEmployee.security.jwt.UserTokenResponse;
+import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
 import com.yunhalee.withEmployee.user.dto.UserCompanyResponse;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
@@ -156,6 +157,12 @@ public class UserService {
     public User findUserByEmail(String email) {
         return repo.findByEmail(email)
             .orElseThrow(() -> new UserNotFoundException("This User doesn't exist"));
+    }
+
+    public List<SimpleUserResponse> simpleUserResponses(Set<User> users) {
+        return users.stream()
+            .map(SimpleUserResponse::of)
+            .collect(Collectors.toList());
     }
 
     private UserResponse userResponse(User user) {

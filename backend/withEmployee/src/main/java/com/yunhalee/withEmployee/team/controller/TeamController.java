@@ -5,6 +5,7 @@ import com.yunhalee.withEmployee.team.dto.TeamDTO;
 import com.yunhalee.withEmployee.team.dto.TeamListByPageDTO;
 import com.yunhalee.withEmployee.team.dto.TeamListDTO;
 import com.yunhalee.withEmployee.team.domain.Team;
+import com.yunhalee.withEmployee.team.dto.TeamResponses;
 import com.yunhalee.withEmployee.team.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -21,10 +22,9 @@ public class TeamController {
     private TeamService service;
 
     @GetMapping("/teams")
-    public TeamListByPageDTO listAll(@Param("page")String page){
+    public ResponseEntity<TeamResponses> listAll(@Param("page")String page){
         Integer pageTeam = Integer.parseInt(page);
-
-        return service.listAll(pageTeam);
+        return ResponseEntity.ok(service.listAll(pageTeam));
     }
 
     @GetMapping("/teams/{id}")
