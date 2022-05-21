@@ -103,7 +103,6 @@ class TeamServiceTest extends MockBeans {
             .hasMessageContaining(TEAM_NAME_IS_ALREADY_IN_USE_EXCEPTION);
     }
 
-
     private void equals(TeamResponse response, Team team) {
         assertThat(response.getId()).isEqualTo(team.getId());
         assertThat(response.getName()).isEqualTo(team.getName());
