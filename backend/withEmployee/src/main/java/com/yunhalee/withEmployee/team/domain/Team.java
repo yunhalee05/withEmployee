@@ -39,6 +39,12 @@ public class Team {
         this.company = company;
     }
 
+    public Team(Integer id, String name, Company company) {
+        this.id = id;
+        this.name = name;
+        this.company = company;
+    }
+
     public static Team of(String name, Company company) {
         return new Team(name, company);
     }

@@ -1,21 +1,12 @@
 package com.yunhalee.withEmployee.company.controller;
 
-import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyListResponses;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
-import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.company.dto.CompanyResponse;
-import com.yunhalee.withEmployee.company.dto.CompanyResponses;
 import com.yunhalee.withEmployee.company.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @RestController
 public class CompanyController {
@@ -50,7 +41,7 @@ public class CompanyController {
 
     @GetMapping("/companies/{id}")
     public ResponseEntity<CompanyResponse> getByName(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(service.findById(id));
+        return ResponseEntity.ok(service.companyResponse(id));
     }
 
 //    @PostMapping("/company/save")

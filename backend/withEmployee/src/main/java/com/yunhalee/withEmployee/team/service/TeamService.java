@@ -8,7 +8,8 @@ import com.yunhalee.withEmployee.team.dto.SimpleTeamResponses;
 import com.yunhalee.withEmployee.team.dto.TeamRequest;
 import com.yunhalee.withEmployee.team.dto.TeamResponse;
 import com.yunhalee.withEmployee.team.dto.TeamResponses;
-import com.yunhalee.withEmployee.team.exception.TeamNameAlreadyExistException;
+import com.yunhalee.withEmployee.team.exception.TeamNameAlreadyInUseException;
+import com.yunhalee.withEmployee.team.exception.TeamNameEmptyException;
 import com.yunhalee.withEmployee.team.exception.TeamNotFoundException;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.team.domain.Team;
@@ -20,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -71,8 +71,15 @@ public class TeamService {
     }
 
     private void checkName(String name) {
+        checkNameIsEmpty(name);
         if (teamRepository.existsByName(name)) {
-            throw new TeamNameAlreadyExistException("Team already exists with name : " + name);
+            throw new TeamNameAlreadyInUseException("This team name is already in use. name : " + name);
+        }
+    }
+
+    private void checkNameIsEmpty(String name) {
+        if (name.isBlank() || name.isEmpty()) {
+            throw new TeamNameEmptyException("Name could not be empty.");
         }
     }
 
@@ -85,8 +92,9 @@ public class TeamService {
     }
 
     private void checkName(Integer id, String name){
+        checkNameIsEmpty(name);
         if (teamRepository.existsByName(name) && !findTeamByName(name).isId(id)) {
-            throw new TeamNameAlreadyExistException("Team already exists with name : " + name);
+            throw new TeamNameAlreadyInUseException("This team name is already in use. name : " + name);
         }
     }
 

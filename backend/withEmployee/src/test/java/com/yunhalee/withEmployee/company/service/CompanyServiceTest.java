@@ -8,6 +8,7 @@ import com.yunhalee.withEmployee.company.domain.CompanyTest;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.dto.CompanyResponse;
 import com.yunhalee.withEmployee.company.exception.CompanyNameAlreadyInUseException;
+import com.yunhalee.withEmployee.company.exception.CompanyNameEmptyException;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.domain.UserTest;
 import java.util.Optional;
@@ -67,7 +68,7 @@ class CompanyServiceTest extends MockBeans {
     void create_company_with_empty_name_is_invalid() {
         CompanyRequest companyRequest = new CompanyRequest("", DESCRIPTION, UserTest.CEO.getId());
         assertThatThrownBy(() -> companyService.create(companyRequest))
-            .isInstanceOf(CompanyNameAlreadyInUseException.class)
+            .isInstanceOf(CompanyNameEmptyException.class)
             .hasMessageContaining(NAME_IS_EMPTY_EXCEPTION);
     }
 

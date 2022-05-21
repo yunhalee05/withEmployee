@@ -32,8 +32,8 @@ interface TeamRepository extends JpaRepository<Team, Integer> {
     @Query(value = "SELECT DISTINCT t FROM Team t LEFT JOIN FETCH t.users u LEFT JOIN FETCH t.company c WHERE u.id=:id")
     List<Team> findByUserId(Integer id);
 
-    List<Team> findByCompany(Company company);
-
-    @Query(value = "SELECT DISTINCT t FROM Team t LEFT JOIN FETCH t.company c WHERE c.id=:id")
-    List<Team> findByCompanyId(Integer id);
+//    List<Team> findByCompany(Company company);
+//
+//    @Query(value = "SELECT DISTINCT t FROM Team t LEFT JOIN FETCH t.company c WHERE c.id=:id")
+//    List<Team> findByCompanyId(Integer id);
 }

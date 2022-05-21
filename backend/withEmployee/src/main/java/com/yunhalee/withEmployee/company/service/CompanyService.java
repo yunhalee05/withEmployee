@@ -4,6 +4,7 @@ import com.yunhalee.withEmployee.company.domain.CompanyRepository;
 import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyListResponses;
 import com.yunhalee.withEmployee.company.dto.CompanyResponses;
+import com.yunhalee.withEmployee.company.exception.CompanyNameEmptyException;
 import com.yunhalee.withEmployee.team.dto.SimpleTeamResponse;
 import com.yunhalee.withEmployee.user.dto.CeoResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
@@ -92,8 +93,8 @@ public class CompanyService {
             companies.stream().map(company -> CompanyListResponse.of(company, CeoResponse.of(company.getCeo()))).collect(Collectors.toList()));
     }
 
-    public CompanyResponse findById(Integer id){
-        Company company = findCompanyById(id);
+    public CompanyResponse companyResponse(Integer id){
+        Company company = findById(id);
         return CompanyResponse.of(company,
             company.getTeams().stream()
                 .map(team -> SimpleTeamResponse.of(team))
@@ -122,14 +123,14 @@ public class CompanyService {
 
     private void checkNameIsEmpty(String name) {
         if (name.isBlank() || name.isEmpty()) {
-            throw new CompanyNameAlreadyInUseException("Name could not be empty.");
+            throw new CompanyNameEmptyException("Name could not be empty.");
         }
     }
 
     @Transactional
     public CompanyResponse update(Integer id, CompanyRequest request) {
         checkCompanyName(id, request);
-        Company company = findCompanyById(id);
+        Company company = findById(id);
         company.update(getToUpdateUser(company.getCeo().getId(), request, company));
         return CompanyResponse.of(company, CeoResponse.of(company.getCeo()));
     }
@@ -156,8 +157,13 @@ public class CompanyService {
     }
 
 
-    public Company findCompanyById(Integer id) {
+    private Company findById(Integer id) {
         return companyRepository.findByCompanyId(id)
+            .orElseThrow(() -> new CompanyNotFoundException("Company does not exist with id : " + id));
+    }
+
+    public Company findCompanyById(Integer id) {
+        return companyRepository.findById(id)
             .orElseThrow(() -> new CompanyNotFoundException("Company does not exist with id : " + id));
     }
 
