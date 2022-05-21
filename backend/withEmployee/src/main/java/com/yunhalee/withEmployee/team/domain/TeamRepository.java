@@ -1,6 +1,7 @@
 package com.yunhalee.withEmployee.team.domain;
 
 import com.yunhalee.withEmployee.company.domain.Company;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,10 @@ import java.util.List;
 @Repository
 public
 interface TeamRepository extends JpaRepository<Team, Integer> {
+
+    boolean existsByName(String name);
+
+    Optional<Team> findByName(String name);
 
     @Query(value = "SELECT DISTINCT t FROM Team t INNER JOIN FETCH t.company c LEFT JOIN FETCH t.users u")
     List<Team> findAllTeams();

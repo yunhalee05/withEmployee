@@ -1,10 +1,7 @@
 package com.yunhalee.withEmployee.team.controller;
 
 import com.yunhalee.withEmployee.team.dto.SimpleTeamResponses;
-import com.yunhalee.withEmployee.team.dto.TeamDTO;
-import com.yunhalee.withEmployee.team.dto.TeamListByPageDTO;
-import com.yunhalee.withEmployee.team.dto.TeamListDTO;
-import com.yunhalee.withEmployee.team.domain.Team;
+import com.yunhalee.withEmployee.team.dto.TeamRequest;
 import com.yunhalee.withEmployee.team.dto.TeamResponse;
 import com.yunhalee.withEmployee.team.dto.TeamResponses;
 import com.yunhalee.withEmployee.team.service.TeamService;
@@ -12,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 public class TeamController {
@@ -39,8 +33,13 @@ public class TeamController {
     }
 
     @PostMapping("/teams")
-    public TeamDTO save(@RequestBody TeamDTO teamDTO){
-        return service.save(teamDTO);
+    public ResponseEntity<TeamResponse> save(@RequestBody TeamRequest request){
+        return ResponseEntity.ok(service.create(request));
+    }
+
+    @PostMapping("/teams/{id}")
+    public ResponseEntity<TeamResponse> save(@PathVariable("id") Integer id, @RequestBody TeamRequest request){
+        return ResponseEntity.ok(service.update(id, request));
     }
 
     @DeleteMapping("/teams/{id}")
@@ -49,10 +48,10 @@ public class TeamController {
     }
 
 
-    @GetMapping("/team/check_name")
-    public String check_name(@Param("name")String name, @Param("id")Integer id){
-        return service.isNameUnique(name, id) ? "OK" : "Duplicated";
-    }
+//    @GetMapping("/team/check_name")
+//    public String check_name(@Param("name")String name, @Param("id")Integer id){
+//        return service.isNameUnique(name, id) ? "OK" : "Duplicated";
+//    }
 
 
 

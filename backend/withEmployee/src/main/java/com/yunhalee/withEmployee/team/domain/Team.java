@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "team")
 @Getter
-@Setter
+//@Setter
 public class Team {
 
     @Id
@@ -30,21 +30,23 @@ public class Team {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    public Team(){
-        super();
-    }
-
     public Team(String name) {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Team{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    private Team(String name, Company company) {
+        this.name = name;
+        this.company = company;
     }
+
+    public static Team of(String name, Company company) {
+        return new Team(name, company);
+    }
+
+    public void changeName(String name){
+        this.name = name;
+    }
+
 
     @Transient
     public Integer getTotalNumber(){
@@ -59,4 +61,15 @@ public class Team {
         return this.company.getId();
     }
 
+    public boolean isId(Integer id){
+        return this.id.equals(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            '}';
+    }
 }

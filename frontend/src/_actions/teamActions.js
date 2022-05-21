@@ -84,7 +84,7 @@ export const getteams =({id}) => async(dispatch, getState)=>{
     }
 }
 
-export const createteam =(teamDTO) => async(dispatch, getState)=>{
+export const createteam =(teamRequest) => async(dispatch, getState)=>{
 
     const {auth :{token}} = getState()
 
@@ -93,7 +93,7 @@ export const createteam =(teamDTO) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/teams',teamDTO, {
+        const res = await axios.post('/teams',teamRequest, {
             headers : {Authorization : `Bearer ${token}`}
         })
         
@@ -116,7 +116,7 @@ export const createteam =(teamDTO) => async(dispatch, getState)=>{
     }
 }
 
-export const editTeam =(teamDTO) => async(dispatch, getState)=>{
+export const updateTeam =(id, teamRequest) => async(dispatch, getState)=>{
 
     const {auth :{token}} = getState()
 
@@ -125,7 +125,7 @@ export const editTeam =(teamDTO) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/teams',teamDTO, {
+        const res = await axios.post('/teams',teamRequest, {
             headers : {Authorization : `Bearer ${token}`}
         })
 

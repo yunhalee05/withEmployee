@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createteam, editTeam } from '../_actions/teamActions'
+import { createteam, updateTeam } from '../_actions/teamActions'
 
 function AddTeamModal({team, companyId, setAddTeam}) {
 
@@ -17,29 +17,23 @@ function AddTeamModal({team, companyId, setAddTeam}) {
             return window.alert("Team namd is necessary.")
         }
 
-        if(!team || team.name!== name){
-            const res = await axios.get(`/team/check_name?name=${name}&id=${companyId}`,{
-                headers : {Authorization : `Bearer ${auth.token}`}
-            })
-            if(res.data!=="OK"){
-                return window.alert("Team name already exist.")
-            }
+        // if(!team || team.name!== name){
+        //     const res = await axios.get(`/team/check_name?name=${name}&id=${companyId}`,{
+        //         headers : {Authorization : `Bearer ${auth.token}`}
+        //     })
+        //     if(res.data!=="OK"){
+        //         return window.alert("Team name already exist.")
+        //     }
+        // }
+        const teamRequest = {
+            name:name,
+            companyId : companyId
         }
         
         if(!team){
-            const teamDTO = {
-                name:name,
-                companyId : companyId
-            }
-
-            dispatch(createteam(teamDTO))
+            dispatch(createteam(teamRequest))
         }else{
-            const teamDTO = {
-                id:team.id,
-                name:name,
-                companyId : companyId
-            }
-            dispatch(editTeam(teamDTO))
+            dispatch(updateTeam(team.id, teamRequest))
         }
         setAddTeam(false)
     }

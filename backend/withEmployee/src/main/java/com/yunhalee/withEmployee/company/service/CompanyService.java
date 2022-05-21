@@ -9,6 +9,7 @@ import com.yunhalee.withEmployee.company.dto.CompanyListDTO;
 import com.yunhalee.withEmployee.company.dto.CompanyResponse;
 import com.yunhalee.withEmployee.company.exception.CompanyNameAlreadyInUserException;
 import com.yunhalee.withEmployee.company.domain.Company;
+import com.yunhalee.withEmployee.company.exception.CompanyNotFoundException;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.service.UserService;
 import org.springframework.data.domain.Page;
@@ -145,5 +146,10 @@ public class CompanyService {
             return true;
         }
         return false;
+    }
+
+    public Company findCompanyById(Integer id) {
+        return companyRepository.findById(id)
+            .orElseThrow(() -> new CompanyNotFoundException("Company does not exist with id : " + id));
     }
 }

@@ -1,8 +1,6 @@
 package com.yunhalee.withEmployee.team.service;
 
 import com.yunhalee.withEmployee.team.domain.TeamRepository;
-import com.yunhalee.withEmployee.team.dto.TeamDTO;
-import com.yunhalee.withEmployee.team.dto.TeamListByPageDTO;
 import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.team.service.TeamService;
 import org.junit.Test;
@@ -16,70 +14,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@Transactional
-public class TeamServiceTests {
-
-    @Autowired
-    TeamService teamService;
-
-    @Autowired
-    TeamRepository teamRepository;
-
-    @Test
-    public void createTeam(){
-        //given
-        TeamDTO teamDTO = new TeamDTO("testTeam",1);
-
-        //when
-        TeamDTO teamDTO1 = teamService.save(teamDTO);
-
-        //then
-        assertEquals(teamDTO.getName(), teamDTO1.getName());
-        assertEquals(teamDTO.getCompanyId(), teamDTO1.getCompanyId());
-    }
-
-    @Test
-    public void updateTeam(){
-        //given
-        TeamDTO teamDTO = new TeamDTO("testTeam",1);
-        TeamDTO teamDTO1 = teamService.save(teamDTO);
-
-        teamDTO1.setName("testUpdateTeam");
-
-        //when
-        TeamDTO teamDTO2 = teamService.save(teamDTO1);
-
-        //then
-        assertNotEquals(teamDTO1.getName(), teamDTO2.getName());
-    }
-
-    @Test
-    public void deleteTeam(){
-        //given
-        Integer id = 1;
-
-        //when
-        teamService.delete(id);
-
-        //then
-        assertNull(teamRepository.findById(id));
-    }
-
-    @Test
-    public void isTeamNameUnique(){
-        //given
-        String name = "testTeam";
-        Integer companyId = 1;
-
-        //when
-        boolean check = teamService.isNameUnique(name, companyId);
-
-        //then
-        assertFalse(check);
-    }
+//
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+//@Transactional
+//public class TeamServiceTests {
+//
+//    @Autowired
+//    TeamService teamService;
+//
+//    @Autowired
+//    TeamRepository teamRepository;
+//
+//    @Test
+//    public void createTeam(){
+//        //given
+//        TeamDTO teamDTO = new TeamDTO("testTeam",1);
+//
+//        //when
+//        TeamDTO teamDTO1 = teamService.save(teamDTO);
+//
+//        //then
+//        assertEquals(teamDTO.getName(), teamDTO1.getName());
+//        assertEquals(teamDTO.getCompanyId(), teamDTO1.getCompanyId());
+//    }
+//
+//    @Test
+//    public void updateTeam(){
+//        //given
+//        TeamDTO teamDTO = new TeamDTO("testTeam",1);
+//        TeamDTO teamDTO1 = teamService.save(teamDTO);
+//
+//        teamDTO1.setName("testUpdateTeam");
+//
+//        //when
+//        TeamDTO teamDTO2 = teamService.save(teamDTO1);
+//
+//        //then
+//        assertNotEquals(teamDTO1.getName(), teamDTO2.getName());
+//    }
+//
+//    @Test
+//    public void deleteTeam(){
+//        //given
+//        Integer id = 1;
+//
+//        //when
+//        teamService.delete(id);
+//
+//        //then
+//        assertNull(teamRepository.findById(id));
+//    }
+//
+//    @Test
+//    public void isTeamNameUnique(){
+//        //given
+//        String name = "testTeam";
+//        Integer companyId = 1;
+//
+//        //when
+//        boolean check = teamService.isNameUnique(name, companyId);
+//
+//        //then
+//        assertFalse(check);
+//    }
 
 //    @Test
 //    public void getTeamById(){
@@ -120,4 +118,4 @@ public class TeamServiceTests {
 //        //then
 //        assertEquals(9, teamListByPageDTO.getTeams().size());
 //    }
-}
+//}

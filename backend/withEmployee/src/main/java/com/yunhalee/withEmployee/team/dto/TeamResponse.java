@@ -1,7 +1,6 @@
 package com.yunhalee.withEmployee.team.dto;
 
 import com.yunhalee.withEmployee.team.domain.Team;
-import com.yunhalee.withEmployee.team.dto.TeamDTO.TeamUser;
 import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
 import java.util.List;
 import lombok.Getter;
