@@ -30,11 +30,9 @@ public class CompanyController {
 //        return ResponseEntity.ok(service.listAll(page));
 //    }
 
-    @GetMapping("/company/{id}")
-    public CompanyDTO getByName(@PathVariable("id") Integer id){
-        Company company = service.findById(id);
-//        System.out.println(company);
-        return new CompanyDTO(company);
+    @GetMapping("/companies/{id}")
+    public ResponseEntity<CompanyResponse> getByName(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping("/company/save")

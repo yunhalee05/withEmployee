@@ -65,7 +65,7 @@ public class TeamService {
     @Transactional
     public TeamResponse create(TeamRequest request) {
         checkName(request.getName());
-        Company company = companyService.findById(request.getCompanyId());
+        Company company = companyService.findCompanyById(request.getCompanyId());
         Team team = teamRepository.save(request.toTeam(company));
         return TeamResponse.of(team, userService.simpleUserResponses(team.getUsers()));
     }

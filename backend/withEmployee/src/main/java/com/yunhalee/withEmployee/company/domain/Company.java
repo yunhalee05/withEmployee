@@ -3,6 +3,9 @@ package com.yunhalee.withEmployee.company.domain;
 import com.yunhalee.withEmployee.common.domain.BaseTimeEntity;
 import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.user.domain.User;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -64,6 +67,12 @@ public class Company extends BaseTimeEntity {
 
     public String getCeoName() {
         return this.ceo.getName();
+    }
+
+    public Set<User> getMembers() {
+        return this.teams.stream()
+            .flatMap(team -> team.getUsers().stream())
+            .collect(Collectors.toSet());
     }
 
     @Override

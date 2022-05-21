@@ -65,7 +65,7 @@ export const getcompany =({id}) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/company/${id}`,{
+        const res = await axios.get(`/companies/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         // console.log(res)
