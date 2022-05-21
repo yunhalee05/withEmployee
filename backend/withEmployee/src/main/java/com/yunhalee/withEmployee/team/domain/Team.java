@@ -2,6 +2,7 @@ package com.yunhalee.withEmployee.team.domain;
 
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.user.domain.User;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,6 +56,14 @@ public class Team {
 
     public void addMember(User user) {
         this.users.add(user);
+        user.addTeam(this);
+    }
+
+    public void subtractMember(User user) {
+        this.users = this.users.stream()
+            .filter(u -> !u.equals(user))
+            .collect(Collectors.toSet());
+        user.subtractTeam(this);
     }
 
 

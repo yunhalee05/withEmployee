@@ -13,6 +13,8 @@ import com.yunhalee.withEmployee.team.exception.TeamNameEmptyException;
 import com.yunhalee.withEmployee.team.exception.TeamNotFoundException;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.team.domain.Team;
+import com.yunhalee.withEmployee.user.domain.User;
+import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
 import com.yunhalee.withEmployee.user.service.UserService;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
@@ -103,15 +105,6 @@ public class TeamService {
         teamRepository.deleteById(id);
     }
 
-//    public boolean isNameUnique(String name, Integer id){
-//        List<Team> teams = teamRepository.findByCompanyId(id);
-//
-//        for (Team team : teams) {
-//            if (team.getName() == name) return false;
-//        }
-//
-//        return true;
-//    }
 
     private Team findById(Integer id) {
         return teamRepository.findByTeamId(id)
@@ -126,5 +119,21 @@ public class TeamService {
     private Team findTeamByName(String name) {
         return teamRepository.findByName(name)
             .orElseThrow(() ->new TeamNotFoundException("Team does not exist with name : " + name));
+    }
+
+    @Transactional
+    public SimpleUserResponse addMember(Integer id, String email) {
+        Team team = findTeamById(id);
+        User user = userService.findUserByEmail(email);
+        team.addMember(user);
+        return SimpleUserResponse.of(user);
+    }
+
+
+    @Transactional
+    public void subtractMember(Integer id, Integer userId) {
+        Team team = findTeamById(id);
+        User user = userService.findUserById(userId);
+        team.subtractMember(user);
     }
 }

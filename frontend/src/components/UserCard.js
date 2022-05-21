@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteuserteam } from '../_actions/userActions'
 import {Link} from 'react-router-dom'
 import userIcon from '../images/user.svg'
+import { deleteuserteam } from '../_actions/teamActions'
 
 
 function UserCard({user, teamId, setCeos, setLeaders, setMembers,ceos, leaders,members}) {
@@ -13,7 +13,7 @@ function UserCard({user, teamId, setCeos, setLeaders, setMembers,ceos, leaders,m
 
     const handleDelete = () =>{
         if(window.confirm("Are you sure to exclude this member?")){
-            dispatch(deleteuserteam({userId, teamId})).then(res=>{
+            dispatch(deleteuserteam({teamId, userId})).then(res=>{
                 setCeos(ceos.filter(ceo=>ceo.id!==userId))
                 setLeaders(leaders.filter(leader=>leader.id!==userId))
                 setMembers(members.filter(member=>member.id!==userId))

@@ -5,6 +5,7 @@ import com.yunhalee.withEmployee.team.dto.TeamRequest;
 import com.yunhalee.withEmployee.team.dto.TeamResponse;
 import com.yunhalee.withEmployee.team.dto.TeamResponses;
 import com.yunhalee.withEmployee.team.service.TeamService;
+import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -33,12 +34,12 @@ public class TeamController {
     }
 
     @PostMapping("/teams")
-    public ResponseEntity<TeamResponse> save(@RequestBody TeamRequest request){
+    public ResponseEntity<TeamResponse> create(@RequestBody TeamRequest request){
         return ResponseEntity.ok(service.create(request));
     }
 
     @PostMapping("/teams/{id}")
-    public ResponseEntity<TeamResponse> save(@PathVariable("id") Integer id, @RequestBody TeamRequest request){
+    public ResponseEntity<TeamResponse> update(@PathVariable("id") Integer id, @RequestBody TeamRequest request){
         return ResponseEntity.ok(service.update(id, request));
     }
 
@@ -48,12 +49,16 @@ public class TeamController {
     }
 
 
-//    @GetMapping("/team/check_name")
-//    public String check_name(@Param("name")String name, @Param("id")Integer id){
-//        return service.isNameUnique(name, id) ? "OK" : "Duplicated";
-//    }
+    @PostMapping(value = "/teams/{id}", params = "email")
+    public ResponseEntity<SimpleUserResponse> addMember(@PathVariable("id") Integer id, @RequestParam("email") String email){
+        return ResponseEntity.ok(service.addMember(id, email));
+    }
 
-
+    @PostMapping(value = "/teams/{id}", params = "userId")
+    public ResponseEntity subtractMember(@PathVariable("id") Integer id, @RequestParam("email") Integer userId){
+        service.subtractMember(id, userId);
+        return ResponseEntity.noContent().build();
+    }
 
 
 }

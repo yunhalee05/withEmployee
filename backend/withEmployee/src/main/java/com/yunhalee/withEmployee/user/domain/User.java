@@ -103,6 +103,12 @@ public class User {
         this.teams.add(team);
     }
 
+    public void subtractTeam(Team team) {
+        this.teams = this.teams.stream()
+            .filter(t -> !t.equals(team))
+            .collect(Collectors.toSet());
+    }
+
     public Integer getId() {
         return id;
     }

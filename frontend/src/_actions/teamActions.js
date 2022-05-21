@@ -178,3 +178,63 @@ export const deleteteam =({teamId}) => async(dispatch, getState)=>{
     }
 }
 
+
+export const adduserteam =({email, id}) => async(dispatch, getState)=>{
+
+    const {auth : {token}} = getState()
+
+    dispatch({
+        type:ADD_USER_TEAM_REQUEST
+    })
+
+    try{
+        const res = await axios.post(`/teams/${id}?email=${email}`,null,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
+
+        dispatch({
+            type:ADD_USER_TEAM_SUCCESS,
+            payload:res.data
+        })
+
+        return res.data
+    }catch(error){
+        dispatch({
+            type:ADD_USER_TEAM_FAIL,
+            payload:
+                error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        })
+    }
+}
+
+export const deleteuserteam =({teamId, userId}) => async(dispatch, getState)=>{
+
+    const {auth : {token}} = getState()
+
+    dispatch({
+        type:DELETE_USER_TEAM_REQUEST
+    })
+
+    try{
+        await axios.post(`/teams/${teamId}?userId=${userId}`,null,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
+
+        dispatch({
+            type:DELETE_USER_TEAM_SUCCESS,
+            payload:userId
+        })
+
+    }catch(error){
+        dispatch({
+            type:DELETE_USER_TEAM_FAIL,
+            payload:
+                error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        })
+    }
+}
+
