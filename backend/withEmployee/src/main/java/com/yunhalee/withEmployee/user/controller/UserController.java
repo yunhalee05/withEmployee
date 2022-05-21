@@ -1,16 +1,13 @@
 package com.yunhalee.withEmployee.user.controller;
 
 import com.yunhalee.withEmployee.security.jwt.UserTokenResponse;
-import com.yunhalee.withEmployee.user.dto.UserDTO;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
 import com.yunhalee.withEmployee.user.dto.UserResponses;
 import com.yunhalee.withEmployee.user.service.UserService;
 import java.net.URI;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,15 +42,15 @@ public class UserController {
     }
 
 
-    @PostMapping("/user/addTeam")
-    public UserDTO addTeam(@Param("email")String email, @Param("id")Integer id){
-        return userService.addTeam(email, id);
-    }
-
-    @DeleteMapping("/user/deleteTeam")
-    public Integer deleteTeam(@Param("userId")Integer userId, @Param("teamId")Integer teamId){
-        return userService.deleteTeam(userId, teamId);
-    }
+//    @PostMapping("/user/addTeam")
+//    public ResponseEntity<UserResponse> addTeam(@Param("email")String email, @Param("id")Integer id){
+//        return ResponseEntity.ok(userService.addTeam(email, id));
+//    }
+//
+//    @DeleteMapping("/user/deleteTeam")
+//    public Integer deleteTeam(@Param("userId")Integer userId, @Param("teamId")Integer teamId){
+//        return userService.deleteTeam(userId, teamId);
+//    }
 
 
 }

@@ -42,4 +42,13 @@ public class UserTest {
         .phoneNumber("01000000000")
         .role(Role.ADMIN).build();
 
+    public static final User SECOND_CEO = User.builder()
+        .id(5)
+        .name("testCEO2")
+        .email("testCEO2@example.com")
+        .password("123456")
+        .imageUrl("testUploadFolder/testCEO2Image.png")
+        .description("This is testCEO2")
+        .phoneNumber("01000000001")
+        .role(Role.CEO).build();
 }

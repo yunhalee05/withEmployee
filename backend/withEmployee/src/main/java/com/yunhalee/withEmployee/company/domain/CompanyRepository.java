@@ -32,7 +32,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH c.teams t LEFT JOIN FETCH t.users u WHERE e.id=:id")
     List<Company> findByUserId(Integer id);
 
-    Company findByName(String name);
+    Optional<Company> findByName(String name);
 
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH e.companies p LEFT JOIN FETCH c.teams t  LEFT JOIN FETCH t.users u ORDER BY RAND()")
     List<Company> findByRandom();

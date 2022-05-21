@@ -184,6 +184,11 @@ public class User {
         }
     }
 
+    public void addCompany(Company company) {
+        this.companies.add(company);
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

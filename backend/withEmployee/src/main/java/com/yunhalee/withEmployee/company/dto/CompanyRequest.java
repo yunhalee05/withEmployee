@@ -10,19 +10,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CompanyRequest {
 
-    private Integer id;
     private String name;
     private String description;
     private Integer ceoId;
 
     public CompanyRequest(String name, String description, Integer ceoId) {
-        this.name = name;
-        this.description = description;
-        this.ceoId = ceoId;
-    }
-
-    public CompanyRequest( Integer id,String name, String description, Integer ceoId) {
-        this.id = id;
         this.name = name;
         this.description = description;
         this.ceoId = ceoId;

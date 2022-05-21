@@ -14,7 +14,6 @@ import com.yunhalee.withEmployee.util.FileUploadService;
 
 import com.yunhalee.withEmployee.team.domain.TeamRepository;
 import com.yunhalee.withEmployee.user.domain.UserRepository;
-import com.yunhalee.withEmployee.user.dto.UserDTO;
 import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.exception.UserNotFoundException;
@@ -127,27 +126,25 @@ public class UserService {
         return request.toUser();
     }
 
-    @Transactional
-    public UserDTO addTeam(String email, Integer id) {
-        User user = repo.findByEmail(email).get();
-        Team team = teamRepo.findByTeamId(id);
-
-        user.addTeam(team);
-        repo.save(user);
-        return new UserDTO(user);
-    }
-
-    @Transactional
-    public Integer deleteTeam(Integer userId, Integer teamId) {
-        User user = repo.findById(userId).get();
-        Set<Team> teams = user.getTeams().stream().filter(t -> !t.getId().equals(teamId))
-            .collect(Collectors.toSet());
-
-        System.out.println(teams);
-//        user.setTeams(teams);
-        repo.save(user);
-        return teamId;
-    }
+//    @Transactional
+//    public UserResponse addTeam(String email, Integer id) {
+//        User user = findUserByEmail(email);
+//        Team team = teamRepo.findByTeamId(id);
+//        user.addTeam(team);
+//        return userResponse(user);
+//    }
+//
+//    @Transactional
+//    public Integer deleteTeam(Integer userId, Integer teamId) {
+//        User user = repo.findById(userId).get();
+//        Set<Team> teams = user.getTeams().stream().filter(t -> !t.getId().equals(teamId))
+//            .collect(Collectors.toSet());
+//
+//        System.out.println(teams);
+////        user.setTeams(teams);
+//        repo.save(user);
+//        return teamId;
+//    }
 
     public User findUserById(Integer id) {
         return repo.findById(id)
