@@ -55,4 +55,8 @@ public class Team {
         return this.company.getName();
     }
 
+    public Integer getCompanyId() {
+        return this.company.getId();
+    }
+
 }

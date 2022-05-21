@@ -20,7 +20,7 @@ public class CompanyUserResponse {
         this.email = user.getEmail();
     }
 
-    public static CompanyUserResponse of(User user){
+    public static CompanyUserResponse of(User user) {
         return new CompanyUserResponse(user);
     }
 }

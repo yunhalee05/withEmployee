@@ -29,11 +29,12 @@ public class CompanyResponse {
         this.members = members;
     }
 
-    public static CompanyResponse of(Company company, List<CompanyTeamResponse> teams, CompanyCeoResponse ceo, List<CompanyUserResponse> members){
+    public static CompanyResponse of(Company company, List<CompanyTeamResponse> teams,
+        CompanyCeoResponse ceo, List<CompanyUserResponse> members) {
         return new CompanyResponse(company, teams, ceo, members);
     }
 
-    public static CompanyResponse of(Company company, CompanyCeoResponse ceo){
+    public static CompanyResponse of(Company company, CompanyCeoResponse ceo) {
         return new CompanyResponse(company, new ArrayList<>(), ceo, new ArrayList<>());
     }
 

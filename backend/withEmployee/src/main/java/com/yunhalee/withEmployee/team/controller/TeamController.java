@@ -1,5 +1,6 @@
 package com.yunhalee.withEmployee.team.controller;
 
+import com.yunhalee.withEmployee.team.dto.SimpleTeamResponses;
 import com.yunhalee.withEmployee.team.dto.TeamDTO;
 import com.yunhalee.withEmployee.team.dto.TeamListByPageDTO;
 import com.yunhalee.withEmployee.team.dto.TeamListDTO;
@@ -7,6 +8,7 @@ import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.team.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -33,13 +35,9 @@ public class TeamController {
         return teamDTO;
     }
 
-    @GetMapping("/teams/{userId}/users")
-    public List<TeamListDTO> getByUserId(@PathVariable("id") Integer id){
-        List<TeamListDTO> teamListDTOS = new ArrayList<>();
-        List<Team> teams= service.getByUserId(id);
-        teams.forEach(team -> teamListDTOS.add(new TeamListDTO(team)));
-
-        return teamListDTOS;
+    @GetMapping("/users/{userId}/teams")
+    public ResponseEntity<SimpleTeamResponses> getByUserId(@PathVariable("userId") Integer userId){
+        return ResponseEntity.ok(service.getByUserId(userId));
     }
 
     @PostMapping("/teams")

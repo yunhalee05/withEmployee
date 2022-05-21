@@ -65,13 +65,13 @@ export const getteams =({id}) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/teams/${id}/users`, {
+        const res = await axios.get(`/users/${id}/teams`, {
             headers : {Authorization : `Bearer ${token}`}
         })
         
         dispatch({
             type:GET_TEAMS_SUCCESS,
-            payload:res.data
+            payload:res.data.teams
         })
     }catch(error){
         dispatch({

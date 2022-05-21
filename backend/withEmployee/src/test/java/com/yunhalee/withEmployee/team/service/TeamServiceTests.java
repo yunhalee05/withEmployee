@@ -93,21 +93,21 @@ public class TeamServiceTests {
         assertEquals(team.getId(), id);
     }
 
-    @Test
-    public void getTeamByUserId(){
-        //given
-        Integer userId =17;
-
-        //when
-        List<Team> teams = teamService.getByUserId(userId);
-
-        //then
-        List users = new ArrayList();
-        teams.forEach(team -> {
-            users.add(team.getUsers().stream().filter(user -> user.getId()==userId));
-        });
-        assertEquals(teams.size(), users.size());
-    }
+//    @Test
+//    public void getTeamByUserId(){
+//        //given
+//        Integer userId =17;
+//
+//        //when
+//        List<Team> teams = teamService.getByUserId(userId);
+//
+//        //then
+//        List users = new ArrayList();
+//        teams.forEach(team -> {
+//            users.add(team.getUsers().stream().filter(user -> user.getId()==userId));
+//        });
+//        assertEquals(teams.size(), users.size());
+//    }
 
     @Test
     public void getTeamByPage(){

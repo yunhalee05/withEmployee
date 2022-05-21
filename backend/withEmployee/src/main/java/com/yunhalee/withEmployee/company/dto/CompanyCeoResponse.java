@@ -21,7 +21,7 @@ public class CompanyCeoResponse {
         this.companies = ceo.getCompanyNames();
     }
 
-    public static CompanyCeoResponse of(User ceo){
+    public static CompanyCeoResponse of(User ceo) {
         return new CompanyCeoResponse(ceo);
     }
 }

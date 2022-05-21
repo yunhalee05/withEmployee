@@ -1,12 +1,16 @@
 package com.yunhalee.withEmployee.team.service;
 
 import com.yunhalee.withEmployee.company.domain.CompanyRepository;
+import com.yunhalee.withEmployee.company.dto.SimpleCompanyResponse;
 import com.yunhalee.withEmployee.team.domain.TeamRepository;
+import com.yunhalee.withEmployee.team.dto.SimpleTeamResponse;
+import com.yunhalee.withEmployee.team.dto.SimpleTeamResponses;
 import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.team.dto.TeamDTO;
 import com.yunhalee.withEmployee.team.dto.TeamListByPageDTO;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.team.domain.Team;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,8 +44,11 @@ public class TeamService {
 
     }
 
-    public List<Team> getByUserId(Integer id){
-        return repo.findByUserId(id);
+    public SimpleTeamResponses getByUserId(Integer userId){
+        return SimpleTeamResponses.of(
+            repo.findByUserId(userId).stream()
+            .map(team -> SimpleTeamResponse.of(team, SimpleCompanyResponse.of(team.getCompany())))
+            .collect(Collectors.toList()));
     }
 
     public Team getById(Integer id){
