@@ -4,6 +4,7 @@ import com.yunhalee.withEmployee.common.domain.BaseTimeEntity;
 import com.yunhalee.withEmployee.message.domain.Message;
 import com.yunhalee.withEmployee.user.domain.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import java.util.*;
 @Entity
 @Table(name = "conversation")
 @Getter
-@Setter
+@NoArgsConstructor
 public class Conversation extends BaseTimeEntity {
 
     @Id
@@ -25,8 +26,8 @@ public class Conversation extends BaseTimeEntity {
 
     private String text;
 
-    @Column(name = "image_name")
-    private String imageName;
+//    @Column(name = "image_name")
+//    private String imageName;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -40,8 +41,6 @@ public class Conversation extends BaseTimeEntity {
     @Column(name = "is_other_company")
     private boolean isOtherCompany;
 
-
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "conversation_user",
@@ -50,8 +49,32 @@ public class Conversation extends BaseTimeEntity {
     )
     private Set<User> users = new HashSet<>();
 
-    public Conversation() {
+    private Conversation(String text, String imageUrl, boolean isTeamMember, boolean isSameCompany, boolean isOtherCompany) {
+        this.text = text;
+        this.imageUrl = imageUrl;
+        this.isTeamMember = isTeamMember;
+        this.isSameCompany = isSameCompany;
+        this.isOtherCompany = isOtherCompany;
     }
+
+    public static Conversation of(String text, String imageUrl, boolean isTeamMember, boolean isSameCompany, boolean otherCompany) {
+        return new Conversation(text, imageUrl, isTeamMember, isSameCompany, otherCompany);
+    }
+
+    public Conversation addUsers(Set<User> users) {
+        users.stream().forEach(user -> addUser(user));
+        return this;
+    }
+
+    private void addUser(User user){
+        this.users.add(user);
+    }
+
+    public void changeLatestTextAndImage(String text, String imageUrl) {
+        this.text = text;
+        this.imageUrl = imageUrl;
+    }
+
 
     @Override
     public String toString() {
@@ -61,8 +84,5 @@ public class Conversation extends BaseTimeEntity {
                 '}';
     }
 
-    public void addUser(User user){
-        this.users.add(user);
-    }
 
 }

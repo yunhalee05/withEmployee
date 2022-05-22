@@ -1,31 +1,36 @@
 package com.yunhalee.withEmployee.conversation.controller;
 
-import com.yunhalee.withEmployee.conversation.dto.ConversationListDTO;
+import com.yunhalee.withEmployee.conversation.dto.ConversationRequest;
+import com.yunhalee.withEmployee.conversation.dto.ConversationResponse;
+import com.yunhalee.withEmployee.conversation.dto.ConversationResponses;
 import com.yunhalee.withEmployee.conversation.service.ConversationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class ConversationController {
 
-    @Autowired
-    ConversationService service;
+    private final ConversationService conversationService;
+
+    public ConversationController(ConversationService conversationService) {
+        this.conversationService = conversationService;
+    }
 
     @GetMapping("/conversations")
-    public List<ConversationListDTO> listAll(@Param("id") Integer id){
-       return service.listAll(id);
+    public ResponseEntity<ConversationResponses> getAll(@RequestParam("userId") Integer userId){
+       return ResponseEntity.ok(conversationService.listAll(userId));
     }
 
-    @PostMapping("/conversation")
-    public ConversationListDTO createConversation(@RequestBody ConversationListDTO conversationListDTO){
-        return service.createConversation(conversationListDTO);
+
+    @PostMapping("/conversations")
+    public ResponseEntity<ConversationResponse> create(@RequestBody ConversationRequest request){
+        return ResponseEntity.ok(conversationService.create(request));
     }
 
-    @DeleteMapping("/conversation/{id}")
-    public Integer deleteConversation(@PathVariable("id")Integer id){
-        return service.deleteConversation(id);
+    @DeleteMapping("/conversations/{id}")
+    public ResponseEntity deleteConversation(@PathVariable("id")Integer id){
+        conversationService.deleteConversation(id);
+        return ResponseEntity.noContent().build();
     }
 }
