@@ -39,10 +39,6 @@ public class Message extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "to_user_id")
-//    private User toUser;
-
     public Message(String content, Conversation conversation, User user) {
         this.content = content;
         this.conversation = conversation;
@@ -56,24 +52,12 @@ public class Message extends BaseTimeEntity {
         this.user = user;
     }
 
-    public static Message of(String content, String imageUrl, Conversation conversation, com.yunhalee.withEmployee.user.domain.User user) {
+    public static Message of(String content, String imageUrl, Conversation conversation, User user) {
         return new Message(content, imageUrl, conversation, user);
     }
-
-
 
     public Integer getConversationId() {
         return this.conversation.getId();
     }
 
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", conversation=" + conversation +
-                ", User=" + user +
-                '}';
-    }
 }

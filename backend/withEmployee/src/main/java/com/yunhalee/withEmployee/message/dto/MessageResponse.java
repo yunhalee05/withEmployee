@@ -1,7 +1,6 @@
 package com.yunhalee.withEmployee.message.dto;
 
 import com.yunhalee.withEmployee.message.domain.Message;
-import com.yunhalee.withEmployee.message.dto.MessageDTO.MessageUser;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,15 +38,4 @@ public class MessageResponse {
         return new MessageResponse(message, user);
     }
 
-    @Override
-    public String toString() {
-        return "MessageResponse{" +
-            "id=" + id +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", content='" + content + '\'' +
-            ", conversationId=" + conversationId +
-            ", user=" + user +
-            ", createdAt=" + createdAt +
-            '}';
-    }
 }

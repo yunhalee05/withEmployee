@@ -2,9 +2,7 @@ package com.yunhalee.withEmployee.message.dto;
 
 import com.yunhalee.withEmployee.conversation.domain.Conversation;
 import com.yunhalee.withEmployee.message.domain.Message;
-import com.yunhalee.withEmployee.message.dto.MessageDTO.MessageUser;
 import com.yunhalee.withEmployee.user.domain.User;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
