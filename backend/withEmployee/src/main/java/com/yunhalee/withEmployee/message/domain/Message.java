@@ -12,8 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
 @Table(name = "message")
@@ -39,13 +41,9 @@ public class Message extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Message(String content, Conversation conversation, User user) {
-        this.content = content;
-        this.conversation = conversation;
-        this.user = user;
-    }
-
-    public Message(String content, String imageUrl, Conversation conversation, User user) {
+    @Builder
+    public Message(Integer id, @NonNull String content, String imageUrl, @NonNull Conversation conversation, @NonNull User user) {
+        this.id = id;
         this.content = content;
         this.imageUrl = imageUrl;
         this.conversation = conversation;
@@ -53,7 +51,11 @@ public class Message extends BaseTimeEntity {
     }
 
     public static Message of(String content, String imageUrl, Conversation conversation, User user) {
-        return new Message(content, imageUrl, conversation, user);
+        return Message.builder()
+        .content(content)
+        .imageUrl(imageUrl)
+        .conversation(conversation)
+        .user(user).build();
     }
 
     public Integer getConversationId() {
