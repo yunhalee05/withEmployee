@@ -2,15 +2,23 @@ package com.yunhalee.withEmployee.message.domain;
 
 import com.yunhalee.withEmployee.common.domain.BaseTimeEntity;
 import com.yunhalee.withEmployee.conversation.domain.Conversation;
+import com.yunhalee.withEmployee.user.domain.User;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "message")
 @Getter
-@Setter
+@NoArgsConstructor
 public class Message extends BaseTimeEntity {
 
     @Id
@@ -19,9 +27,6 @@ public class Message extends BaseTimeEntity {
     private Integer id;
 
     private String content;
-
-    @Column(name = "image_name")
-    private String imageName;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -32,29 +37,35 @@ public class Message extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private com.yunhalee.withEmployee.user.domain.User User;
+    private User user;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "to_user_id")
 //    private User toUser;
 
-
-    public Message() {
-    }
-
-    public Message(String content, Conversation conversation, com.yunhalee.withEmployee.user.domain.User user) {
+    public Message(String content, Conversation conversation, User user) {
         this.content = content;
         this.conversation = conversation;
-        User = user;
+        this.user = user;
     }
 
-    public Message(String content, String imageName, String imageUrl, Conversation conversation, com.yunhalee.withEmployee.user.domain.User user) {
+    public Message(String content, String imageUrl, Conversation conversation, User user) {
         this.content = content;
-        this.imageName = imageName;
         this.imageUrl = imageUrl;
         this.conversation = conversation;
-        User = user;
+        this.user = user;
     }
+
+    public static Message of(String content, String imageUrl, Conversation conversation, com.yunhalee.withEmployee.user.domain.User user) {
+        return new Message(content, imageUrl, conversation, user);
+    }
+
+
+
+    public Integer getConversationId() {
+        return this.conversation.getId();
+    }
+
 
     @Override
     public String toString() {
@@ -62,7 +73,7 @@ public class Message extends BaseTimeEntity {
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", conversation=" + conversation +
-                ", User=" + User +
+                ", User=" + user +
                 '}';
     }
 }
