@@ -54,7 +54,10 @@ public class CompanyRepositoryTest {
     }
 
     private Company save(String name, String description, User ceo) {
-        return companyRepository.save(new Company(name, description, ceo));
+        return companyRepository.save(Company.builder()
+            .name(name)
+            .description(description)
+            .ceo(ceo).build());
     }
 
     @Test

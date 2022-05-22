@@ -1,13 +1,17 @@
 package com.yunhalee.withEmployee.company.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import com.yunhalee.withEmployee.MockBeans;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.company.domain.CompanyTest;
 import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
-import com.yunhalee.withEmployee.company.dto.CompanyResponse;
 import com.yunhalee.withEmployee.company.exception.CompanyNameAlreadyInUseException;
 import com.yunhalee.withEmployee.company.exception.CompanyNameEmptyException;
 import com.yunhalee.withEmployee.user.domain.User;
@@ -17,13 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
 class CompanyServiceTest extends MockBeans {
@@ -43,10 +40,11 @@ class CompanyServiceTest extends MockBeans {
 
     @BeforeEach
     void setUp() {
-        company = new Company(ID,
-            NAME,
-            DESCRIPTION,
-            UserTest.CEO);
+        company = Company.builder()
+            .id(ID)
+            .name(NAME)
+            .description(DESCRIPTION)
+            .ceo(UserTest.CEO).build();
 
         request = new CompanyRequest(NAME,
             DESCRIPTION,
