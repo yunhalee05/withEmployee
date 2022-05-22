@@ -12,9 +12,9 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
+
     User findByName(String name);
 
-//    @Query(value = "SELECT u FROM User u WHERE u.email=:email")
     Optional<User> findByEmail(String email);
 
     boolean existsByEmail(String email);
@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findAllUsers();
 
     @Query(value = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.companies c LEFT JOIN FETCH u.teams t ",
-            countQuery = "SELECT count(DISTINCT u) FROM User u")
+        countQuery = "SELECT count(DISTINCT u) FROM User u")
     Page<User> findAllUsers(Pageable pageable);
 
     List<User> findByTeams(Team team);

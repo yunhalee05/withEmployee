@@ -17,7 +17,7 @@ public class UserTokenResponse {
         this.token = token;
     }
 
-    public static UserTokenResponse of(SimpleUserResponse user, String token){
+    public static UserTokenResponse of(SimpleUserResponse user, String token) {
         return new UserTokenResponse(user, token);
     }
 }

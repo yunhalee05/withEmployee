@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 @Entity
 @Table(name = "user")
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -62,17 +64,8 @@ public class User {
     @OneToMany(mappedBy = "ceo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Company> companies = new HashSet<>();
 
-    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private Set<Conversation> conversations = new HashSet<>();
-
-    public User() {
-    }
-
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
+//    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
+//    private Set<Conversation> conversations = new HashSet<>();
 
     @Builder
     public User(Integer id, String name, String email, String password, String description,
@@ -158,18 +151,12 @@ public class User {
         return this.companies.stream()
             .map(Company::getName)
             .collect(Collectors.toList());
-//        List<String> companies = new ArrayList<>();
-//        this.companies.forEach(company -> companies.add(company.getName()));
-//        return companies;
     }
 
     public List<String> getTeamNames() {
         return this.teams.stream()
             .map(Team::getName)
             .collect(Collectors.toList());
-//        List<String> teams = new ArrayList<>();
-//        this.teams.forEach(team -> teams.add(team.getName()));
-//        return teams;
     }
 
     public void changeImageURL(String imageUrl) {

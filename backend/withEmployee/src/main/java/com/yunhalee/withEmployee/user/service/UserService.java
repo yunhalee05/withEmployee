@@ -1,6 +1,5 @@
 package com.yunhalee.withEmployee.user.service;
 
-import com.yunhalee.withEmployee.security.jwt.JwtRequest;
 import com.yunhalee.withEmployee.security.jwt.JwtUserDetailsService;
 import com.yunhalee.withEmployee.security.jwt.UserTokenResponse;
 import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
@@ -12,9 +11,7 @@ import com.yunhalee.withEmployee.user.dto.UserTeamResponse;
 import com.yunhalee.withEmployee.user.exception.DuplicatedEmailException;
 import com.yunhalee.withEmployee.util.FileUploadService;
 
-import com.yunhalee.withEmployee.team.domain.TeamRepository;
 import com.yunhalee.withEmployee.user.domain.UserRepository;
-import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,29 +35,26 @@ public class UserService {
     public static final int USER_PER_PAGE = 9;
 
     private String uploadFolder;
-    private UserRepository repo;
+    private UserRepository userRepository;
     private FileUploadService fileUploadService;
-    private TeamRepository teamRepo;
     private PasswordEncoder passwordEncoder;
     private JwtUserDetailsService jwtUserDetailsService;
 
     public UserService(@Value("${profileUpload.path") String uploadFolder,
-        UserRepository repo,
+        UserRepository userRepository,
         FileUploadService fileUploadService,
-        TeamRepository teamRepo,
         PasswordEncoder passwordEncoder,
         JwtUserDetailsService jwtUserDetailsService) {
         this.uploadFolder = uploadFolder;
-        this.repo = repo;
+        this.userRepository = userRepository;
         this.fileUploadService = fileUploadService;
-        this.teamRepo = teamRepo;
         this.passwordEncoder = passwordEncoder;
         this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
     public UserResponses getAll(Integer page) {
         Pageable pageable = PageRequest.of(page - 1, USER_PER_PAGE, Sort.by("id"));
-        Page<User> pageUser = repo.findAllUsers(pageable);
+        Page<User> pageUser = userRepository.findAllUsers(pageable);
         return UserResponses.of(pageUser.getTotalElements(),
             pageUser.getTotalPages(),
             pageUser.getContent().stream()
@@ -76,7 +70,7 @@ public class UserService {
     @Transactional
     public Integer register(UserRequest request, MultipartFile multipartFile) {
         checkEmail(request.getEmail());
-        User user = repo.save(request.toUser(encodePassword(request)));
+        User user = userRepository.save(request.toUser(encodePassword(request)));
         saveProfileImage(user, multipartFile);
         return user.getId();
     }
@@ -84,10 +78,9 @@ public class UserService {
     private String saveProfileImage(User user, MultipartFile multipartFile) {
         String imageUrl = "";
         if (multipartFile != null && !multipartFile.isEmpty()) {
-            imageUrl = fileUploadService
-                .uploadProfileImage(String.valueOf(user.getId()), multipartFile);
+            imageUrl = fileUploadService.uploadProfileImage(String.valueOf(user.getId()), multipartFile);
             user.changeImageURL(imageUrl);
-            repo.save(user);
+            userRepository.save(user);
         }
         return imageUrl;
     }
@@ -98,7 +91,7 @@ public class UserService {
     }
 
     private void checkEmail(String email) {
-        if (repo.existsByEmail(email)) {
+        if (userRepository.existsByEmail(email)) {
             throw new DuplicatedEmailException("This email is already in use. email : " + email);
         }
     }
@@ -109,11 +102,12 @@ public class UserService {
         User user = findUserById(id);
         user.update(getUpdateUser(request));
         saveProfileImage(user, multipartFile);
-        return UserTokenResponse.of(SimpleUserResponse.of(user), jwtUserDetailsService.generateToken(user));
+        return UserTokenResponse
+            .of(SimpleUserResponse.of(user), jwtUserDetailsService.generateToken(user));
     }
 
     private void checkEmail(String email, Integer id) {
-        if (repo.existsByEmail(email) && (findUserByEmail(email).getId() != id)) {
+        if (userRepository.existsByEmail(email) && (findUserByEmail(email).getId() != id)) {
             throw new DuplicatedEmailException("This email is already in use. email : " + email);
         }
     }
@@ -126,12 +120,12 @@ public class UserService {
     }
 
     public User findUserById(Integer id) {
-        return repo.findById(id)
+        return userRepository.findById(id)
             .orElseThrow(() -> new UserNotFoundException("This User doesn't exist"));
     }
 
     public User findUserByEmail(String email) {
-        return repo.findByEmail(email)
+        return userRepository.findByEmail(email)
             .orElseThrow(() -> new UserNotFoundException("This User doesn't exist"));
     }
 

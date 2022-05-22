@@ -18,7 +18,7 @@ public class UserResponses {
         this.users = users;
     }
 
-    public static UserResponses of(Long totalElement, Integer totalPage, List<UserResponse> users){
+    public static UserResponses of(Long totalElement, Integer totalPage, List<UserResponse> users) {
         return new UserResponses(totalElement, totalPage, users);
     }
 }
