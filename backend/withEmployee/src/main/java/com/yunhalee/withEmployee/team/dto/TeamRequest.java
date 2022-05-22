@@ -17,7 +17,7 @@ public class TeamRequest {
         this.companyId = companyId;
     }
 
-    public Team toTeam(Company company){
+    public Team toTeam(Company company) {
         return Team.of(this.name, company);
     }
 }

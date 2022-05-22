@@ -3,8 +3,10 @@ package com.yunhalee.withEmployee.team.domain;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.user.domain.User;
 import java.util.stream.Collectors;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -26,32 +28,27 @@ public class Team {
     private String name;
 
     @ManyToMany(mappedBy = "teams")
-    private Set<User> users= new HashSet<>();
+    private Set<User> users = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 
-    public Team(String name) {
-        this.name = name;
-    }
-
-    private Team(String name, Company company) {
-        this.name = name;
-        this.company = company;
-    }
-
-    public Team(Integer id, String name, Company company) {
+    @Builder
+    public Team(Integer id, @NonNull String name, Company company) {
         this.id = id;
         this.name = name;
         this.company = company;
     }
 
     public static Team of(String name, Company company) {
-        return new Team(name, company);
+        return Team.builder()
+            .name(name)
+            .company(company)
+            .build();
     }
 
-    public void changeName(String name){
+    public void changeName(String name) {
         this.name = name;
     }
 
@@ -68,7 +65,7 @@ public class Team {
     }
 
 
-    public Integer getTotalNumber(){
+    public Integer getTotalNumber() {
         return this.users.size();
     }
 
@@ -84,15 +81,8 @@ public class Team {
         return this.company.getCeoId();
     }
 
-    public boolean isId(Integer id){
+    public boolean isId(Integer id) {
         return this.id.equals(id);
     }
 
-    @Override
-    public String toString() {
-        return "Team{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            '}';
-    }
 }
