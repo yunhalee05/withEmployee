@@ -37,9 +37,10 @@ class TeamServiceTest extends MockBeans {
 
     @BeforeEach
     void setUp() {
-        team = new Team(TeamTest.FIRST_TEAM.getId(),
-            TeamTest.FIRST_TEAM.getName(),
-            TeamTest.FIRST_TEAM.getCompany());
+        team = Team.builder()
+            .id(TeamTest.FIRST_TEAM.getId())
+            .name(TeamTest.FIRST_TEAM.getName())
+            .company(TeamTest.FIRST_TEAM.getCompany()).build();
 
         request = new TeamRequest(TeamTest.FIRST_TEAM.getName(),
             TeamTest.FIRST_TEAM.getCompanyId());

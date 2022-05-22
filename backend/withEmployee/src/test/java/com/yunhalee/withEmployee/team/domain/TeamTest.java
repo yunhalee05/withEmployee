@@ -1,5 +1,6 @@
 package com.yunhalee.withEmployee.team.domain;
 
+import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.company.domain.CompanyTest;
 import com.yunhalee.withEmployee.user.domain.Role;
 import com.yunhalee.withEmployee.user.domain.User;
@@ -9,11 +10,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TeamTest {
 
-    public static final Team FIRST_TEAM = new Team(1, "testFirstTeam", CompanyTest.FIRST_COMPANY);
-    public static final Team SECOND_TEAM = new Team(2, "testSecondTeam", CompanyTest.FIRST_COMPANY);
-    public static final Team THIRD_TEAM = new Team(3, "testThirdTeam", CompanyTest.FIRST_COMPANY);
+    public static final Team FIRST_TEAM = create(1, "testFirstTeam", CompanyTest.FIRST_COMPANY);
+    public static final Team SECOND_TEAM = create(2, "testSecondTeam", CompanyTest.FIRST_COMPANY);
+    public static final Team THIRD_TEAM = create(3, "testThirdTeam", CompanyTest.FIRST_COMPANY);
 
-    private Team team = new Team(1, "testTeam", CompanyTest.FIRST_COMPANY);
+    private Team team = create(1, "testTeam", CompanyTest.FIRST_COMPANY);
     private User user = User.builder()
         .id(1)
         .name("testMember")
@@ -58,6 +59,13 @@ public class TeamTest {
         assertThat(user.getTeams().size()).isEqualTo(0);
         assertThat(user.getTeams().contains(team)).isFalse();
         assertThat(addUser.getTeams().contains(team)).isTrue();
+    }
+
+    private static Team create(Integer id, String name, Company company) {
+        return Team.builder()
+            .id(id)
+            .name(name)
+            .company(company).build();
     }
 
 

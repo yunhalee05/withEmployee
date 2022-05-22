@@ -46,7 +46,10 @@ public class TeamRepositoryTest {
     @Before
     public void setUp() {
         ceo = userRepository.save(UserTest.CEO);
-        company = companyRepository.save(new Company(CompanyTest.FIRST_COMPANY.getName(), CompanyTest.FIRST_COMPANY.getDescription(), ceo));
+        company = companyRepository.save(Company.builder()
+            .name(CompanyTest.FIRST_COMPANY.getName())
+            .description(CompanyTest.FIRST_COMPANY.getDescription())
+            .ceo(ceo).build());
         firstTeam = save(TeamTest.FIRST_TEAM.getName(), company, ceo);
         secondTeam = save(TeamTest.SECOND_TEAM.getName(), company, ceo);
         thirdTeam = save(TeamTest.THIRD_TEAM.getName(), company, ceo);
