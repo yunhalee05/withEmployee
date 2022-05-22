@@ -21,13 +21,10 @@ public class Conversation extends BaseTimeEntity {
     @Column(name = "conversation_id")
     private Integer id;
 
-    @OneToMany(mappedBy = "conversation" , cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages = new ArrayList<>();
 
     private String text;
-
-//    @Column(name = "image_name")
-//    private String imageName;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -43,13 +40,14 @@ public class Conversation extends BaseTimeEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
-            name = "conversation_user",
-            joinColumns = @JoinColumn(name = "conversation_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
+        name = "conversation_user",
+        joinColumns = @JoinColumn(name = "conversation_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> users = new HashSet<>();
 
-    private Conversation(String text, String imageUrl, boolean isTeamMember, boolean isSameCompany, boolean isOtherCompany) {
+    private Conversation(String text, String imageUrl, boolean isTeamMember, boolean isSameCompany,
+        boolean isOtherCompany) {
         this.text = text;
         this.imageUrl = imageUrl;
         this.isTeamMember = isTeamMember;
@@ -57,7 +55,8 @@ public class Conversation extends BaseTimeEntity {
         this.isOtherCompany = isOtherCompany;
     }
 
-    public static Conversation of(String text, String imageUrl, boolean isTeamMember, boolean isSameCompany, boolean otherCompany) {
+    public static Conversation of(String text, String imageUrl, boolean isTeamMember,
+        boolean isSameCompany, boolean otherCompany) {
         return new Conversation(text, imageUrl, isTeamMember, isSameCompany, otherCompany);
     }
 
@@ -66,22 +65,13 @@ public class Conversation extends BaseTimeEntity {
         return this;
     }
 
-    private void addUser(User user){
+    private void addUser(User user) {
         this.users.add(user);
     }
 
     public void changeLatestTextAndImage(String text, String imageUrl) {
         this.text = text;
         this.imageUrl = imageUrl;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Conversation{" +
-                "id=" + id +
-                ", users=" + users +
-                '}';
     }
 
 

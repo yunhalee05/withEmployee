@@ -14,7 +14,7 @@ public class ConversationResponses {
         this.conversations = conversations;
     }
 
-    public static ConversationResponses of(List<ConversationResponse> conversations){
+    public static ConversationResponses of(List<ConversationResponse> conversations) {
         return new ConversationResponses(conversations);
     }
 }

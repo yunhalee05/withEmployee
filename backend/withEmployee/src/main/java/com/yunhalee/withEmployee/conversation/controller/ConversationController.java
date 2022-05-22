@@ -18,18 +18,18 @@ public class ConversationController {
     }
 
     @GetMapping("/conversations")
-    public ResponseEntity<ConversationResponses> getAll(@RequestParam("userId") Integer userId){
-       return ResponseEntity.ok(conversationService.listAll(userId));
+    public ResponseEntity<ConversationResponses> getAll(@RequestParam("userId") Integer userId) {
+        return ResponseEntity.ok(conversationService.listAll(userId));
     }
 
 
     @PostMapping("/conversations")
-    public ResponseEntity<ConversationResponse> create(@RequestBody ConversationRequest request){
+    public ResponseEntity<ConversationResponse> create(@RequestBody ConversationRequest request) {
         return ResponseEntity.ok(conversationService.create(request));
     }
 
     @DeleteMapping("/conversations/{id}")
-    public ResponseEntity deleteConversation(@PathVariable("id")Integer id){
+    public ResponseEntity deleteConversation(@PathVariable("id") Integer id) {
         conversationService.deleteConversation(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,7 +1,6 @@
 package com.yunhalee.withEmployee.conversation.dto;
 
 import com.yunhalee.withEmployee.conversation.domain.Conversation;
-import com.yunhalee.withEmployee.conversation.dto.ConversationListDTO.ConversationUser;
 import com.yunhalee.withEmployee.user.dto.CeoResponse;
 import java.util.List;
 import lombok.Getter;
@@ -19,8 +18,7 @@ public class ConversationResponse {
     private boolean isSameCompany;
     private boolean isOtherCompany;
 
-    public ConversationResponse(Integer id, String text, String imageUrl, List<CeoResponse> users, boolean isTeamMember, boolean isSameCompany,
-        boolean isOtherCompany) {
+    public ConversationResponse(Integer id, String text, String imageUrl, List<CeoResponse> users, boolean isTeamMember, boolean isSameCompany, boolean isOtherCompany) {
         this.id = id;
         this.text = text;
         this.imageUrl = imageUrl;
@@ -44,16 +42,4 @@ public class ConversationResponse {
         return new ConversationResponse(conversation, users);
     }
 
-    @Override
-    public String toString() {
-        return "ConversationResponse{" +
-            "id=" + id +
-            ", text='" + text + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", users=" + users +
-            ", isTeamMember=" + isTeamMember +
-            ", isSameCompany=" + isSameCompany +
-            ", isOtherCompany=" + isOtherCompany +
-            '}';
-    }
 }
