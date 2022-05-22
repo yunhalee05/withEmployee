@@ -8,14 +8,16 @@ import { getteams } from '../_actions/teamActions';
 function UserTeamScreen(props) {
 
     const id = props.match.params.id;
+    const team = useSelector(state => state.team)
 
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(getteams({id}))
-    }, [dispatch])
+        if( !team.id || team.id != id) {
+            dispatch(getteams({id}))
+        }
+    }, [id])
 
 
-    const team = useSelector(state => state.team)
 
 
     return (

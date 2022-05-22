@@ -20,9 +20,9 @@ function AddMemberModal({members,setAddMember, id, setCeos, setLeaders, setMembe
             dispatch(adduserteam({email, id})).then(res=>{
                 if(res.role==="CEO"){
                     setCeos([...ceos,res])
-                }else if(res.role==="Leader"){
+                }else if(res.role==="LEADER"){
                     setLeaders([...leaders,res])
-                }else if(res.role==="Member"){
+                }else if(res.role==="MEMBER"){
                     setMembers([...member,res])
                 }
                 setAddMember(false)

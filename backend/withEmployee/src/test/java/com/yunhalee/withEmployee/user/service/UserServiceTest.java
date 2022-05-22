@@ -7,6 +7,7 @@ import com.yunhalee.withEmployee.security.jwt.UserTokenResponse;
 import com.yunhalee.withEmployee.user.domain.Role;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.domain.UserTest;
+import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
 import com.yunhalee.withEmployee.user.dto.UserRequest;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
 import com.yunhalee.withEmployee.user.dto.UserResponses;
@@ -177,6 +178,14 @@ class UserServiceTest extends MockBeans {
         assertThat(response.getEmail()).isEqualTo(user.getEmail());
         assertThat(response.getImageUrl()).isEqualTo(user.getImageUrl());
         assertThat(response.getDescription()).isEqualTo(user.getDescription());
+        assertThat(response.getPhoneNumber()).isEqualTo(user.getPhoneNumber());
+    }
+
+    private void checkEquals(SimpleUserResponse response, User user) {
+        assertThat(response.getId()).isEqualTo(user.getId());
+        assertThat(response.getName()).isEqualTo(user.getName());
+        assertThat(response.getEmail()).isEqualTo(user.getEmail());
+        assertThat(response.getImageUrl()).isEqualTo(user.getImageUrl());
         assertThat(response.getPhoneNumber()).isEqualTo(user.getPhoneNumber());
     }
 

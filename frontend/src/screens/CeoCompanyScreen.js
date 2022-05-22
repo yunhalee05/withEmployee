@@ -9,8 +9,6 @@ import Error from '../components/Error'
 function CeoCompanyScreen(props) {
 
     const id = props.match.params.id
-
-    // const [companies, setCompanies] = useState([])
     const company = useSelector(state => state.company)
 
     const [addCompany, setAddCompany] = useState(false)
@@ -18,9 +16,10 @@ function CeoCompanyScreen(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-       dispatch(getcompanies({id}))
-
-    }, [dispatch])
+        if(!company.companies || (company.companies[0] && (company.companies[0].ceo.id != id))) {
+            dispatch(getcompanies({id}))
+        }
+    }, [id])
     
     return (
         <div>
@@ -45,6 +44,12 @@ function CeoCompanyScreen(props) {
                         </div>
                     </div>
 
+                </div>
+            }
+            {
+                (company.loading===false && company.companies) && (company.companies.length ==0) && 
+                <div className='profile-userteam-title'>
+                    You dont't belong to any team yet.
                 </div>
             }
             {

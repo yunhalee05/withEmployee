@@ -2,6 +2,7 @@ package com.yunhalee.withEmployee.security.jwt;
 
 import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.user.domain.User;
+import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
 import com.yunhalee.withEmployee.user.dto.UserCompanyResponse;
 import com.yunhalee.withEmployee.user.dto.UserResponse;
 import com.yunhalee.withEmployee.user.dto.UserTeamResponse;
@@ -57,8 +58,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     private UserTokenResponse userTokenResponse(User user, String token) {
-        return UserTokenResponse.of(UserResponse
-                .of(user, userTeamResponses(user), userCompanyResponses(user)), token);
+        return UserTokenResponse.of(SimpleUserResponse.of(user), token);
     }
 
     private List<UserTeamResponse> userTeamResponses(User user) {

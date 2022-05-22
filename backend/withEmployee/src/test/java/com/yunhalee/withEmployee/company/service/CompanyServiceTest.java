@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.yunhalee.withEmployee.MockBeans;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.company.domain.CompanyTest;
+import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.dto.CompanyResponse;
 import com.yunhalee.withEmployee.company.exception.CompanyNameAlreadyInUseException;
@@ -58,7 +59,7 @@ class CompanyServiceTest extends MockBeans {
         when(companyRepository.existsByName(anyString())).thenReturn(false);
         when(companyRepository.save(any())).thenReturn(company);
         when(userService.findUserById(anyInt())).thenReturn(UserTest.CEO);
-        CompanyResponse response = companyService.create(request);
+        CompanyListResponse response = companyService.create(request);
 
         //then
         checkEquals(response);
@@ -91,7 +92,7 @@ class CompanyServiceTest extends MockBeans {
         when(companyRepository.existsByName(anyString())).thenReturn(false);
         when(companyRepository.findByCompanyId(any())).thenReturn(Optional.of(company));
         when(userService.findUserById(anyInt())).thenReturn(UserTest.SECOND_CEO);
-        CompanyResponse response = companyService.update(ID, companyRequest);
+        CompanyListResponse response = companyService.update(ID, companyRequest);
 
         //then
         checkEquals(response, companyRequest, UserTest.SECOND_CEO);
@@ -113,14 +114,14 @@ class CompanyServiceTest extends MockBeans {
     }
 
 
-    private void checkEquals(CompanyResponse response) {
+    private void checkEquals(CompanyListResponse response) {
         assertThat(response.getId()).isEqualTo(company.getId());
         assertThat(response.getName()).isEqualTo(company.getName());
         assertThat(response.getDescription()).isEqualTo(company.getDescription());
         assertThat(response.getCeo().getId()).isEqualTo(UserTest.CEO.getId());
     }
 
-    private void checkEquals(CompanyResponse response, CompanyRequest request, User ceo) {
+    private void checkEquals(CompanyListResponse response, CompanyRequest request, User ceo) {
         assertThat(response.getId()).isEqualTo(ID);
         assertThat(response.getName()).isEqualTo(request.getName());
         assertThat(response.getDescription()).isEqualTo(request.getDescription());

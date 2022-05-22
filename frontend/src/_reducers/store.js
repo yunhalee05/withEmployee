@@ -8,9 +8,6 @@ import { teamlistReducer, teamReducer } from './teamReducers';
 import { userlistReducer, userReducer } from './userReducers';
 
 const initialState={
-    auth : {
-        ...localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')):null
-    }
 }
 
 const reducer = combineReducers({
@@ -23,8 +20,6 @@ const reducer = combineReducers({
     company : companyReducer,
     socket : socketReducer,
     message : messageReducer,
-    
-
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__||compose;

@@ -29,13 +29,13 @@ function HomeScreen() {
         if(auth.user){
             dispatch(getcompaniesrecommendation())
         }
-    }, [dispatch])
+    }, [auth.user])
 
     useEffect(() => {
         if(auth.user){
             dispatch(getallcompaniesbypage(1, sort))
         }
-    }, [dispatch, sort])
+    }, [auth.user, sort])
 
     const handleRecommendation= () =>{
         dispatch(getcompaniesrecommendation())

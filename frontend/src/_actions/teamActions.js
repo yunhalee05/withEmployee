@@ -1,5 +1,6 @@
 import axios from "axios"
 import { CREATE_TEAM_FAIL, CREATE_TEAM_REQUEST, CREATE_TEAM_SUCCESS, DELETE_TEAM_FAIL, DELETE_TEAM_REQUEST, DELETE_TEAM_SUCCESS, EDIT_TEAM_FAIL, EDIT_TEAM_REQUEST, EDIT_TEAM_SUCCESS, GET_TEAMLIST_FAIL, GET_TEAMLIST_REQUEST, GET_TEAMLIST_SUCCESS, GET_TEAMS_FAIL, GET_TEAMS_REQUEST, GET_TEAMS_SUCCESS, GET_TEAM_FAIL, GET_TEAM_REQUEST, GET_TEAM_SUCCESS } from "../_constants/teamConstants"
+import { ADD_USER_TEAM_FAIL, ADD_USER_TEAM_REQUEST, ADD_USER_TEAM_SUCCESS, DELETE_USER_TEAM_FAIL, DELETE_USER_TEAM_REQUEST, DELETE_USER_TEAM_SUCCESS } from "../_constants/userConstants"
 
 export const getteamlist =(page) => async(dispatch, getState)=>{
     const {auth :{token}} = getState()
@@ -125,7 +126,7 @@ export const updateTeam =(id, teamRequest) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/teams',teamRequest, {
+        const res = await axios.post(`/teams/${id}`,teamRequest, {
             headers : {Authorization : `Bearer ${token}`}
         })
 

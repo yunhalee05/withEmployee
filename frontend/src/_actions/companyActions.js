@@ -183,15 +183,14 @@ export const deleteCompany =(id) => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.delete(`/companies/${id}`,{
+        await axios.delete(`/companies/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
-        // console.log(res)
         dispatch({
             type:DELETE_COMPANY_SUCCESS,
-            payload:res.data
+            payload:id
         })
-        return res.data
+        return id
 
     }catch(error){
         dispatch({
@@ -221,10 +220,10 @@ export const getcompaniesrecommendation =() => async(dispatch, getState)=>{
         // console.log(res)
         dispatch({
             type:GET_COMPANIES_RECOMMENDATION_SUCCESS,
-            payload:res.data
+            payload:res.data.companies
         })
 
-        return res.data
+        return res.data.companies
     }catch(error){
         dispatch({
             type:GET_COMPANIES_RECOMMENDATION_FAIL,
@@ -251,10 +250,10 @@ export const getcompaniessearch =(keyword) => async(dispatch, getState)=>{
         // console.log(res)
         dispatch({
             type:GET_COMPANIES_SEARCH_SUCCESS,
-            payload:res.data
+            payload:res.data.companies
         })
 
-        return res.data
+        return res.data.companies
     }catch(error){
         dispatch({
             type:GET_COMPANIES_SEARCH_FAIL,

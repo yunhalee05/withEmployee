@@ -1,5 +1,6 @@
 package com.yunhalee.withEmployee.company.controller;
 
+import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyListResponses;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.dto.CompanyResponse;
@@ -50,12 +51,12 @@ public class CompanyController {
 //    }
 
     @PostMapping("/companies")
-    public ResponseEntity<CompanyResponse> create(@RequestBody CompanyRequest companyRequest){
+    public ResponseEntity<CompanyListResponse> create(@RequestBody CompanyRequest companyRequest){
         return ResponseEntity.ok(service.create(companyRequest));
     }
 
     @PostMapping("/companies/{id}")
-    public ResponseEntity<CompanyResponse> update(@PathVariable("id") Integer id, @RequestBody CompanyRequest companyRequest){
+    public ResponseEntity<CompanyListResponse> update(@PathVariable("id") Integer id, @RequestBody CompanyRequest companyRequest){
         return ResponseEntity.ok(service.update(id, companyRequest));
     }
 

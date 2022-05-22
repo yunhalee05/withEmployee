@@ -55,7 +55,7 @@ public class TeamController {
     }
 
     @PostMapping(value = "/teams/{id}", params = "userId")
-    public ResponseEntity subtractMember(@PathVariable("id") Integer id, @RequestParam("email") Integer userId){
+    public ResponseEntity subtractMember(@PathVariable("id") Integer id, @RequestParam("userId") Integer userId){
         service.subtractMember(id, userId);
         return ResponseEntity.noContent().build();
     }

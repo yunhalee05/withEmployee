@@ -20,24 +20,24 @@ function TeamScreen(props) {
     const [ceos, setCeos] = useState([])
     const [leaders, setLeaders] = useState([])
     const [members, setMembers] = useState([])
-
     const [addMember, setAddMember] = useState(false)
-
     const [conversation, setConversation] = useState({})
+    const team = useSelector(state => state.team)
 
     useEffect(() => {
-        dispatch(getteam({id})).then(res=>{      
-            if(auth.user.teams.filter(t=>t.id===res.id).length>0 || auth.user.companies.filter(c=>c.id ===res.companyId).length>0){          
-            setCeos(res.users.filter(user=>user.role==="CEO"))
-            setLeaders(res.users.filter(user=>user.role==="Leader"))
-            setMembers(res.users.filter(user=>user.role==="Member"))
-            }else{
-                props.history.goBack()
-            }
-        })
-    }, [dispatch])
+        if( team.id != id || !team.id) {
+            dispatch(getteam({id})).then(res=>{      
+                if(auth.user.teams.filter(t=>t.id===res.id).length>0 || auth.user.companies.filter(c=>c.id ===res.companyId).length>0){          
+                setCeos(res.users.filter(user=>user.role==="CEO"))
+                setLeaders(res.users.filter(user=>user.role==="LEADER"))
+                setMembers(res.users.filter(user=>user.role==="MEMBER"))
+                }else{
+                    props.history.goBack()
+                }
+            })
+        }
+    }, [id])
 
-    const team = useSelector(state => state.team)
 
 
     return (

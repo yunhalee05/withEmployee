@@ -82,8 +82,8 @@ export const register =(bodyFormData, email, password) => async(dispatch, getSta
             payload:res.data
         })
 
-        localStorage.setItem("token", JSON.stringify(res.data.token))
-        return res.data.user
+        localStorage.setItem("token", JSON.stringify(res.data.token).replace(/\"/gi, ""))
+        return res.data.user.id
     
     }catch(error){
         dispatch({
@@ -102,5 +102,5 @@ export const logout = () =>(dispatch)=>{
         type:LOGOUT
     })
 
-    localStorage.removeItem("auth")
+    localStorage.removeItem("token")
 }

@@ -38,7 +38,7 @@ function RegisterScreen(props) {
         if(auth.user&& auth.user.id){
             props.history.push('/')
         }
-    }, [])
+    }, [auth.user])
 
     const handleImage = async(e)=>{
         const file = e.target.files[0]
@@ -86,11 +86,12 @@ function RegisterScreen(props) {
                 bodyFormData.append('multipartFile', imageURL)
                 bodyFormData.append('userRequest', new Blob([JSON.stringify(userRequest)], {type: 'application/json'}))
                 dispatch(register(bodyFormData, email, password)).then(res=> {
+                    console.log(res)
                     if(ceo){
                         const companyRequest={
                             name:cName,
                             description:cDescription,
-                            ceoId: res.id
+                            ceoId: res
                         }
                         dispatch(createCompany(companyRequest))
                     }

@@ -106,11 +106,11 @@ public class CompanyService {
     }
 
     @Transactional
-    public CompanyResponse create(CompanyRequest request) {
+    public CompanyListResponse create(CompanyRequest request) {
         checkCompanyName(request.getName());
         User ceo = userService.findUserById(request.getCeoId());
         Company company = companyRepository.save(request.toCompany(ceo));
-        return CompanyResponse.of(company, CeoResponse.of(ceo));
+        return CompanyListResponse.of(company, CeoResponse.of(ceo));
     }
 
     private void checkCompanyName(String name){
@@ -128,11 +128,11 @@ public class CompanyService {
     }
 
     @Transactional
-    public CompanyResponse update(Integer id, CompanyRequest request) {
+    public CompanyListResponse update(Integer id, CompanyRequest request) {
         checkCompanyName(id, request);
         Company company = findById(id);
         company.update(getToUpdateUser(company.getCeo().getId(), request, company));
-        return CompanyResponse.of(company, CeoResponse.of(company.getCeo()));
+        return CompanyListResponse.of(company, CeoResponse.of(company.getCeo()));
     }
 
     private void checkCompanyName(Integer id, CompanyRequest request) {

@@ -4,6 +4,7 @@ import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.user.domain.User;
 import java.util.stream.Collectors;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Table(name = "team")
 @Getter
 //@Setter
+@NoArgsConstructor
 public class Team {
 
     @Id

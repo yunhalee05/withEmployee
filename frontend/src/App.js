@@ -21,6 +21,7 @@ import { SOCKET } from "./_constants/socketConstants";
 import SocketClient from './SocketClient';
 import axios from 'axios';
 import { LOGIN_SUCCESS } from './_constants/authConstants';
+import { useState } from 'react';
 
 
 
@@ -34,13 +35,20 @@ function App() {
 
   const dispatch = useDispatch()
 
+  const [isAuth, setIsAuth] = useState(false)
+
   useEffect(async() => {
     if (!auth.user && localStorage.getItem("token") != null) {
       const res = await axios.get(`/login?token=${localStorage.getItem("token")}`)
       dispatch({
         type:LOGIN_SUCCESS,
         payload:res.data
-    })
+      })
+      setIsAuth(true)
+    }
+
+    if (!auth.user && localStorage.getItem("token") == null) {
+      setIsAuth(false)
     }
   }, [])
   
@@ -69,21 +77,19 @@ function App() {
         <Route exact path="/login" component={LoginScreen}/>
         <Route exact path="/register" component={RegisterScreen}/>
 
-        <PrivateRouter exact path="/user/:id" component={ProfileScreen}/>
-        <PrivateRouter exact path="/company/:id" component={CompanyScreen}/>
-        <PrivateRouter exact path="/team/:id" component={TeamScreen}/>
-        <PrivateRouter exact path="/teams/:id" component={UserTeamScreen}/>
-
-        { 
-          auth.user &&
+        {
+          isAuth &&
           <div>
+            <PrivateRouter exact path="/user/:id" component={ProfileScreen}/>
+            <PrivateRouter exact path="/company/:id" component={CompanyScreen}/>
+            <PrivateRouter exact path="/team/:id" component={TeamScreen}/>
+            <PrivateRouter exact path="/teams/:id" component={UserTeamScreen}/>
             <CeoRouter exact path="/companies/:id" component={CeoCompanyScreen}/>
             <PrivateRouter exact path="/company" component={CompanyListScreen}/>
             <PrivateRouter exact path="/team" component={TeamListScreen}/>
             <PrivateRouter exact path="/users" component={UserListScreen}/>
           </div>
         }
-
         
       </div>
     </BrowserRouter>

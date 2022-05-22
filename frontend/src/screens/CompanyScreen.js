@@ -25,8 +25,10 @@ function CompanyScreen(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getcompany({id}))
-    }, [dispatch])
+        if ( !company.id || company.id != id) {
+            dispatch(getcompany({id}))
+        }
+    }, [id])
 
     const handleDelete= (teamId) =>{
         if(window.confirm("Are you sure to delete this team ? After this action, users related to this team are also deleted.")){

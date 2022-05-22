@@ -109,8 +109,7 @@ public class UserService {
         User user = findUserById(id);
         user.update(getUpdateUser(request));
         saveProfileImage(user, multipartFile);
-        return UserTokenResponse.of(UserResponse
-            .of(user, userTeamResponses(user), userCompanyResponses(user)), jwtUserDetailsService.generateToken(user));
+        return UserTokenResponse.of(SimpleUserResponse.of(user), jwtUserDetailsService.generateToken(user));
     }
 
     private void checkEmail(String email, Integer id) {
@@ -125,26 +124,6 @@ public class UserService {
         }
         return request.toUser();
     }
-
-//    @Transactional
-//    public UserResponse addTeam(String email, Integer id) {
-//        User user = findUserByEmail(email);
-//        Team team = teamRepo.findByTeamId(id);
-//        user.addTeam(team);
-//        return userResponse(user);
-//    }
-//
-//    @Transactional
-//    public Integer deleteTeam(Integer userId, Integer teamId) {
-//        User user = repo.findById(userId).get();
-//        Set<Team> teams = user.getTeams().stream().filter(t -> !t.getId().equals(teamId))
-//            .collect(Collectors.toSet());
-//
-//        System.out.println(teams);
-////        user.setTeams(teams);
-//        repo.save(user);
-//        return teamId;
-//    }
 
     public User findUserById(Integer id) {
         return repo.findById(id)

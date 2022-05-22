@@ -14,6 +14,7 @@ public class SimpleUserResponse {
     private String role;
     private String email;
     private String imageUrl;
+    private String description;
 
 
     private SimpleUserResponse(User user) {
@@ -23,6 +24,7 @@ public class SimpleUserResponse {
         this.role = user.getRole();
         this.email = user.getEmail();
         this.imageUrl = user.getImageUrl();
+        this.description = user.getDescription();
     }
 
     public static SimpleUserResponse of(User user) {
