@@ -70,7 +70,7 @@ function MessageCard({conversation, setConversation}) {
             const bodyFormData = new FormData()
             bodyFormData.append('multipartFile', imageUrl)
     
-            const result = await axios.post('/message/image', bodyFormData,{
+            const result = await axios.post('/messages/image', bodyFormData,{
                 headers : {Authorization : `Bearer ${auth.token}`}
             })
             imageURL = result.data
@@ -81,7 +81,7 @@ function MessageCard({conversation, setConversation}) {
             const userEmails = []
             conversation.users.forEach(user=> userEmails.push(user.email))
 
-            const conversationListDTO={
+            const conversationRequest={
                 text:text,
                 imageUrl:imageURL,
                 teamMember:conversation.isTeamMember,
@@ -90,16 +90,16 @@ function MessageCard({conversation, setConversation}) {
                 userEmails: [...userEmails, auth.user.email]
             }
 
-            dispatch(createConversation(conversationListDTO)).then(res=>
+            dispatch(createConversation(conversationRequest)).then(res=>
                 {
-                    const messageDTO={
+                    const messageRequest={
                         content:text,
                         imageUrl:imageURL,
                         conversationId:res.id,
                         userId:auth.user.id
                     }
 
-                    dispatch(createMessage(messageDTO, res)).then(response=>
+                    dispatch(createMessage(messageRequest, res)).then(response=>
                         setConversation(res)
                     )
                 }

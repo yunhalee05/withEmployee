@@ -16,6 +16,7 @@ public class TeamResponse {
     private String company;
     private List<SimpleUserResponse> users;
     private Integer companyId;
+    private Integer ceo;
 
     private TeamResponse(Team team, List<SimpleUserResponse> users) {
         this.id = team.getId();
@@ -23,6 +24,7 @@ public class TeamResponse {
         this.company = team.getCompanyName();
         this.users = users;
         this.companyId = team.getCompanyId();
+        this.ceo = team.getCeoId();
     }
 
     public static TeamResponse of(Team team, List<SimpleUserResponse> users) {

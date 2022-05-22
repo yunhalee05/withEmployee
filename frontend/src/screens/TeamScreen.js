@@ -27,7 +27,8 @@ function TeamScreen(props) {
     useEffect(() => {
         if( team.id != id || !team.id) {
             dispatch(getteam({id})).then(res=>{      
-                if(auth.user.teams.filter(t=>t.id===res.id).length>0 || auth.user.companies.filter(c=>c.id ===res.companyId).length>0){          
+                // if(auth.user.teams.filter(t=>t.id===res.id).length>0 || auth.user.companies.filter(c=>c.id ===res.companyId).length>0){  
+                if(res.ceo == auth.user.id || res.users.filter(u => u.id == auth.user.id).length >0){        
                 setCeos(res.users.filter(user=>user.role==="CEO"))
                 setLeaders(res.users.filter(user=>user.role==="LEADER"))
                 setMembers(res.users.filter(user=>user.role==="MEMBER"))

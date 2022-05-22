@@ -14,7 +14,6 @@ import java.util.Set;
 @Entity
 @Table(name = "team")
 @Getter
-//@Setter
 @NoArgsConstructor
 public class Team {
 
@@ -69,7 +68,6 @@ public class Team {
     }
 
 
-    @Transient
     public Integer getTotalNumber(){
         return this.users.size();
     }
@@ -80,6 +78,10 @@ public class Team {
 
     public Integer getCompanyId() {
         return this.company.getId();
+    }
+
+    public Integer getCeoId() {
+        return this.company.getCeoId();
     }
 
     public boolean isId(Integer id){

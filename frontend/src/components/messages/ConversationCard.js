@@ -21,8 +21,9 @@ function ConversationCard({users, setConversation, conversation, belongTo}) {
     const dispatch = useDispatch()
 
     useEffect(() => {
+        if (auth.user && auth.user.id)
         dispatch(getConversations())
-    }, [dispatch])
+    }, [auth.user.id])
 
     const handleSubmit = (e) =>{
         e.preventDefault()
@@ -56,9 +57,9 @@ function ConversationCard({users, setConversation, conversation, belongTo}) {
         if(existinguser.length ===0){
             const newConversation = {
                 id:"new",
-                isTeamMember:belongTo==="Team"? true:false,
-                isSameCompany:belongTo==="Company"? true:false,
-                isOtherCompany:belongTo==="Other"? true:false,
+                isTeamMember:belongTo=="Team"? true:false,
+                isSameCompany:belongTo=="Company"? true:false,
+                isOtherCompany:belongTo=="Other"? true:false,
                 users:[user]
             }
 

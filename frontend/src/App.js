@@ -61,7 +61,7 @@ function App() {
       })
     }
 
-  }, [dispatch])
+  }, [auth.user])
 
   return (
     <BrowserRouter>

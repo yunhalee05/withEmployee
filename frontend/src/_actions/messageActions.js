@@ -1,7 +1,7 @@
 import axios from "axios"
 import { CREATE_MESSAGE_FAIL, CREATE_MESSAGE_REQUEST, CREATE_MESSAGE_SUCCESS, DELETE_MESSAGE_FAIL, DELETE_MESSAGE_REQUEST, DELETE_MESSAGE_SUCCESS, GET_MESSAGES_FAIL, GET_MESSAGES_REQUEST, GET_MESSAGES_SUCCESS } from "../_constants/messageConstants"
 
-export const getMessages = (id) =>async(dispatch, getState)=>{
+export const getMessages = (conversationId) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
 
     dispatch({
@@ -9,11 +9,11 @@ export const getMessages = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/messages/${id}`,{
+        const res = await axios.get(`/messages?conversationId=${conversationId}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
-        const newArr = res.data.reverse()
+        const newArr = res.data.messages.reverse()
     
         dispatch({
             type:GET_MESSAGES_SUCCESS,
@@ -33,7 +33,7 @@ export const getMessages = (id) =>async(dispatch, getState)=>{
     }
 }
 
-export const createMessage = (messageDTO, conversation) =>async(dispatch, getState)=>{
+export const createMessage = (messageRequest, conversation) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
     const {socket : {client}} = getState()
 
@@ -42,7 +42,7 @@ export const createMessage = (messageDTO, conversation) =>async(dispatch, getSta
     })
 
     try{
-        const res = await axios.post('/message',messageDTO,{
+        const res = await axios.post('/messages',messageRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
     
@@ -77,21 +77,21 @@ export const deleteMessage = (id, conversation) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.delete(`/message/delete?id=${id}`,{
+        await axios.delete(`/messages/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
     
         dispatch({
             type:DELETE_MESSAGE_SUCCESS,
-            payload:res.data
+            payload:id
         })
 
         conversation.users.forEach(user=>{
-            client.send(`/app/chat/delete/${user.id}`,{},JSON.stringify(res.data))
+            client.send(`/app/chat/delete/${user.id}`,{},JSON.stringify(id))
         })
 
 
-        return res.data
+        return id
         
     }catch(error){
         dispatch({

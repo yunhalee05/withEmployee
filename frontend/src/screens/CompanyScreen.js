@@ -69,7 +69,8 @@ function CompanyScreen(props) {
                 </div>
 
                 {
-                    (auth.user.teams.filter(t=>t.company===company.company.name).length ===1 ||company.company.ceo.id ===auth.user.id)&&
+                    // (auth.user.teams.filter(t=>t.company===company.company.name).length ===1 ||
+                    (company.company.ceo && (company.company.ceo.id ===auth.user.id))&&
                     <div className="showconversation-button" style={{marginTop:"10rem"}}>
                         <button onClick={()=>setShowConversation(!showConversation)}>
                             {
@@ -115,7 +116,8 @@ function CompanyScreen(props) {
                                         <div style={{fontSize:"9px"}}>Members  </div>
                                     </div>
                                     {
-                                        (auth.user.teams.filter(t=>t.id ===team.id).length===1 || company.company.ceo.id ===auth.user.id )
+                                        // (auth.user.teams.filter(t=>t.id ===team.id).length===1 ||
+                                        (company.company.ceo.id ===auth.user.id )
                                         ?<Link to={`/team/${team.id}`}>
                                             <div className="team-name">
                                                 {team.name}

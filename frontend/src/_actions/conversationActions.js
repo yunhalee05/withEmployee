@@ -11,14 +11,14 @@ export const getConversations =() => async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/conversations?id=${user.id}`,{
+        const res = await axios.get(`/conversations?userId=${user.id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
-        // console.log(res)
+        console.log(res)
         const newArr = [];
 
-        res.data.forEach(item=> {
+        res.data.conversations.forEach(item=> {
             newArr.push({
                         id:item.id, 
                         text:item.text, 
@@ -50,7 +50,7 @@ export const getConversations =() => async(dispatch, getState)=>{
 
 }
 
-export const createConversation = (conversationListDTO) =>async(dispatch, getState)=>{
+export const createConversation = (conversationRequest) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
     const {auth : {user}} = getState() 
     const {socket : {client}} = getState()
@@ -60,7 +60,7 @@ export const createConversation = (conversationListDTO) =>async(dispatch, getSta
     })
 
     try{
-        const res = await axios.post(`/conversation`,conversationListDTO,{
+        const res = await axios.post(`/conversations`,conversationRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -73,6 +73,7 @@ export const createConversation = (conversationListDTO) =>async(dispatch, getSta
             isSameCompany:res.data.sameCompany,
             isOtherCompany:res.data.otherCompany
         }
+
         dispatch({
             type:CREATE_CONVERSATION_SUCCESS,
             payload:newconversation
@@ -81,8 +82,9 @@ export const createConversation = (conversationListDTO) =>async(dispatch, getSta
         newconversation.users.forEach(user=>{
             client.send(`/app/chat/addConversation/${user.id}`,{},JSON.stringify(res.data))
         })
-        
+
         return newconversation
+
     }catch(error){
         dispatch({
             type:CREATE_CONVERSATION_FAIL,
@@ -103,7 +105,7 @@ export const deleteConversation = (conversation) =>async(dispatch, getState)=>{
     })
 
     try{
-        await axios.delete(`/conversation/${conversation.id}`,{
+        await axios.delete(`/conversations/${conversation.id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

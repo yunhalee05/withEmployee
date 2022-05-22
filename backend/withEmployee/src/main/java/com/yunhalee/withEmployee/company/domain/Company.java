@@ -69,6 +69,10 @@ public class Company extends BaseTimeEntity {
         return this.ceo.getName();
     }
 
+    public Integer getCeoId() {
+        return this.ceo.getId();
+    }
+
     public Set<User> getMembers() {
         return this.teams.stream()
             .flatMap(team -> team.getUsers().stream())
