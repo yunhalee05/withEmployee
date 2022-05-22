@@ -6,7 +6,10 @@ import com.yunhalee.withEmployee.user.domain.User;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -16,7 +19,7 @@ import java.util.Set;
 @Entity
 @Table(name="company")
 @Getter
-@Setter
+@NoArgsConstructor
 public class Company extends BaseTimeEntity {
 
     @Id
@@ -37,24 +40,8 @@ public class Company extends BaseTimeEntity {
     @JoinColumn(name="user_id")
     private User ceo;
 
-
-    public Company(){
-        super();
-    }
-
-    public Company(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public Company(String name, String description, User ceo) {
-        this.name = name;
-        this.description = description;
-        this.ceo = ceo;
-    }
-
-    public Company(Integer id, String name, String description,
-        User ceo) {
+    @Builder
+    public Company(Integer id, @NonNull String name, @NonNull String description, User ceo) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -62,7 +49,10 @@ public class Company extends BaseTimeEntity {
     }
 
     public static Company of(String name, String description, User ceo)    {
-        return new Company(name, description, ceo);
+        return Company.builder()
+        .name(name)
+        .description(description)
+        .ceo(ceo).build();
     }
 
     public String getCeoName() {
@@ -91,24 +81,11 @@ public class Company extends BaseTimeEntity {
         this.description = company.getDescription();
     }
 
-    @Override
-    public String toString() {
-        return "Company{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", CEO=" + ceo +
-                '}';
-    }
-
     @Transient
     public Integer getTotalNumber(){
-        Integer num = 0;
-        for (Team team : this.teams){
-            num += team.getUsers().size();
-        }
-
-        return num;
+        return this.teams.stream()
+            .mapToInt(team -> team.getTotalNumber())
+            .sum();
     }
 
 

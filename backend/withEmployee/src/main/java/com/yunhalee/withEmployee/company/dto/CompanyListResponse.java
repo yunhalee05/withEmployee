@@ -23,7 +23,7 @@ public class CompanyListResponse {
         this.ceo = ceo;
     }
 
-    public static CompanyListResponse of(Company company, CeoResponse ceo){
+    public static CompanyListResponse of(Company company, CeoResponse ceo) {
         return new CompanyListResponse(company, ceo);
     }
 }

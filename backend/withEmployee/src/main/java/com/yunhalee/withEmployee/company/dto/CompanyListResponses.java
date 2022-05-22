@@ -18,7 +18,7 @@ public class CompanyListResponses {
         this.companies = companies;
     }
 
-    public static CompanyListResponses of(Long totalElement, Integer totalPage, List<CompanyListResponse> companies){
+    public static CompanyListResponses of(Long totalElement, Integer totalPage, List<CompanyListResponse> companies) {
         return new CompanyListResponses(totalElement, totalPage, companies);
     }
 }

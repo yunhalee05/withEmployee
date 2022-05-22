@@ -21,7 +21,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     List<Company> findCompanies();
 
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH e.companies p LEFT JOIN FETCH c.teams t  LEFT JOIN FETCH t.users u",
-            countQuery = "SELECT count(DISTINCT c) FROM Company c")
+        countQuery = "SELECT count(DISTINCT c) FROM Company c")
     Page<Company> findCompanies(Pageable pageable);
 
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH c.teams t LEFT JOIN FETCH t.users u WHERE c.id=:integer")
@@ -34,7 +34,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     List<Company> findByRandom();
 
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH e.companies p LEFT JOIN FETCH c.teams t  LEFT JOIN FETCH t.users u ORDER BY RAND()",
-            countQuery = "SELECT count(DISTINCT c) FROM Company c ")
+        countQuery = "SELECT count(DISTINCT c) FROM Company c ")
     Page<Company> findByRandom(Pageable pageable);
 
     @Query(value = "SELECT DISTINCT c FROM Company c LEFT JOIN FETCH c.ceo e LEFT JOIN FETCH c.teams t LEFT JOIN FETCH t.users u WHERE c.name LIKE %:keyword% OR e.name LIKE %:keyword%")

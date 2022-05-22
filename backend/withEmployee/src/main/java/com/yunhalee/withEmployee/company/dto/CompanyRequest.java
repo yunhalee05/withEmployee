@@ -20,11 +20,13 @@ public class CompanyRequest {
         this.ceoId = ceoId;
     }
 
-    public Company toCompany(User ceo){
+    public Company toCompany(User ceo) {
         return Company.of(this.name, this.description, ceo);
     }
 
-    public Company toCompany(){
-        return new Company(this.name, this.description);
+    public Company toCompany() {
+        return Company.builder()
+            .name(this.name)
+            .description(this.description).build();
     }
 }
