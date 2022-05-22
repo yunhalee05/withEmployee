@@ -55,7 +55,6 @@ class UserServiceTest extends MockBeans {
     private UserService userService = new UserService(TEST_UPLOAD_FOLDER,
         userRepository,
         fileUploadService,
-        teamRepository,
         passwordEncoder,
         jwtUserDetailsService);
 
