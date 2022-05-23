@@ -1,0 +1,8 @@
+{
+  "name":"TestUpdateUser",
+  "email":"acceptanceTestUpdateExample@example.com",
+  "password":"12345678",
+  "description":"testUpdateDescription",
+  "phoneNumber":"01000000002",
+  "ceo":false
+}
