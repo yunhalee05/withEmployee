@@ -14,6 +14,7 @@ import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.exception.CompanyNameAlreadyInUseException;
 import com.yunhalee.withEmployee.company.exception.CompanyNameEmptyException;
+import com.yunhalee.withEmployee.security.jwt.LoginUser;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.domain.UserTest;
 import java.util.Optional;
@@ -90,7 +91,7 @@ class CompanyServiceTest extends MockBeans {
         when(companyRepository.existsByName(anyString())).thenReturn(false);
         when(companyRepository.findByCompanyId(any())).thenReturn(Optional.of(company));
         when(userService.findUserById(anyInt())).thenReturn(UserTest.SECOND_CEO);
-        CompanyListResponse response = companyService.update(ID, companyRequest);
+        CompanyListResponse response = companyService.update(LoginUser.of(UserTest.SECOND_CEO), ID, companyRequest);
 
         //then
         checkEquals(response, companyRequest, UserTest.SECOND_CEO);
@@ -106,7 +107,7 @@ class CompanyServiceTest extends MockBeans {
         when(companyRepository.existsByName(anyString())).thenReturn(true);
         when(companyRepository.findByName(anyString()))
             .thenReturn(Optional.of(CompanyTest.SECOND_COMPANY));
-        assertThatThrownBy(() -> companyService.update(ID, companyRequest))
+        assertThatThrownBy(() -> companyService.update(LoginUser.of(UserTest.SECOND_CEO), ID, companyRequest))
             .isInstanceOf(CompanyNameAlreadyInUseException.class)
             .hasMessageContaining(COMPANY_NAME_IS_ALREADY_IN_USE_EXCEPTION);
     }

@@ -37,7 +37,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @Test
     void manage_user() {
         // when
-        ExtractableResponse<Response> createResponse = create_user_request(NAME, EMAIL, PASSWORD, DESCRIPTION, PHONE_NUMBER, IS_CEO, imageFile, requestFile);
+        ExtractableResponse<Response> createResponse = create_user_request(imageFile, requestFile);
         // then
         check_user_created(createResponse);
 
@@ -57,13 +57,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         check_user_updated(updateResponse);
     }
 
-    public static ExtractableResponse<Response> create_user_request(String name, String email, String password, String description, String phoneNumber, boolean isCEO, File imageFile, File requestFile) {
-        UserRequest request = new UserRequest(name,
-            email,
-            password,
-            description,
-            phoneNumber,
-            isCEO);
+    public static ExtractableResponse<Response> create_user_request(File imageFile, File requestFile) {
 
         return RestAssured
             .given().log().all()

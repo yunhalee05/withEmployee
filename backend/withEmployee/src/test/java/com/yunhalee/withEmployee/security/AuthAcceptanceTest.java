@@ -27,7 +27,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        ExtractableResponse<Response> createResponse = create_user_request(NAME, EMAIL, PASSWORD, DESCRIPTION, PHONE_NUMBER, IS_CEO, imageFile, requestFile);
+        ExtractableResponse<Response> createResponse = create_user_request(imageFile, requestFile);
         check_user_created(createResponse);
     }
 
@@ -47,11 +47,11 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
 
     public static ExtractableResponse<Response> login_request(String email, String password) {
-        JwtRequest jwtRequest = new JwtRequest(email, password);
+        JwtRequest request = new JwtRequest(email, password);
         return RestAssured
             .given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(jwtRequest)
+            .body(request)
             .when().post("/login")
             .then().log().all()
             .extract();
