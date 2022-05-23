@@ -15,7 +15,7 @@ import org.springframework.http.MediaType;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@DisplayName("사용자 관련 기능 인수텐스트")
+@DisplayName("사용자 관련 기능 인수테스트")
 public class UserAcceptanceTest extends AcceptanceTest {
 
     public static final String NAME = "testUser";
