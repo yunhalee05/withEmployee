@@ -5,6 +5,8 @@ import com.yunhalee.withEmployee.company.dto.CompanyListResponses;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.dto.CompanyResponse;
 import com.yunhalee.withEmployee.company.service.CompanyService;
+import com.yunhalee.withEmployee.security.AuthenticationPrincipal;
+import com.yunhalee.withEmployee.security.jwt.LoginUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,25 +41,24 @@ public class CompanyController {
     }
 
     @GetMapping("/companies/{id}")
-    public ResponseEntity<CompanyResponse> getByName(@PathVariable("id") Integer id) {
+    public ResponseEntity<CompanyResponse> getById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(companyService.companyResponse(id));
     }
 
     @PostMapping("/companies")
-    public ResponseEntity<CompanyListResponse> create(@RequestBody CompanyRequest companyRequest) {
+    public ResponseEntity<CompanyListResponse> create(@AuthenticationPrincipal(isCeo = true) LoginUser loginUser, @RequestBody CompanyRequest companyRequest) {
         return ResponseEntity.ok(companyService.create(companyRequest));
     }
 
     @PostMapping("/companies/{id}")
-    public ResponseEntity<CompanyListResponse> update(@PathVariable("id") Integer id,
-        @RequestBody CompanyRequest companyRequest) {
-        return ResponseEntity.ok(companyService.update(id, companyRequest));
+    public ResponseEntity<CompanyListResponse> update(@AuthenticationPrincipal(isCeo = true) LoginUser loginUser, @PathVariable("id") Integer id, @RequestBody CompanyRequest companyRequest) {
+        return ResponseEntity.ok(companyService.update(loginUser, id, companyRequest));
     }
 
 
     @DeleteMapping("/companies/{id}")
-    public ResponseEntity deleteCompany(@PathVariable("id") Integer id) {
-        companyService.deleteCompany(id);
+    public ResponseEntity deleteCompany(@AuthenticationPrincipal(isCeo = true) LoginUser loginUser, @PathVariable("id") Integer id) {
+        companyService.deleteCompany(loginUser, id);
         return ResponseEntity.noContent().build();
     }
 

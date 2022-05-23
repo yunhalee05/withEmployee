@@ -4,6 +4,7 @@ import com.yunhalee.withEmployee.common.exception.exceptions.AuthException;
 import com.yunhalee.withEmployee.common.exception.exceptions.BadRequestException;
 import com.yunhalee.withEmployee.common.exception.exceptions.EntityNotFoundException;
 import com.yunhalee.withEmployee.common.exception.exceptions.InvalidValueException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import java.io.IOException;
 import org.hibernate.exception.ConstraintViolationException;
@@ -60,8 +61,22 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, status);
     }
 
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ErrorResponse> handleAuthException(AuthException e) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), status.value());
+        return new ResponseEntity<>(errorResponse, status);
+    }
+
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleAuthException(AuthenticationException e) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), status.value());
+        return new ResponseEntity<>(errorResponse, status);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ErrorResponse> handleJwtException(JwtException e) {
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), status.value());
         return new ResponseEntity<>(errorResponse, status);

@@ -1,12 +1,15 @@
 package com.yunhalee.withEmployee.company.service;
 
+import com.yunhalee.withEmployee.common.exception.exceptions.AuthException;
 import com.yunhalee.withEmployee.company.domain.CompanyRepository;
 import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyListResponses;
 import com.yunhalee.withEmployee.company.dto.CompanyResponses;
 import com.yunhalee.withEmployee.company.exception.CompanyNameEmptyException;
+import com.yunhalee.withEmployee.security.jwt.LoginUser;
 import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.team.dto.SimpleTeamResponse;
+import com.yunhalee.withEmployee.user.domain.Role;
 import com.yunhalee.withEmployee.user.dto.CeoResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
 import com.yunhalee.withEmployee.company.dto.CompanyResponse;
@@ -108,11 +111,18 @@ public class CompanyService {
     }
 
     @Transactional
-    public CompanyListResponse update(Integer id, CompanyRequest request) {
+    public CompanyListResponse update(LoginUser loginUser, Integer id, CompanyRequest request) {
+        checkUser(loginUser, request.getCeoId());
         checkCompanyName(id, request);
         Company company = findById(id);
         company.update(getToUpdateUser(company.getCeo().getId(), request, company));
         return CompanyListResponse.of(company, CeoResponse.of(company.getCeo()));
+    }
+
+    private void checkUser(LoginUser loginUser, Integer requestId) {
+        if ( (loginUser.getId() != requestId) && !loginUser.getRole().equals(Role.ADMIN)) {
+            throw new AuthException("User don't have authorization.");
+        }
     }
 
     private void checkCompanyName(Integer id, CompanyRequest request) {
@@ -134,8 +144,10 @@ public class CompanyService {
     }
 
     @Transactional
-    public void deleteCompany(Integer id) {
-        companyRepository.deleteById(id);
+    public void deleteCompany(LoginUser loginUser, Integer id) {
+        Company company = findCompanyById(id);
+        checkUser(loginUser, company.getCeoId());
+        companyRepository.delete(company);
     }
 
 

@@ -1,10 +1,11 @@
 package com.yunhalee.withEmployee.security.jwt;
 
+import com.yunhalee.withEmployee.common.exception.exceptions.AuthException;
+import com.yunhalee.withEmployee.user.domain.Role;
 import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
 import com.yunhalee.withEmployee.user.dto.UserCompanyResponse;
-import com.yunhalee.withEmployee.user.dto.UserResponse;
 import com.yunhalee.withEmployee.user.dto.UserTeamResponse;
 import com.yunhalee.withEmployee.user.exception.UserNotFoundException;
 import java.util.List;
@@ -73,4 +74,31 @@ public class JwtUserDetailsService implements UserDetailsService {
             .collect(Collectors.toList());
     }
 
+    public LoginUser findMemberByToken(String token, boolean isMember, boolean isLeader, boolean isCeo, boolean isAdmin) {
+        if (!jwtTokenUtil.isValidToken(token) && (!isMember && !isLeader && !isCeo && !isAdmin)) {
+            return new LoginUser();
+        }
+        if (!jwtTokenUtil.isValidToken(token)) {
+            throw new AuthException("This token is invalid.");
+        }
+        String email = jwtTokenUtil.getUsernameFromToken(token);
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new UserNotFoundException("User does not exist with email : " + email));
+        if ( (isAdmin && !isAdmin(user)) || (isCeo && !isCeoOrAdmin(user)) || (isLeader && !isLeaderOrCeoOrAdmin(user))) {
+            throw new AuthException("User don't have authorization.");
+        }
+        return LoginUser.of(user);
+    }
+
+    private boolean isAdmin(User user) {
+        return user.getRole().equals(Role.ADMIN.name());
+    }
+
+    private boolean isCeoOrAdmin(User user) {
+        return user.getRole().equals(Role.CEO.name()) || isAdmin(user);
+    }
+
+    private boolean isLeaderOrCeoOrAdmin(User user) {
+        return user.getRole().equals(Role.LEADER.name()) || isCeoOrAdmin(user);
+    }
 }

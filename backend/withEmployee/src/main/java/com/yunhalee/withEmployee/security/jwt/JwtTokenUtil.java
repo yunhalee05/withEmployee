@@ -1,5 +1,7 @@
 package com.yunhalee.withEmployee.security.jwt;
 
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -76,5 +78,14 @@ public class JwtTokenUtil implements Serializable {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public Boolean isValidToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secret.getBytes(StandardCharsets.UTF_8)).parseClaimsJws(token);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
     }
 }

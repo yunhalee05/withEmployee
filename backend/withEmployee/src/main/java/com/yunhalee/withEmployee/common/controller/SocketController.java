@@ -5,6 +5,7 @@ import com.yunhalee.withEmployee.message.dto.MessageResponse;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -47,6 +48,5 @@ public class SocketController {
     @MessageMapping("/join")
     public void joinUser(@Payload Integer userId) {
         userList.add(userId);
-        userList.forEach(user -> System.out.println(user));
     }
 }
