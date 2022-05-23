@@ -17,40 +17,27 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedMethods(
-                        HttpMethod.GET.name(),
-                        HttpMethod.POST.name(),
-                        HttpMethod.PUT.name(),
-                        HttpMethod.DELETE.name()
+            .allowedOrigins("http://localhost:3000")
+            .allowedMethods(
+                HttpMethod.GET.name(),
+                HttpMethod.POST.name(),
+                HttpMethod.PUT.name(),
+                HttpMethod.DELETE.name()
 
-                );
+            );
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-//        registry.addResourceHandler("/profileUploads/**")
-//                .addResourceLocations("file:////"+ profileImagesFolder );
-
-//        String dirName = "profileUploads";
-//
-//        Path profilePhotosDir = Paths.get(dirName);
-//
-//        String profilePhotosPath = profilePhotosDir.toFile().getAbsolutePath();
-//
-//        registry.addResourceHandler("/"+ dirName+"/**")
-//                .addResourceLocations("file:" + profilePhotosPath+"/");
-
         uploadFolder("profileUploads", registry);
         uploadFolder("messageUploads", registry);
     }
 
-    private void uploadFolder(String dirName, ResourceHandlerRegistry registry){
+    private void uploadFolder(String dirName, ResourceHandlerRegistry registry) {
         Path photosDir = Paths.get(dirName);
-        String photospath = photosDir.toFile().getAbsolutePath();
+        String photosPath = photosDir.toFile().getAbsolutePath();
 
-        registry.addResourceHandler("/"+dirName+"/**")
-                .addResourceLocations("file:" + photospath + "/");
+        registry.addResourceHandler("/" + dirName + "/**")
+            .addResourceLocations("file:" + photosPath + "/");
     }
 }
