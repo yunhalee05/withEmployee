@@ -60,8 +60,6 @@ public class ConversationRepositoryTest {
     }
 
 
-
-
     private Conversation save(Conversation conversation, User... users) {
         return conversationRepository.save(new Conversation(conversation.getId(),
             conversation.getText(),
@@ -82,7 +80,6 @@ public class ConversationRepositoryTest {
             .phoneNumber(user.getPhoneNumber())
             .role(Role.valueOf(user.getRole())).build());
     }
-
 
 
 }

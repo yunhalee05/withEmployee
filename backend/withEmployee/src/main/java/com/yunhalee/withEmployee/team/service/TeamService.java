@@ -64,13 +64,13 @@ public class TeamService {
         return TeamResponse.of(team, userService.simpleUserResponses(team.getUsers()));
     }
 
-    public void checkIsMember(LoginUser loginUser, Team team){
+    public void checkIsMember(LoginUser loginUser, Team team) {
         if (!(team.isMember(loginUser.getId()) || team.isCeo(loginUser.getId()))) {
             throw new AuthException("User don't have authorization.");
         }
     }
 
-    public void checkIsCeo(LoginUser loginUser, Team team){
+    public void checkIsCeo(LoginUser loginUser, Team team) {
         if (!team.isCeo(loginUser.getId())) {
             throw new AuthException("User don't have authorization.");
         }
@@ -134,8 +134,7 @@ public class TeamService {
 
     private Team findTeamByName(String name) {
         return teamRepository.findByName(name)
-            .orElseThrow(
-                () -> new TeamNotFoundException("Team does not exist with name : " + name));
+            .orElseThrow(() -> new TeamNotFoundException("Team does not exist with name : " + name));
     }
 
     @Transactional
@@ -156,8 +155,9 @@ public class TeamService {
     }
 
 
-    public void checkIsLeader(LoginUser loginUser, Team team){
-        if (!(team.isMember(loginUser.getId()) && (loginUser.getRole().equals(Role.LEADER) || loginUser.getRole().equals(Role.CEO))) && (!loginUser.getRole().equals(Role.ADMIN)) && (!loginUser.getRole().equals(Role.CEO))){
+    private void checkIsLeader(LoginUser loginUser, Team team) {
+        if (!(team.isMember(loginUser.getId()) && (loginUser.isLeaderLevel())) && (!loginUser
+            .isAdmin()) && (!loginUser.isCeo())) {
             throw new AuthException("User don't have authorization.");
         }
     }

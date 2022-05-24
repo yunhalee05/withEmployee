@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.yunhalee.withEmployee.MockBeans;
+import com.yunhalee.withEmployee.common.exception.exceptions.AuthException;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.company.domain.CompanyTest;
 import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
@@ -19,6 +20,7 @@ import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.domain.UserTest;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,7 @@ class CompanyServiceTest extends MockBeans {
 
     private static final String COMPANY_NAME_IS_ALREADY_IN_USE_EXCEPTION = "This company name is already in use.";
     private static final String NAME_IS_EMPTY_EXCEPTION = "Name could not be empty.";
+    private static final String USER_NOT_AUTHORIZED_EXCEPTION = "User don't have authorization.";
 
     private final Integer ID = 1;
     private final String NAME = "testCompany";
@@ -96,6 +99,21 @@ class CompanyServiceTest extends MockBeans {
         //then
         checkEquals(response, companyRequest, UserTest.SECOND_CEO);
     }
+
+    @DisplayName("대표자나 관리자가 아닌 다른 사용자가 수정을 요청할 경우 권한없음 예외를 발생시킨다.")
+    @Test
+    void update_with_not_ceo_level_user() {
+        // given
+        CompanyRequest companyRequest = new CompanyRequest(CompanyTest.SECOND_COMPANY.getName(),
+            CompanyTest.SECOND_COMPANY.getDescription(),
+            UserTest.SECOND_CEO.getId());
+
+        // when
+        assertThatThrownBy(() -> companyService.update(LoginUser.of(UserTest.CEO), ID, companyRequest))
+            .isInstanceOf(AuthException.class)
+            .hasMessageContaining(USER_NOT_AUTHORIZED_EXCEPTION);
+    }
+
 
     @Test
     void update_company_with_already_existing_name_is_invalid() {

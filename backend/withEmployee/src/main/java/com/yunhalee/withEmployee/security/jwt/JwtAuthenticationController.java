@@ -40,10 +40,8 @@ public class JwtAuthenticationController {
 
     private void authenticate(String username, String password) {
         try {
-            Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            System.out.println(authentication.getAuthorities().toString());
         } catch (DisabledException e) {
             throw new DisabledException("User disabled", e);
         } catch (BadCredentialsException e) {

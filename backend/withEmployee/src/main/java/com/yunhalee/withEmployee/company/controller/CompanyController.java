@@ -30,8 +30,7 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/companies", params = {"page", "sort"})
-    public ResponseEntity<CompanyListResponses> allCompanies(@RequestParam("page") Integer page,
-        @RequestParam("sort") String sort) {
+    public ResponseEntity<CompanyListResponses> allCompanies(@RequestParam("page") Integer page, @RequestParam("sort") String sort) {
         return ResponseEntity.ok(companyService.getCompaniesByPage(page, sort));
     }
 

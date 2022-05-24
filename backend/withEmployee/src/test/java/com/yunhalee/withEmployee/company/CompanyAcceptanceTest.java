@@ -1,30 +1,24 @@
 package com.yunhalee.withEmployee.company;
 
+import static com.yunhalee.withEmployee.security.AuthAcceptanceTest.check_login_success;
+import static com.yunhalee.withEmployee.security.AuthAcceptanceTest.login_request;
+import static com.yunhalee.withEmployee.user.UserAcceptanceTest.CEO_EMAIL;
 import static com.yunhalee.withEmployee.user.UserAcceptanceTest.EMAIL;
 import static com.yunhalee.withEmployee.user.UserAcceptanceTest.PASSWORD;
 import static com.yunhalee.withEmployee.user.UserAcceptanceTest.check_user_created;
 import static com.yunhalee.withEmployee.user.UserAcceptanceTest.create_user_request;
-import static com.yunhalee.withEmployee.security.AuthAcceptanceTest.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.yunhalee.withEmployee.AcceptanceTest;
 import com.yunhalee.withEmployee.company.dto.CompanyListResponse;
 import com.yunhalee.withEmployee.company.dto.CompanyRequest;
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import java.io.File;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class CompanyAcceptanceTest extends AcceptanceTest {
-
-    public final File imageFile = new File(getClass().getClassLoader().getResource("test.jpeg").getPath());
-    public final File ceoRequestFile = new File(getClass().getClassLoader().getResource("ceoUserRequest.txt").getPath());
-    public final File requestFile = new File(getClass().getClassLoader().getResource("userRequest.txt").getPath());
-
 
     public static final String COMPANY_NAME = "testCompany";
     public static final String NEW_COMPANY_NAME = "testUpdateCompany";
@@ -39,7 +33,7 @@ public class CompanyAcceptanceTest extends AcceptanceTest {
         check_user_created(createResponse);
         userId = Integer.parseInt(createResponse.header("Location").split("/")[2]);
 
-        ExtractableResponse<Response> loginResponse = login_request(EMAIL, PASSWORD);
+        ExtractableResponse<Response> loginResponse = login_request(CEO_EMAIL, PASSWORD);
         check_login_success(loginResponse);
         token = loginResponse.jsonPath().getString("token");
     }
@@ -98,133 +92,88 @@ public class CompanyAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> deleteResponse = delete_company_request(updateResponse, token);
         // then
         check_company_deleted(deleteResponse);
-
     }
 
-    public static ExtractableResponse<Response> create_company_request(String name, String description, Integer ceoId, String token){
+    public static ExtractableResponse<Response> create_company_request(String name, String description, Integer ceoId, String token) {
         CompanyRequest request = new CompanyRequest(name, description, ceoId);
-        return RestAssured
-            .given().log().all()
-            .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(request)
-            .when().post("/companies")
-            .then().log().all()
-            .extract();
+        return create_request(request, "/companies", token);
     }
 
     public static void check_company_created(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        check_ok_response(response);
     }
 
-    public static ExtractableResponse<Response> find_company_request(ExtractableResponse<Response> response){
+    public static ExtractableResponse<Response> find_company_request(ExtractableResponse<Response> response) {
         Integer id = (response.as(CompanyListResponse.class)).getId();
-        return RestAssured
-            .given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("/companies/" + id)
-            .then().log().all()
-            .extract();
+        return find_request("/companies/" + id, "");
     }
 
     public static void check_company_found(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        check_ok_response(response);
     }
 
-    public static ExtractableResponse<Response> find_companies_by_ceo_request(Integer ceoId){
-        return RestAssured
-            .given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("users/" + ceoId + "/companies")
-            .then().log().all()
-            .extract();
+    public static ExtractableResponse<Response> find_companies_by_ceo_request(Integer ceoId) {
+        return find_request("users/" + ceoId + "/companies", "");
     }
 
     public static void check_companies_by_ceo_found(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
-    public static ExtractableResponse<Response> find_companies_keyword_request(String keyword){
-        return RestAssured
-            .given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("/companies?keyword=" + keyword)
-            .then().log().all()
-            .extract();
+    public static ExtractableResponse<Response> find_companies_keyword_request(String keyword) {
+        return find_request("/companies?keyword=" + keyword, "");
     }
 
     public static void check_companies_by_keyword_found(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        check_ok_response(response);
     }
 
-    public static ExtractableResponse<Response> find_companies_by_random_request(){
-        return RestAssured
-            .given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("/companies/recommendation")
-            .then().log().all()
-            .extract();
+    public static ExtractableResponse<Response> find_companies_by_random_request() {
+        return find_request("/companies/recommendation", "");
     }
 
     public static void check_company_by_random_found(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        check_ok_response(response);
     }
 
-    public static ExtractableResponse<Response> find_companies_request(){
+    public static ExtractableResponse<Response> find_companies_request() {
         Integer page = 1;
         String sort = "createdAt";
-        return RestAssured
-            .given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("/companies?page=" + page + "&sort=" + sort)
-            .then().log().all()
-            .extract();
+        return find_request("/companies?page=" + page + "&sort=" + sort, "");
     }
 
     public static void check_companies_found(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        check_ok_response(response);
     }
 
-    public static ExtractableResponse<Response> update_company_request(ExtractableResponse<Response> response, String name, String description, Integer ceoId, String token){
+    public static ExtractableResponse<Response> update_company_request(ExtractableResponse<Response> response, String name, String description, Integer ceoId, String token) {
         Integer id = (response.as(CompanyListResponse.class)).getId();
         CompanyRequest request = new CompanyRequest(name, description, ceoId);
-        return RestAssured
-            .given().log().all()
-            .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(request)
-            .when().post("/companies/" + id)
-            .then().log().all()
-            .extract();
+        return update_Request(request, "/companies/" + id, token);
     }
 
     public static void check_company_updated(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        check_ok_response(response);
     }
 
-    public static ExtractableResponse<Response> delete_company_request(ExtractableResponse<Response> response, String token){
+    public static ExtractableResponse<Response> delete_company_request(ExtractableResponse<Response> response, String token) {
         Integer id = (response.as(CompanyListResponse.class)).getId();
-        return RestAssured
-            .given().log().all()
-            .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().delete("/companies/" + id)
-            .then().log().all()
-            .extract();
+        return delete_request("/companies/" + id, token);
     }
 
     public static void check_company_deleted(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+        check_delete_response(response);
     }
 
 
     @Test
-    void create_company_by_member_role_is_invalid () {
+    void create_company_by_member_role_is_invalid() {
         // given
         fail_case_set_up();
 
         // when
-        ExtractableResponse<Response> createResponse = create_company_request(COMPANY_NAME, COMPANY_DESCRIPTION,
+        ExtractableResponse<Response> createResponse = create_company_request(COMPANY_NAME,
+            COMPANY_DESCRIPTION,
             userId, token);
         // then
         check_company_create_fail(createResponse);
@@ -232,7 +181,7 @@ public class CompanyAcceptanceTest extends AcceptanceTest {
 
 
     public static void check_company_create_fail(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        check_unauthorized_response(response);
     }
 
 

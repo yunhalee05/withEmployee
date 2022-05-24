@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
 
     @GetMapping("/home")
-    public String viewHomePage(){
+    public String viewHomePage() {
         return "Hello world";
     }
 

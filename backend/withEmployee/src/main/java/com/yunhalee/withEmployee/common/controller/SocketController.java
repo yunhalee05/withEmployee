@@ -32,16 +32,14 @@ public class SocketController {
     }
 
     @MessageMapping("/chat/addConversation/{id}")
-    public void addConversation(@Payload ConversationResponse response,
-        @DestinationVariable Integer id) {
+    public void addConversation(@Payload ConversationResponse response, @DestinationVariable Integer id) {
         this.simpMessagingTemplate.convertAndSend("/queue/addConversationToClient/" + id, response);
     }
 
 
     @MessageMapping("/chat/deleteConversation/{id}")
     public void deleteConversation(@Payload Integer conversationId, @DestinationVariable Integer id) {
-        this.simpMessagingTemplate
-            .convertAndSend("/queue/deleteConversationToClient/" + id, conversationId);
+        this.simpMessagingTemplate.convertAndSend("/queue/deleteConversationToClient/" + id, conversationId);
     }
 
 

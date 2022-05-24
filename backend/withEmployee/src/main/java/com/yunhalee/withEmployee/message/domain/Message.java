@@ -52,10 +52,10 @@ public class Message extends BaseTimeEntity {
 
     public static Message of(String content, String imageUrl, Conversation conversation, User user) {
         return Message.builder()
-        .content(content)
-        .imageUrl(imageUrl)
-        .conversation(conversation)
-        .user(user).build();
+            .content(content)
+            .imageUrl(imageUrl)
+            .conversation(conversation)
+            .user(user).build();
     }
 
     public Integer getConversationId() {

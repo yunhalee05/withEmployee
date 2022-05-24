@@ -29,8 +29,7 @@ public class CompanyResponse {
         this.members = members;
     }
 
-    public static CompanyResponse of(Company company, List<SimpleTeamResponse> teams,
-        CeoResponse ceo, List<MemberResponse> members) {
+    public static CompanyResponse of(Company company, List<SimpleTeamResponse> teams, CeoResponse ceo, List<MemberResponse> members) {
         return new CompanyResponse(company, teams, ceo, members);
     }
 

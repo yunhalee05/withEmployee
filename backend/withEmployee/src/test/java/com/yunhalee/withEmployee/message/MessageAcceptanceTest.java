@@ -14,7 +14,6 @@ import static com.yunhalee.withEmployee.user.UserAcceptanceTest.EMAIL;
 import static com.yunhalee.withEmployee.user.UserAcceptanceTest.PASSWORD;
 import static com.yunhalee.withEmployee.user.UserAcceptanceTest.check_user_created;
 import static com.yunhalee.withEmployee.user.UserAcceptanceTest.create_user_request;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import com.yunhalee.withEmployee.AcceptanceTest;
 import com.yunhalee.withEmployee.conversation.dto.ConversationResponse;
@@ -27,15 +26,9 @@ import io.restassured.response.Response;
 import java.io.File;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 
 public class MessageAcceptanceTest extends AcceptanceTest {
-
-    public final File imageFile = new File(getClass().getClassLoader().getResource("test.jpeg").getPath());
-    public final File ceoRequestFile = new File(getClass().getClassLoader().getResource("ceoUserRequest.txt").getPath());
-    public final File requestFile = new File(getClass().getClassLoader().getResource("userRequest.txt").getPath());
 
     private static final String MESSAGE_CONTENT = "testMessage";
     private static final String MESSAGE_IMAGE_URL = "testMessage/image.jpeg";
@@ -65,8 +58,7 @@ public class MessageAcceptanceTest extends AcceptanceTest {
 
         ExtractableResponse<Response> createConversationResponse = create_conversation_request(CONVERSATION_TEXT, CONVERSATION_IMAGE_URL, IS_TEAM_COMPANY, IS_OTHER_COMPANY, IS_SAME_COMPANY, userToken, userEmail, ceoEmail);
         check_conversation_created(createConversationResponse);
-        conversationId= (createConversationResponse.as(ConversationResponse.class)).getId();
-
+        conversationId = (createConversationResponse.as(ConversationResponse.class)).getId();
     }
 
 
@@ -77,15 +69,15 @@ public class MessageAcceptanceTest extends AcceptanceTest {
         // then
         check_message_created(createResponse);
 
-//        // when
-//        ExtractableResponse<Response> createImageResponse = create_message_image_request(imageFile, userToken);
-//        // then
-//        check_message_image_created(createImageResponse);
+        // when
+        ExtractableResponse<Response> createImageResponse = create_message_image_request(imageFile, userToken);
+        // then
+        check_message_image_created(createImageResponse);
 
-//        // when
-//        ExtractableResponse<Response> findResponse = find_messages_by_conversation_request(conversationId, userToken);
-//        // then
-//        check_messages_by_conversation_found(findResponse);
+        // when
+        ExtractableResponse<Response> findResponse = find_messages_by_conversation_request(conversationId, userToken);
+        // then
+        check_messages_by_conversation_found(findResponse);
 
         // when
         ExtractableResponse<Response> deleteResponse = delete_message_request(createResponse, userToken);
@@ -93,51 +85,14 @@ public class MessageAcceptanceTest extends AcceptanceTest {
         check_messages_deleted(deleteResponse);
     }
 
-    private ExtractableResponse<Response> delete_message_request(ExtractableResponse<Response> response, String token) {
-        Integer id = (response.as(MessageResponse.class)).getId();
-        return RestAssured
-            .given().log().all()
-            .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().delete("/messages/" + id)
-            .then().log().all()
-            .extract();
-    }
-
-    public static void check_messages_deleted(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
-    }
-
-
-    private void check_messages_by_conversation_found(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
-
-    private ExtractableResponse<Response> find_messages_by_conversation_request(Integer conversationId, String token) {
-        return RestAssured
-            .given().log().all()
-            .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("/messages?conversationId=" + conversationId )
-            .then().log().all()
-            .extract();
-    }
-
     private ExtractableResponse<Response> create_message_request(String content, String imageUrl, Integer conversationId, Integer userId, String token) {
         MessageRequest request = new MessageRequest(content, imageUrl, conversationId, userId);
-        return RestAssured
-            .given().log().all()
-            .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(request)
-            .when().post("/messages")
-            .then().log().all()
-            .extract();
+        return create_request(request, "/messages", token);
     }
 
 
     public static void check_message_created(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        check_ok_response(response);
     }
 
     private ExtractableResponse<Response> create_message_image_request(File imageFile, String token) {
@@ -151,11 +106,28 @@ public class MessageAcceptanceTest extends AcceptanceTest {
             .extract();
     }
 
-
     public static void check_message_image_created(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        check_ok_response(response);
     }
 
+    private ExtractableResponse<Response> find_messages_by_conversation_request(
+        Integer conversationId, String token) {
+        return find_request("/messages?conversationId=" + conversationId, token);
+    }
+
+
+    private void check_messages_by_conversation_found(ExtractableResponse<Response> response) {
+        check_ok_response(response);
+    }
+
+    private ExtractableResponse<Response> delete_message_request(ExtractableResponse<Response> response, String token) {
+        Integer id = (response.as(MessageResponse.class)).getId();
+        return delete_request("/messages/" + id, token);
+    }
+
+    public static void check_messages_deleted(ExtractableResponse<Response> response) {
+        check_delete_response(response);
+    }
 
 
 }

@@ -74,7 +74,8 @@ public class JwtUserDetailsService implements UserDetailsService {
             .collect(Collectors.toList());
     }
 
-    public LoginUser findMemberByToken(String token, boolean isMember, boolean isLeader, boolean isCeo, boolean isAdmin) {
+    public LoginUser findMemberByToken(String token, boolean isMember, boolean isLeader,
+        boolean isCeo, boolean isAdmin) {
         if (!jwtTokenUtil.isValidToken(token) && (!isMember && !isLeader && !isCeo && !isAdmin)) {
             return new LoginUser();
         }
@@ -84,7 +85,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         String email = jwtTokenUtil.getUsernameFromToken(token);
         User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new UserNotFoundException("User does not exist with email : " + email));
-        if ( (isAdmin && !isAdmin(user)) || (isCeo && !isCeoOrAdmin(user)) || (isLeader && !isLeaderOrCeoOrAdmin(user))) {
+        if ((isAdmin && !isAdmin(user)) || (isCeo && !isCeoOrAdmin(user)) || (isLeader && !isLeaderOrCeoOrAdmin(user))) {
             throw new AuthException("User don't have authorization.");
         }
         return LoginUser.of(user);

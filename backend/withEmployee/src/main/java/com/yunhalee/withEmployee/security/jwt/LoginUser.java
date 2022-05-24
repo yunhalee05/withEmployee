@@ -29,7 +29,7 @@ public class LoginUser {
     }
 
     public boolean isLeaderLevel() {
-        return  isLeader() || isCeoLevel();
+        return isLeader() || isCeoLevel();
     }
 
     public boolean isCeoLevel() {
@@ -50,5 +50,9 @@ public class LoginUser {
 
     public boolean isAdmin() {
         return this.role.equals(Role.ADMIN);
+    }
+
+    public boolean isLoginUser(Integer userId) {
+        return this.id == userId;
     }
 }

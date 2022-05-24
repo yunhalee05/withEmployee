@@ -34,7 +34,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
+    protected ResponseEntity<ErrorResponse> handleConstraintViolationException(
+        ConstraintViolationException e) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), status.value());
         return new ResponseEntity<>(errorResponse, status);

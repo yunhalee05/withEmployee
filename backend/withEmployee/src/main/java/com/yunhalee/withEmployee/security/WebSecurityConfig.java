@@ -33,12 +33,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtUserDetailsService jwtUserDetailsService;
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(jwtUserDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception{
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
@@ -61,33 +61,41 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.cors()
-                .and()
+            .and()
             .csrf()
-                .disable()
+            .disable()
             .authorizeRequests()
-                .antMatchers("/authenticate", "/user/login","/user/check_email","/user/register", "/users/**", "/users", "/login", "/login/**", "/companies/**")
-                    .permitAll()
-                .antMatchers("/company/companylist","/team/teamlist","/user/userlist/**" ).hasAnyAuthority("Admin")
-                .antMatchers("/company/save","/team/check_name","/team/save","/team/delete","/company/check_name","/companies/{id}","/company/delete/{id}").hasAnyAuthority("CEO","Admin")
-                .antMatchers("/user/addTeam","/user/deleteTeam").hasAnyAuthority("CEO","Leader","Admin")
-                .antMatchers("/user/addTeam","/user/deleteTeam","/user/save","/user/{id}","/profileUpload","/user/multipart","/conversation/**","/chat/**","/app/**","/message/**","/message").hasAnyAuthority("CEO","Leader","Member","Admin")
-                .antMatchers("/chat/**","/join").permitAll()
-                .anyRequest()
-                    .authenticated()
-                .and()
+            .antMatchers("/authenticate", "/user/login", "/user/check_email", "/user/register",
+                "/users/**", "/users", "/login", "/login/**", "/companies/**")
+            .permitAll()
+            .antMatchers("/company/companylist", "/team/teamlist", "/user/userlist/**")
+            .hasAnyAuthority("Admin")
+            .antMatchers("/company/save", "/team/check_name", "/team/save", "/team/delete",
+                "/company/check_name", "/companies/{id}", "/company/delete/{id}")
+            .hasAnyAuthority("CEO", "Admin")
+            .antMatchers("/user/addTeam", "/user/deleteTeam")
+            .hasAnyAuthority("CEO", "Leader", "Admin")
+            .antMatchers("/user/addTeam", "/user/deleteTeam", "/user/save", "/user/{id}",
+                "/profileUpload", "/user/multipart", "/conversation/**", "/chat/**", "/app/**",
+                "/message/**", "/message").hasAnyAuthority("CEO", "Leader", "Member", "Admin")
+            .antMatchers("/chat/**", "/join").permitAll()
+            .anyRequest()
+            .authenticated()
+            .and()
             .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .and()
+            .and()
             .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
             .formLogin()
-                .disable();
+            .disable();
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/profileUploads/**","/messageUploads/**", "/js/**","/webjars/**");
+        web.ignoring()
+            .antMatchers("/profileUploads/**", "/messageUploads/**", "/js/**", "/webjars/**");
     }
 }

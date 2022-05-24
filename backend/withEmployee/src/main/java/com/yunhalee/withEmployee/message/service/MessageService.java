@@ -52,14 +52,13 @@ public class MessageService {
         User user = userService.findUserById(request.getUserId());
         Conversation conversation = conversationService.findConversationById(request.getConversationId());
         checkConversationUser(loginUser.getId(), conversation);
-        checkConversationUser(request.getUserId(), conversation);
         Message message = messageRepository.save(request.toMessage(conversation, user));
         return MessageResponse.of(message, MessageUserResponse.of(user));
     }
 
     private void checkConversationUser(Integer userId, Conversation conversation) {
         if (!conversation.isUserIncluded(userId)) {
-            throw new AuthException("User don't have authorization.");
+            throw new AuthException("User don't have authorization. This User is not a part of this conversation.");
         }
     }
 

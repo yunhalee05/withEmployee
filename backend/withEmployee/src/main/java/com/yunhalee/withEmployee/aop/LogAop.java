@@ -1,4 +1,5 @@
 package com.yunhalee.withEmployee.aop;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,13 +17,14 @@ public class LogAop {
     }
 
     @Pointcut("execution(* com.yunhalee.withEmployee..*Controller*.*(..))")
-    public void controller(){};
+    public void controller() { }
+
 
     @Pointcut("execution(* com.yunhalee.withEmployee..*Service*.*(..))")
-    public void service(){};
+    public void service() { }
 
     @Pointcut("execution(* com.yunhalee.withEmployee..*Repository*.*(..))")
-    public void repository(){};
+    public void repository() { }
 
 
     @Around("controller() || service() || repository()")
@@ -33,7 +35,7 @@ public class LogAop {
             Object result = joinPoint.proceed();
             logTrace.end(status);
             return result;
-        }catch (Throwable e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             logTrace.exception(status, e);
             throw e;

@@ -64,9 +64,6 @@ public class User {
     @OneToMany(mappedBy = "ceo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Company> companies = new HashSet<>();
 
-//    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
-//    private Set<Conversation> conversations = new HashSet<>();
-
     @Builder
     public User(Integer id, String name, String email, String password, String description,
         String imageName, String imageUrl, String phoneNumber, Role role) {

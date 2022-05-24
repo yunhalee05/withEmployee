@@ -21,9 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("사용자 인증 관련 기능 인수테스트")
 public class AuthAcceptanceTest extends AcceptanceTest {
 
-    public final File imageFile = new File(getClass().getClassLoader().getResource("test.jpeg").getPath());
-    public final File requestFile = new File(getClass().getClassLoader().getResource("userRequest.txt").getPath());
-
     @BeforeEach
     public void setUp() {
         super.setUp();
@@ -58,28 +55,22 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     }
 
     public static void check_login_success(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        check_ok_response(response);
         assertThat(response.jsonPath().getString("token")).isNotBlank();
     }
 
     public static ExtractableResponse<Response> find_user_by_token_request(String token) {
-        return RestAssured
-            .given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("/login?token=" + token)
-            .then().log().all()
-            .extract();
+        return find_request("/login?token=" + token, token);
     }
 
     public static void check_user_found_by_token(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        check_ok_response(response);
     }
 
     @Test
     void login_with_invalid_info() {
         // when
-        ExtractableResponse<Response> response = login_request("invalidEmail@example.com",
-            "invalidPassword");
+        ExtractableResponse<Response> response = login_request("invalidEmail@example.com", "invalidPassword");
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
     }

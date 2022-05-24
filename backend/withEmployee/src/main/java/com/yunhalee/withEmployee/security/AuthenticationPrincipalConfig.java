@@ -9,6 +9,7 @@ import java.util.List;
 
 @Configuration
 public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
+
     private final JwtUserDetailsService jwtUserDetailsService;
 
     public AuthenticationPrincipalConfig(JwtUserDetailsService jwtUserDetailsService) {

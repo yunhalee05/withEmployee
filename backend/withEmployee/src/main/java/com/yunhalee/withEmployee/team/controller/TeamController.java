@@ -28,7 +28,7 @@ public class TeamController {
     }
 
     @GetMapping("/teams/{id}")
-    public ResponseEntity<TeamResponse> getById(@AuthenticationPrincipal LoginUser loginUser,@PathVariable("id") Integer id) {
+    public ResponseEntity<TeamResponse> getById(@AuthenticationPrincipal LoginUser loginUser, @PathVariable("id") Integer id) {
         return ResponseEntity.ok(teamService.getById(loginUser, id));
     }
 

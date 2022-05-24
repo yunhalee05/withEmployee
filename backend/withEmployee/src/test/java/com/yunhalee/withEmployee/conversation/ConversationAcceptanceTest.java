@@ -25,10 +25,6 @@ import org.springframework.http.MediaType;
 
 public class ConversationAcceptanceTest extends AcceptanceTest {
 
-    public final File imageFile = new File(getClass().getClassLoader().getResource("test.jpeg").getPath());
-    public final File ceoRequestFile = new File(getClass().getClassLoader().getResource("ceoUserRequest.txt").getPath());
-    public final File requestFile = new File(getClass().getClassLoader().getResource("userRequest.txt").getPath());
-
     public static final String CONVERSATION_TEXT = "testConversation";
     public static final String CONVERSATION_IMAGE_URL = "testConversation/image.jpeg";
     public static final boolean IS_TEAM_COMPANY = true;
@@ -63,8 +59,7 @@ public class ConversationAcceptanceTest extends AcceptanceTest {
     @Test
     public void manage_conversation() {
         // when
-        ExtractableResponse<Response> createResponse = create_conversation_request(
-            CONVERSATION_TEXT, CONVERSATION_IMAGE_URL, IS_TEAM_COMPANY, IS_OTHER_COMPANY, IS_SAME_COMPANY, userToken, userEmail, ceoEmail);
+        ExtractableResponse<Response> createResponse = create_conversation_request(CONVERSATION_TEXT, CONVERSATION_IMAGE_URL, IS_TEAM_COMPANY, IS_OTHER_COMPANY, IS_SAME_COMPANY, userToken, userEmail, ceoEmail);
         // then
         check_conversation_created(createResponse);
 
@@ -79,56 +74,32 @@ public class ConversationAcceptanceTest extends AcceptanceTest {
         check_conversation_deleted(deleteResponse);
     }
 
+    public static ExtractableResponse<Response> create_conversation_request(String text, String imageUrl, boolean isTeamCompany, boolean isSameCompany, boolean isOtherCompany, String token, String... userEmails) {
+        ConversationRequest request = new ConversationRequest(text, imageUrl, isTeamCompany, isSameCompany, isOtherCompany, Arrays.asList(userEmails));
+        return create_request(request, "/conversations", token);
+    }
+
+    public static void check_conversation_created(ExtractableResponse<Response> response) {
+        check_ok_response(response);
+    }
+
+    public static ExtractableResponse<Response> find_conversation_request(Integer userId, String token) {
+        return find_request("/conversations?userId=" + userId, token);
+    }
+
+    public static void check_conversation_found(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
 
     public static ExtractableResponse<Response> delete_conversation_request(ExtractableResponse<Response> response, String token) {
         Integer id = (response.as(ConversationResponse.class)).getId();
-        return RestAssured
-            .given().log().all()
-            .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().delete("/conversations/" + id)
-            .then().log().all()
-            .extract();
+        return delete_request("/conversations/" + id, token);
     }
 
 
     public static void check_conversation_deleted(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
-
-
-    public static ExtractableResponse<Response> find_conversation_request(Integer userId, String token) {
-        return RestAssured
-            .given().log().all()
-            .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("/conversations?userId=" + userId )
-            .then().log().all()
-            .extract();
-    }
-
-
-    public static void check_conversation_found(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
-
-
-    public static ExtractableResponse<Response> create_conversation_request(String text, String imageUrl, boolean isTeamCompany, boolean isSameCompany, boolean isOtherCompany, String token, String... userEmails) {
-        ConversationRequest request = new ConversationRequest(text, imageUrl, isTeamCompany, isSameCompany, isOtherCompany, Arrays.asList(userEmails));
-        return RestAssured
-            .given().log().all()
-            .header("Authorization", "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(request)
-            .when().post("/conversations")
-            .then().log().all()
-            .extract();
-    }
-
-    public static void check_conversation_created(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
-
 
 
 }

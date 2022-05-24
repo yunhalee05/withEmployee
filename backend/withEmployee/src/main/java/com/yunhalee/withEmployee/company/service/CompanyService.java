@@ -120,7 +120,7 @@ public class CompanyService {
     }
 
     private void checkUser(LoginUser loginUser, Integer requestId) {
-        if ( (loginUser.getId() != requestId) && !loginUser.getRole().equals(Role.ADMIN)) {
+        if (!loginUser.isLoginUser(requestId) && !loginUser.isAdmin()) {
             throw new AuthException("User don't have authorization.");
         }
     }
@@ -195,7 +195,6 @@ public class CompanyService {
             .map(company -> CompanyListResponse.of(company, CeoResponse.of(company.getCeo())))
             .collect(Collectors.toList());
     }
-
 
     private Company findById(Integer id) {
         return companyRepository.findByCompanyId(id)

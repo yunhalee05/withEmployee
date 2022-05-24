@@ -17,17 +17,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="company")
+@Table(name = "company")
 @Getter
 @NoArgsConstructor
 public class Company extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="company_id")
+    @Column(name = "company_id")
     private Integer id;
 
-    @Column(name="name", unique = true, nullable = false, length = 40)
+    @Column(name = "name", unique = true, nullable = false, length = 40)
     private String name;
 
     @Column(name = "description", nullable = false, length = 150)
@@ -37,7 +37,7 @@ public class Company extends BaseTimeEntity {
     private Set<Team> teams = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User ceo;
 
     @Builder
@@ -48,11 +48,11 @@ public class Company extends BaseTimeEntity {
         this.ceo = ceo;
     }
 
-    public static Company of(String name, String description, User ceo)    {
+    public static Company of(String name, String description, User ceo) {
         return Company.builder()
-        .name(name)
-        .description(description)
-        .ceo(ceo).build();
+            .name(name)
+            .description(description)
+            .ceo(ceo).build();
     }
 
     public String getCeoName() {
@@ -82,14 +82,11 @@ public class Company extends BaseTimeEntity {
     }
 
     @Transient
-    public Integer getTotalNumber(){
+    public Integer getTotalNumber() {
         return this.teams.stream()
             .mapToInt(team -> team.getTotalNumber())
             .sum();
     }
-
-
-
 
 
 }

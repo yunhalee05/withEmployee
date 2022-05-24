@@ -46,7 +46,8 @@ public class Conversation extends BaseTimeEntity {
     )
     private Set<User> users = new HashSet<>();
 
-    public Conversation(Integer id, String text, String imageUrl, boolean isTeamMember, boolean isSameCompany, boolean isOtherCompany, Set<User> users) {
+    public Conversation(Integer id, String text, String imageUrl, boolean isTeamMember,
+        boolean isSameCompany, boolean isOtherCompany, Set<User> users) {
         this.id = id;
         this.text = text;
         this.imageUrl = imageUrl;
@@ -56,7 +57,8 @@ public class Conversation extends BaseTimeEntity {
         this.users = users;
     }
 
-    private Conversation(String text, String imageUrl, boolean isTeamMember, boolean isSameCompany, boolean isOtherCompany) {
+    private Conversation(String text, String imageUrl, boolean isTeamMember, boolean isSameCompany,
+        boolean isOtherCompany) {
         this.text = text;
         this.imageUrl = imageUrl;
         this.isTeamMember = isTeamMember;
@@ -64,7 +66,8 @@ public class Conversation extends BaseTimeEntity {
         this.isOtherCompany = isOtherCompany;
     }
 
-    public static Conversation of(String text, String imageUrl, boolean isTeamMember, boolean isSameCompany, boolean otherCompany) {
+    public static Conversation of(String text, String imageUrl, boolean isTeamMember,
+        boolean isSameCompany, boolean otherCompany) {
         return new Conversation(text, imageUrl, isTeamMember, isSameCompany, otherCompany);
     }
 

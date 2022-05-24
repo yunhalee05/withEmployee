@@ -30,7 +30,8 @@ public class FileUploadService {
         return "/" + MESSAGE_DIRECTORY + "/" + fileName;
     }
 
-    public void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
+    public void saveFile(String uploadDir, String fileName, MultipartFile multipartFile)
+        throws IOException {
         Path uploadPath = Paths.get(uploadDir);
         checkDirectory(uploadPath);
         uploadFile(uploadPath, fileName, multipartFile);
