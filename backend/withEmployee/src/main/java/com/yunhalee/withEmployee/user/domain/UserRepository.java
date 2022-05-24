@@ -1,5 +1,6 @@
 package com.yunhalee.withEmployee.user.domain;
 
+import com.yunhalee.withEmployee.conversation.domain.Conversation;
 import com.yunhalee.withEmployee.team.domain.Team;
 import java.util.Optional;
 import org.springframework.data.domain.Page;

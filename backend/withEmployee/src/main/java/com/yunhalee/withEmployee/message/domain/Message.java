@@ -62,4 +62,8 @@ public class Message extends BaseTimeEntity {
         return this.conversation.getId();
     }
 
+    public boolean isWriter(Integer userId) {
+        return this.user.getId() == userId;
+    }
+
 }

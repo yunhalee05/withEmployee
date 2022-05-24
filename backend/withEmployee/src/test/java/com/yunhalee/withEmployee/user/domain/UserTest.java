@@ -1,11 +1,9 @@
 package com.yunhalee.withEmployee.user.domain;
 
-import com.yunhalee.withEmployee.company.domain.CompanyTest;
-import com.yunhalee.withEmployee.team.domain.Team;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.yunhalee.withEmployee.team.domain.TeamTest;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class UserTest {

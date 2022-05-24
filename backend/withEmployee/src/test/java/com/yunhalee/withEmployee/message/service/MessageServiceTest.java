@@ -9,6 +9,7 @@ import com.yunhalee.withEmployee.message.domain.Message;
 import com.yunhalee.withEmployee.message.domain.MessageTest;
 import com.yunhalee.withEmployee.message.dto.MessageRequest;
 import com.yunhalee.withEmployee.message.dto.MessageResponse;
+import com.yunhalee.withEmployee.security.jwt.LoginUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -45,7 +46,7 @@ class MessageServiceTest extends MockBeans {
         when(userService.findUserById(any())).thenReturn(MessageTest.FIRST_MESSAGE.getUser());
         when(conversationService.findConversationById(any())).thenReturn(MessageTest.FIRST_MESSAGE.getConversation());
         when(messageRepository.save(any())).thenReturn(message);
-        MessageResponse response = messageService.create(request);
+        MessageResponse response = messageService.create(LoginUser.of(MessageTest.FIRST_MESSAGE.getUser()), request);
 
         // then
         equals(response, message);

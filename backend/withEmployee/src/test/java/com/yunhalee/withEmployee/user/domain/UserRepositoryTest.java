@@ -45,7 +45,7 @@ public class UserRepositoryTest {
     }
 
 
-    private User save(User user) {
+    public User save(User user) {
         return userRepository.save(User.builder()
             .name(user.getName())
             .email(user.getEmail())
