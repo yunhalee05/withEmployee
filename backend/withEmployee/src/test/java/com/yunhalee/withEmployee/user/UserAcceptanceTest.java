@@ -22,6 +22,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     public static final String NEW_NAME = "TestUpdateUser";
     public static final String EMAIL = "acceptanceTestExample@example.com";
     public static final String NEW_EMAIL = "acceptanceTestUpdateExample@example.com";
+    public static final String CEO_EMAIL = "acceptanceCeoTestExample@example.com";
     public static final String PASSWORD = "123456";
     public static final String NEW_PASSWORD = "12345678";
     public static final String DESCRIPTION = "testDescription";

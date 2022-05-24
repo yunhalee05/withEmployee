@@ -181,6 +181,10 @@ public class User {
         this.companies.add(company);
     }
 
+    public boolean isUser(Integer id) {
+        return this.id == id;
+    }
+
 
     @Override
     public boolean equals(Object o) {

@@ -1,5 +1,7 @@
 package com.yunhalee.withEmployee.team.controller;
 
+import com.yunhalee.withEmployee.security.AuthenticationPrincipal;
+import com.yunhalee.withEmployee.security.jwt.LoginUser;
 import com.yunhalee.withEmployee.team.dto.SimpleTeamResponses;
 import com.yunhalee.withEmployee.team.dto.TeamRequest;
 import com.yunhalee.withEmployee.team.dto.TeamResponse;
@@ -26,8 +28,8 @@ public class TeamController {
     }
 
     @GetMapping("/teams/{id}")
-    public ResponseEntity<TeamResponse> getById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(teamService.getById(id));
+    public ResponseEntity<TeamResponse> getById(@AuthenticationPrincipal LoginUser loginUser,@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(teamService.getById(loginUser, id));
     }
 
     @GetMapping("/users/{userId}/teams")
@@ -36,29 +38,30 @@ public class TeamController {
     }
 
     @PostMapping("/teams")
-    public ResponseEntity<TeamResponse> create(@RequestBody TeamRequest request) {
+    public ResponseEntity<TeamResponse> create(@AuthenticationPrincipal(isCeo = true) LoginUser loginUser, @RequestBody TeamRequest request) {
         return ResponseEntity.ok(teamService.create(request));
     }
 
     @PostMapping("/teams/{id}")
-    public ResponseEntity<TeamResponse> update(@PathVariable("id") Integer id, @RequestBody TeamRequest request) {
-        return ResponseEntity.ok(teamService.update(id, request));
+    public ResponseEntity<TeamResponse> update(@AuthenticationPrincipal(isCeo = true) LoginUser loginUser, @PathVariable("id") Integer id, @RequestBody TeamRequest request) {
+        return ResponseEntity.ok(teamService.update(loginUser, id, request));
     }
 
     @DeleteMapping("/teams/{id}")
-    public void delete(@PathVariable("id") Integer id) {
-        teamService.delete(id);
+    public ResponseEntity delete(@AuthenticationPrincipal(isCeo = true) LoginUser loginUser, @PathVariable("id") Integer id) {
+        teamService.delete(loginUser, id);
+        return ResponseEntity.noContent().build();
     }
 
 
     @PostMapping(value = "/teams/{id}", params = "email")
-    public ResponseEntity<SimpleUserResponse> addMember(@PathVariable("id") Integer id, @RequestParam("email") String email) {
-        return ResponseEntity.ok(teamService.addMember(id, email));
+    public ResponseEntity<SimpleUserResponse> addMember(@AuthenticationPrincipal(isLeader = true) LoginUser loginUser, @PathVariable("id") Integer id, @RequestParam("email") String email) {
+        return ResponseEntity.ok(teamService.addMember(loginUser, id, email));
     }
 
     @PostMapping(value = "/teams/{id}", params = "userId")
-    public ResponseEntity subtractMember(@PathVariable("id") Integer id, @RequestParam("userId") Integer userId) {
-        teamService.subtractMember(id, userId);
+    public ResponseEntity subtractMember(@AuthenticationPrincipal(isLeader = true) LoginUser loginUser, @PathVariable("id") Integer id, @RequestParam("userId") Integer userId) {
+        teamService.subtractMember(loginUser, id, userId);
         return ResponseEntity.noContent().build();
     }
 

@@ -64,6 +64,15 @@ public class Team {
         user.subtractTeam(this);
     }
 
+    public boolean isMember(Integer userId) {
+        return users.stream()
+            .anyMatch(user -> user.isUser(userId));
+    }
+
+    public boolean isCeo(Integer userId) {
+        return this.getCeoId() == userId;
+    }
+
 
     public Integer getTotalNumber() {
         return this.users.size();

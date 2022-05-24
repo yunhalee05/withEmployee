@@ -1,12 +1,14 @@
 package com.yunhalee.withEmployee.team.service;
 
 import com.yunhalee.withEmployee.MockBeans;
+import com.yunhalee.withEmployee.security.jwt.LoginUser;
 import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.team.domain.TeamTest;
 import com.yunhalee.withEmployee.team.dto.TeamRequest;
 import com.yunhalee.withEmployee.team.dto.TeamResponse;
 import com.yunhalee.withEmployee.team.exception.TeamNameAlreadyInUseException;
 import com.yunhalee.withEmployee.team.exception.TeamNameEmptyException;
+import com.yunhalee.withEmployee.user.domain.UserTest;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -83,7 +85,7 @@ class TeamServiceTest extends MockBeans {
         when(teamRepository.existsByName(anyString())).thenReturn(false);
         when(teamRepository.findById(any())).thenReturn(Optional.of(team));
         when(userService.simpleUserResponses(any())).thenReturn(new ArrayList<>());
-        TeamResponse response = teamService.update(team.getId(), teamRequest);
+        TeamResponse response = teamService.update(LoginUser.of(UserTest.CEO), team.getId(), teamRequest);
 
         // then
         assertThat(response.getName()).isEqualTo(TeamTest.SECOND_TEAM.getName());
@@ -97,7 +99,7 @@ class TeamServiceTest extends MockBeans {
         // when
         when(teamRepository.existsByName(anyString())).thenReturn(true);
         when(teamRepository.findByName(anyString())).thenReturn(Optional.of(TeamTest.SECOND_TEAM));
-        assertThatThrownBy(() -> teamService.update(team.getId(), teamRequest))
+        assertThatThrownBy(() -> teamService.update(LoginUser.of(UserTest.CEO), team.getId(), teamRequest))
             .isInstanceOf(TeamNameAlreadyInUseException.class)
             .hasMessageContaining(TEAM_NAME_IS_ALREADY_IN_USE_EXCEPTION);
     }

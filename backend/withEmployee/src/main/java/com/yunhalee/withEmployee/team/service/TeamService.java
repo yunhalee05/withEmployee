@@ -1,7 +1,9 @@
 package com.yunhalee.withEmployee.team.service;
 
+import com.yunhalee.withEmployee.common.exception.exceptions.AuthException;
 import com.yunhalee.withEmployee.company.dto.SimpleCompanyResponse;
 import com.yunhalee.withEmployee.company.service.CompanyService;
+import com.yunhalee.withEmployee.security.jwt.LoginUser;
 import com.yunhalee.withEmployee.team.domain.TeamRepository;
 import com.yunhalee.withEmployee.team.dto.SimpleTeamResponse;
 import com.yunhalee.withEmployee.team.dto.SimpleTeamResponses;
@@ -13,6 +15,7 @@ import com.yunhalee.withEmployee.team.exception.TeamNameEmptyException;
 import com.yunhalee.withEmployee.team.exception.TeamNotFoundException;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.team.domain.Team;
+import com.yunhalee.withEmployee.user.domain.Role;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
 import com.yunhalee.withEmployee.user.service.UserService;
@@ -55,10 +58,24 @@ public class TeamService {
             .collect(Collectors.toList()));
     }
 
-    public TeamResponse getById(Integer id) {
+    public TeamResponse getById(LoginUser loginUser, Integer id) {
         Team team = findById(id);
+        checkIsMember(loginUser, team);
         return TeamResponse.of(team, userService.simpleUserResponses(team.getUsers()));
     }
+
+    public void checkIsMember(LoginUser loginUser, Team team){
+        if (!(team.isMember(loginUser.getId()) || team.isCeo(loginUser.getId()))) {
+            throw new AuthException("User don't have authorization.");
+        }
+    }
+
+    public void checkIsCeo(LoginUser loginUser, Team team){
+        if (!team.isCeo(loginUser.getId())) {
+            throw new AuthException("User don't have authorization.");
+        }
+    }
+
 
     @Transactional
     public TeamResponse create(TeamRequest request) {
@@ -82,9 +99,10 @@ public class TeamService {
     }
 
     @Transactional
-    public TeamResponse update(Integer id, TeamRequest request) {
+    public TeamResponse update(LoginUser loginUser, Integer id, TeamRequest request) {
         checkName(id, request.getName());
         Team team = findTeamById(id);
+        checkIsCeo(loginUser, team);
         team.changeName(request.getName());
         return TeamResponse.of(team, userService.simpleUserResponses(team.getUsers()));
     }
@@ -97,8 +115,10 @@ public class TeamService {
     }
 
     @Transactional
-    public void delete(Integer id) {
-        teamRepository.deleteById(id);
+    public void delete(LoginUser loginUser, Integer id) {
+        Team team = findTeamById(id);
+        checkIsCeo(loginUser, team);
+        teamRepository.delete(team);
     }
 
 
@@ -119,18 +139,27 @@ public class TeamService {
     }
 
     @Transactional
-    public SimpleUserResponse addMember(Integer id, String email) {
+    public SimpleUserResponse addMember(LoginUser loginUser, Integer id, String email) {
         Team team = findTeamById(id);
+        checkIsLeader(loginUser, team);
         User user = userService.findUserByEmail(email);
         team.addMember(user);
         return SimpleUserResponse.of(user);
     }
 
     @Transactional
-    public void subtractMember(Integer id, Integer userId) {
+    public void subtractMember(LoginUser loginUser, Integer id, Integer userId) {
         Team team = findTeamById(id);
+        checkIsLeader(loginUser, team);
         User user = userService.findUserById(userId);
         team.subtractMember(user);
+    }
+
+
+    public void checkIsLeader(LoginUser loginUser, Team team){
+        if (!(team.isMember(loginUser.getId()) && (loginUser.getRole().equals(Role.LEADER) || loginUser.getRole().equals(Role.CEO))) && (!loginUser.getRole().equals(Role.ADMIN)) && (!loginUser.getRole().equals(Role.CEO))){
+            throw new AuthException("User don't have authorization.");
+        }
     }
 
     private TeamResponses teamResponses(Page<Team> pageTeam) {
