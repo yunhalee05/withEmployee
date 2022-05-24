@@ -1,6 +1,7 @@
 package com.yunhalee.withEmployee.conversation.domain;
 
 import com.yunhalee.withEmployee.user.domain.User;
+import java.util.Set;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

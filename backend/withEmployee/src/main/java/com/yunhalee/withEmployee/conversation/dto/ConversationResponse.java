@@ -14,18 +14,18 @@ public class ConversationResponse {
     private String text;
     private String imageUrl;
     private List<CeoResponse> users;
-    private boolean isTeamMember;
-    private boolean isSameCompany;
-    private boolean isOtherCompany;
+    private boolean teamMember;
+    private boolean sameCompany;
+    private boolean otherCompany;
 
-    public ConversationResponse(Integer id, String text, String imageUrl, List<CeoResponse> users, boolean isTeamMember, boolean isSameCompany, boolean isOtherCompany) {
+    public ConversationResponse(Integer id, String text, String imageUrl, List<CeoResponse> users, boolean teamMember, boolean sameCompany, boolean otherCompany) {
         this.id = id;
         this.text = text;
         this.imageUrl = imageUrl;
         this.users = users;
-        this.isTeamMember = isTeamMember;
-        this.isSameCompany = isSameCompany;
-        this.isOtherCompany = isOtherCompany;
+        this.teamMember = teamMember;
+        this.sameCompany = sameCompany;
+        this.otherCompany = otherCompany;
     }
 
     private ConversationResponse(Conversation conversation, List<CeoResponse> users) {
@@ -33,9 +33,9 @@ public class ConversationResponse {
         this.text = conversation.getText();
         this.imageUrl = conversation.getImageUrl();
         this.users = users;
-        this.isTeamMember = conversation.isTeamMember();
-        this.isSameCompany = conversation.isSameCompany();
-        this.isOtherCompany = conversation.isOtherCompany();
+        this.teamMember = conversation.isTeamMember();
+        this.sameCompany = conversation.isSameCompany();
+        this.otherCompany = conversation.isOtherCompany();
     }
 
     public static ConversationResponse of(Conversation conversation, List<CeoResponse> users) {

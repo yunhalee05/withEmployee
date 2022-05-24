@@ -4,6 +4,8 @@ import com.yunhalee.withEmployee.conversation.dto.ConversationRequest;
 import com.yunhalee.withEmployee.conversation.dto.ConversationResponse;
 import com.yunhalee.withEmployee.conversation.dto.ConversationResponses;
 import com.yunhalee.withEmployee.conversation.service.ConversationService;
+import com.yunhalee.withEmployee.security.AuthenticationPrincipal;
+import com.yunhalee.withEmployee.security.jwt.LoginUser;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,7 @@ public class ConversationController {
     }
 
     @GetMapping("/conversations")
-    public ResponseEntity<ConversationResponses> getAll(@RequestParam("userId") Integer userId) {
+    public ResponseEntity<ConversationResponses> getAll(@Param("userId") Integer userId) {
         return ResponseEntity.ok(conversationService.listAll(userId));
     }
 
@@ -29,8 +31,8 @@ public class ConversationController {
     }
 
     @DeleteMapping("/conversations/{id}")
-    public ResponseEntity deleteConversation(@PathVariable("id") Integer id) {
-        conversationService.deleteConversation(id);
+    public ResponseEntity deleteConversation(@AuthenticationPrincipal LoginUser loginUser, @PathVariable("id") Integer id) {
+        conversationService.deleteConversation(loginUser, id);
         return ResponseEntity.noContent().build();
     }
 }

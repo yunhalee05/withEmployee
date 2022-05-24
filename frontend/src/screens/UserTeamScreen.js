@@ -37,7 +37,7 @@ function UserTeamScreen(props) {
                 }
             </div>
             {
-                team.teams.length ==0 && 
+                team.teams && team.teams.length ==0 && 
                 <div className='profile-userteam-title'>
                     You dont't belong to any team yet.
                 </div>

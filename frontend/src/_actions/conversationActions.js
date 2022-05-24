@@ -15,7 +15,6 @@ export const getConversations =() => async(dispatch, getState)=>{
             headers : {Authorization : `Bearer ${token}`}
         })
 
-        console.log(res)
         const newArr = [];
 
         res.data.conversations.forEach(item=> {

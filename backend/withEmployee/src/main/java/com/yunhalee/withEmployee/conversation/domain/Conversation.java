@@ -82,5 +82,9 @@ public class Conversation extends BaseTimeEntity {
         this.imageUrl = imageUrl;
     }
 
+    public boolean isUserIncluded(Integer userId) {
+        return users.stream()
+            .anyMatch(user -> user.isUser(userId));
+    }
 
 }
