@@ -47,6 +47,36 @@
         </p>
       </li>
       <li>
+        <h3>✔️ SpringAOP(@Aspect)</h3> 
+          <ul>
+            <li>
+              <h4>Challenge : </h4>
+              <p>프로그램이 실행될 때 공통적으로 사용되는 공통모듈이 발생하였습니다. </p>
+            </li>
+            <li>
+              <h4>Solution : </h4>
+              <p>
+                SpringAOP의 <strong><em>@Aspect</em></strong> 어노테이션을 통하여 발생되는 횡단 관심사를 핵심 비즈니스 로직에서 분리하도록 하고 적용 대상은 <strong><em>@PointCut</em></strong>으로 나타내도록 하여 부가기능을 적용하였습니다. 
+              </p>
+            </li>
+          </ul>       
+      </li>
+      <li>
+        <h3>✔️ 인수테스트(Acceptance Test)</h3> 
+          <ul>
+            <li>
+              <h4>Challenge : </h4>
+              <p>프로그램이 원하는 시나리오대로 작동하는지 확인되는 것이 요구되었습니다. </p>
+            </li>
+            <li>
+              <h4>Solution : </h4>
+              <p>
+                객체별로 인수테스트를 통하여 객체가 <strong><em>원하는 시나리오대로 응답을 하는지 확인</em></strong>하고 사업부의 목적에 부합하는 결과를 나타내도록 구현하였습니다. 
+              </p>
+            </li>
+          </ul>       
+      </li>
+      <li>
         <h3>✔️ TDD(Test Driven Development)</h3> 
           <ul>
             <li>
