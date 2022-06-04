@@ -1,0 +1,152 @@
+.form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    min-height: 100%;
+}
+
+.form form{
+    padding: 2rem;
+    width: 80vw;
+    max-width: 800px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid black;
+    box-shadow: 5px 5px #dbdbdb;
+    border-radius: 20px;
+    margin-bottom: 20rem;
+    margin-top: 10rem;
+    background-color: white;
+    
+}
+
+.form .form-name{
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.form .form-group {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 2rem;
+}
+
+.form-group-image-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 60vw;
+}
+
+.form .form-group-image{
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+
+.form .form-group-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.form .form-group span{
+    width: 20vw;
+}
+
+.form .form-group span input{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transform: translate(0px, -30px);
+    opacity: 0;
+}
+
+.form .form-group img{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.form .form-group .image-input{
+    position: relative;
+
+}
+
+.form .form-group .image-input input{
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    overflow: hidden;
+    transform: translate(-5px, -20px);
+    opacity: 0;
+    cursor: pointer;
+}
+
+.form label{
+    width: 20vw;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.form input{
+    width: 60vw;
+}
+
+.form textarea{
+    width: 60vw;
+}
+
+.form .form-group .pass {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.form .form-button{
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.form .form-button button{
+    background-color: #d4591c;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.form .form-button button:hover{
+    color: white;
+}
+
+.form .form-switch{
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.form .form-switch a{
+    color: black;
+}
+
+.form .form-switch a:hover{
+    text-decoration: none;
+    color: #d4591c;
+}
+
+
+
+@media (max-width:430px){
+    .form form{
+        width: 95vw;
+        padding: 1rem;
+    }
+
+
+
+}
