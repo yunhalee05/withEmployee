@@ -27,12 +27,12 @@ import { useState } from 'react';
 
 function App() {
 
-  axios.defaults.baseURL = "http://localhost:8080/api";
+  axios.defaults.baseURL = "https://withemployee.n-e.kr/api";
 
   const auth = useSelector(state => state.auth)
   const socket = useSelector(state => state.socket)
 
-  var sock = new SockJS('http://localhost:8080/chat')
+  var sock = new SockJS('https://withemployee.n-e.kr/chat')
   let client = Stomp.over(sock);
 
   const dispatch = useDispatch()
