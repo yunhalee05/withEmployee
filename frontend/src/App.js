@@ -27,6 +27,8 @@ import { useState } from 'react';
 
 function App() {
 
+  axios.defaults.baseURL = "http://localhost:8080/api";
+
   const auth = useSelector(state => state.auth)
   const socket = useSelector(state => state.socket)
 
@@ -39,12 +41,16 @@ function App() {
 
   useEffect(async() => {
     if (!auth.user && localStorage.getItem("token") != null) {
-      const res = await axios.get(`/login?token=${localStorage.getItem("token")}`)
-      dispatch({
-        type:LOGIN_SUCCESS,
-        payload:res.data
+      await axios.get(`/login?token=${localStorage.getItem("token")}`).then(res =>{
+        dispatch({
+          type:LOGIN_SUCCESS,
+          payload:res.data
+        })
+        setIsAuth(true)
+      }).catch(error =>{
+        localStorage.removeItem("token")
       })
-      setIsAuth(true)
+
     }
 
     if (!auth.user && localStorage.getItem("token") == null) {

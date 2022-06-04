@@ -31,7 +31,7 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @PostMapping("/authenticate")
+    @PostMapping("/api/authenticate")
     public ResponseEntity<String> createAuthenticationToken(@RequestBody JwtRequest request) throws Exception {
         authenticate(request.getUsername(), request.getPassword());
         userDetailsService.loadUserByUsername(request.getUsername());
@@ -49,13 +49,13 @@ public class JwtAuthenticationController {
         }
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public ResponseEntity<UserTokenResponse> login(@RequestBody JwtRequest request) throws Exception {
         authenticate(request.getUsername(), request.getPassword());
         return ResponseEntity.ok(userDetailsService.login(request.getUsername()));
     }
 
-    @GetMapping("/login")
+    @GetMapping("/api/login")
     public ResponseEntity<UserTokenResponse> loginWithToken(@Param("token") String token) {
         return ResponseEntity.ok(userDetailsService.loginWithToken(token));
     }

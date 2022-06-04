@@ -28,7 +28,7 @@ function CompanyScreen(props) {
         if ( !company.id || company.id != id) {
             dispatch(getcompany({id}))
         }
-    }, [id])
+    }, [id, company.id, dispatch])
 
     const handleDelete= (teamId) =>{
         if(window.confirm("Are you sure to delete this team ? After this action, users related to this team are also deleted.")){
@@ -100,7 +100,7 @@ function CompanyScreen(props) {
                 <div className="team-card-container">
                     {
                         company.company.teams.map((team, index)=>(
-                            <div>
+                            <div key={index}>
                             <div className="team-card" key={index}>
                                 {
                                     company.company.ceo.id===auth.user.id &&
