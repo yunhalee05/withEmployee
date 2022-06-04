@@ -1,0 +1,157 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding: 1.2rem;
+    /* border: 2px solid gray; */
+    /* box-shadow: 2px 2px 2px gray; */
+    border-radius: 40px;
+    /* margin: 1rem; */
+    align-items: center;
+}
+
+.header a{
+    color: black;
+}
+
+.header a:hover{
+    /* background-color: yellow; */
+    text-decoration: none;
+    border: none;
+}
+
+.brand-name{
+    font-size: 2rem;
+    /* font-family: 'Times New Roman', Times, serif; */
+    font-weight: 800;
+}
+
+
+.search-company-container form{
+    position: relative;
+}
+
+.search-company-container input{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-bottom: 1px solid #ededed;
+    width: 18rem;
+    outline: none;
+    text-indent: 5px;
+}
+
+.search-company-card-container{
+    max-height: 20rem;
+    position: absolute;
+    width: 18rem;
+    background: #fcfcfc;
+    min-height: calc(100vh-150px);
+    overflow: scroll;
+    margin-top: 3px;
+    border-radius: 3px;
+    z-index: 2;
+}
+
+
+.search-company{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #f7f7f7;
+    font-weight: 500;
+}
+
+.company-sort{
+    margin-bottom: 2rem;
+}
+.header-menu{
+    display: flex;
+    margin-top: 1rem;
+    /* font-weight: 600; */
+}
+
+.header-component{
+    margin-right: 1.4rem;
+    background-color: none;
+}
+
+.dropdown{
+    display: inline-block;
+    position: relative;
+    padding-right: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.dropdown-menu{
+    width: 5rem;
+    position: absolute;
+    display: none;
+    z-index: 1;
+    background-color: white;
+    padding: 1rem;
+    margin: 0;
+    border-radius: 1rem;
+    font-size: 13px;
+    text-align: center;
+    border: 1px solid black;
+    transition: all 0.5s;
+}
+
+.dropdown:hover .dropdown-menu{
+    display: block;
+}
+
+.dropdown-menu a:hover{
+    font-weight: 800;
+    background-color: white;
+}
+
+.dropdown button{
+    background-color: white;
+    border: none;
+}
+
+.dropdown button:hover{
+    font-weight: 800;
+}
+
+
+.header-list-shape{
+    width: 40px;
+    position: absolute;
+    z-index: -1;
+    /* left: -5px; */
+    transform: translateX(-150%);
+
+}
+
+.header-user-shape{
+    width: 55px;
+    position: absolute;
+    z-index: -1;
+    transform: translateX(-150%);
+    top: -7px;
+
+
+}
+
+.header-menu .dropdown span{
+    font-size: 1.2rem;
+    /* font-style: italic; */
+}
+
+@media (max-width:700px){
+    .header{
+        display: block;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+@media (max-width:436px){
+    .brand-name{
+        font-size: 1.3rem;
+    }
+
+}

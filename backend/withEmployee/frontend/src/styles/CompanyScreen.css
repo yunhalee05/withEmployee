@@ -1,0 +1,47 @@
+.company-screen{
+    max-width: 40rem;  
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem;
+    border: 1px solid #bfbfbf;
+    box-shadow: 4px 4px #bfbfbf;
+    border-radius: 10px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    background-color: #faede6;
+}
+
+.company-screen-name{
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: 800;
+}
+
+.company-screen-ceo{
+    text-align: right;
+    font-size: 18px;
+    font-weight: 600;
+    font-style: italic;
+    margin-top: 2rem;
+}
+
+.company-screen-description{
+    text-align: left;
+    font-size: 15px;
+    color: #8a8a8a;
+    font-style: italic;
+}
+
+.company-info-line{
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 3rem;
+    color: white;
+}
+
+.company-info-line span{
+    background-color: #f5c79f;
+    border-radius: 7px;
+}
