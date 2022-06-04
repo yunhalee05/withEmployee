@@ -20,7 +20,7 @@ function ProfileScreen(props) {
         if(!profileuser.id || profileuser.id != id){
             dispatch(getuser(id))
         }
-    }, [id])
+    }, [id, profileuser, profileuser.id])
 
     return (
         <div className="profile">
