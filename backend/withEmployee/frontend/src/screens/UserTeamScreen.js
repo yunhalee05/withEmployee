@@ -30,7 +30,7 @@ function UserTeamScreen(props) {
             } 
             <div className="team-card-container">
                 {
-                    team.loading===false && team.teams.length >0 && team.teams.map((team, index)=>(
+                    team.loading===false && team.teams && team.teams.length >0 && team.teams.map((team, index)=>(
                         
                         <TeamCard team={team} key={index}/>
                     ))

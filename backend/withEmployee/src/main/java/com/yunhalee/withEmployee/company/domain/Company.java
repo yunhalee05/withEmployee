@@ -83,9 +83,7 @@ public class Company extends BaseTimeEntity {
 
     @Transient
     public Integer getTotalNumber() {
-        return this.teams.stream()
-            .mapToInt(team -> team.getTotalNumber())
-            .sum();
+        return getMembers().size();
     }
 
 

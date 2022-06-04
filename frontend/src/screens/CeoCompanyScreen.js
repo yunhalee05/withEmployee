@@ -19,7 +19,7 @@ function CeoCompanyScreen(props) {
         if(!company.companies || (company.companies[0] && (company.companies[0].ceo.id != id))) {
             dispatch(getcompanies({id}))
         }
-    }, [id])
+    }, [id, company.companies])
     
     return (
         <div>
