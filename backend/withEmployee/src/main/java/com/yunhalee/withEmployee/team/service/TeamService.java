@@ -21,6 +21,7 @@ import com.yunhalee.withEmployee.user.dto.SimpleUserResponse;
 import com.yunhalee.withEmployee.user.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -79,18 +80,20 @@ public class TeamService {
 
     @Transactional
     public TeamResponse create(TeamRequest request) {
-        checkName(request.getName());
+        checkNameIsEmpty(request.getName());
         Company company = companyService.findCompanyById(request.getCompanyId());
-        Team team = teamRepository.save(request.toTeam(company));
+//        checkName(request.getName(), company);
+//        Team team = teamRepository.save(request.toTeam(company));
+        Team team = saveTeam(request.toTeam(company));
         return TeamResponse.of(team, userService.simpleUserResponses(team.getUsers()));
     }
 
-    private void checkName(String name) {
-        checkNameIsEmpty(name);
-        if (teamRepository.existsByName(name)) {
-            throw new TeamNameAlreadyInUseException("This team name is already in use. name : " + name);
-        }
-    }
+//    private void checkName(String name, Company company) {
+//        checkNameIsEmpty(name);
+//        if (teamRepository.existsByNameAndCompany(name, company)) {
+//            throw new TeamNameAlreadyInUseException("This team name is already in use. name : " + name);
+//        }
+//    }
 
     private void checkNameIsEmpty(String name) {
         if (name.isBlank() || name.isEmpty()) {
@@ -98,21 +101,32 @@ public class TeamService {
         }
     }
 
+    private Team saveTeam(Team team) {
+        try {
+            return teamRepository.save(team);
+        } catch (DataIntegrityViolationException e) {
+            throw new TeamNameAlreadyInUseException("This team name is already in use. name : " +  team.getName());
+        }
+    }
+
     @Transactional
     public TeamResponse update(LoginUser loginUser, Integer id, TeamRequest request) {
-        checkName(id, request.getName());
+        checkNameIsEmpty(request.getName());
+//        Company company = companyService.findCompanyById(request.getCompanyId());
+//        checkName(id, request.getName(),company);
         Team team = findTeamById(id);
         checkIsCeo(loginUser, team);
         team.changeName(request.getName());
+        saveTeam(team);
         return TeamResponse.of(team, userService.simpleUserResponses(team.getUsers()));
     }
 
-    private void checkName(Integer id, String name) {
-        checkNameIsEmpty(name);
-        if (teamRepository.existsByName(name) && !findTeamByName(name).isId(id)) {
-            throw new TeamNameAlreadyInUseException("This team name is already in use. name : " + name);
-        }
-    }
+//    private void checkName(Integer id, String name, Company company) {
+//        checkNameIsEmpty(name);
+//        if (teamRepository.existsByNameAndCompany(name, company) && !findTeamByName(name, company).isId(id)) {
+//            throw new TeamNameAlreadyInUseException("This team name is already in use. name : " + name);
+//        }
+//    }
 
     @Transactional
     public void delete(LoginUser loginUser, Integer id) {
@@ -132,10 +146,10 @@ public class TeamService {
             .orElseThrow(() -> new TeamNotFoundException("Team does not exist with id : " + id));
     }
 
-    private Team findTeamByName(String name) {
-        return teamRepository.findByName(name)
-            .orElseThrow(() -> new TeamNotFoundException("Team does not exist with name : " + name));
-    }
+//    private Team findTeamByName(String name, Company company) {
+//        return teamRepository.findByNameAndCompany(name, company)
+//            .orElseThrow(() -> new TeamNotFoundException("Team does not exist with name : " + name));
+//    }
 
     @Transactional
     public SimpleUserResponse addMember(LoginUser loginUser, Integer id, String email) {

@@ -21,6 +21,7 @@ import com.yunhalee.withEmployee.user.dto.MemberResponse;
 import com.yunhalee.withEmployee.user.service.UserService;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -75,6 +76,7 @@ public class CompanyService {
         return companyListResponses(pageCompanies);
     }
 
+    @Cacheable(value = "companies", key = "{#keyword}")
     public CompanyListResponses searchCompany(String keyword) {
         List<Company> companies = companyRepository.findByKeyword(keyword);
         return CompanyListResponses.of((long) companies.size(), 1,

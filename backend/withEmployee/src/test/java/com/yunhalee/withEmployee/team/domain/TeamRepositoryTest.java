@@ -3,6 +3,7 @@ package com.yunhalee.withEmployee.team.domain;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.company.domain.CompanyRepository;
 import com.yunhalee.withEmployee.company.domain.CompanyTest;
+import com.yunhalee.withEmployee.team.exception.TeamNameAlreadyInUseException;
 import com.yunhalee.withEmployee.user.domain.User;
 import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.user.domain.UserTest;
@@ -14,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @TestPropertySource(locations = "/config/application-test.properties")
 @DataJpaTest
@@ -82,5 +85,9 @@ public class TeamRepositoryTest {
         return teamRepository.save(team);
     }
 
-
+    @Test
+    public void create_team_with_already_existing_name_in_company_is_invalid() {
+        assertThatThrownBy(() -> save(TeamTest.FIRST_TEAM.getName(), company, ceo))
+            .isInstanceOf(DataIntegrityViolationException.class);
+    }
 }

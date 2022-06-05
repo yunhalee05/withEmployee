@@ -20,7 +20,7 @@ import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.util.StringUtils;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", indexes = @Index(name = "idx_name", columnList = "name"))
 @NoArgsConstructor
 public class User {
 

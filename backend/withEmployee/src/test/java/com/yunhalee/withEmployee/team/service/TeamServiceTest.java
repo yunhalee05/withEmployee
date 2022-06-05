@@ -48,7 +48,7 @@ class TeamServiceTest extends MockBeans {
     @Test
     void create_team() {
         // when
-        when(teamRepository.existsByName(anyString())).thenReturn(false);
+//        when(teamRepository.existsByNameAndCompany(anyString(), any())).thenReturn(false);
         when(companyService.findCompanyById(anyInt())).thenReturn(TeamTest.FIRST_TEAM.getCompany());
         when(teamRepository.save(any())).thenReturn(team);
         when(userService.simpleUserResponses(any())).thenReturn(new ArrayList<>());
@@ -58,22 +58,6 @@ class TeamServiceTest extends MockBeans {
         equals(response, team);
     }
 
-    @Test
-    void create_team_with_empty_name_is_invalid() {
-        TeamRequest teamRequest = new TeamRequest("", TeamTest.FIRST_TEAM.getCompanyId());
-        when(teamRepository.existsByName(anyString())).thenReturn(false);
-        assertThatThrownBy(() -> teamService.create(teamRequest))
-            .isInstanceOf(TeamNameEmptyException.class)
-            .hasMessage(NAME_IS_EMPTY_EXCEPTION);
-    }
-
-    @Test
-    void create_team_with_already_existing_name_is_invalid() {
-        when(teamRepository.existsByName(anyString())).thenReturn(true);
-        assertThatThrownBy(() -> teamService.create(request))
-            .isInstanceOf(TeamNameAlreadyInUseException.class)
-            .hasMessageContaining(TEAM_NAME_IS_ALREADY_IN_USE_EXCEPTION);
-    }
 
     @Test
     void update_team() {
@@ -81,7 +65,7 @@ class TeamServiceTest extends MockBeans {
         TeamRequest teamRequest = new TeamRequest(TeamTest.SECOND_TEAM.getName(), TeamTest.FIRST_TEAM.getCompanyId());
 
         // when
-        when(teamRepository.existsByName(anyString())).thenReturn(false);
+//        when(teamRepository.existsByNameAndCompany(anyString(), any())).thenReturn(false);
         when(teamRepository.findById(any())).thenReturn(Optional.of(team));
         when(userService.simpleUserResponses(any())).thenReturn(new ArrayList<>());
         TeamResponse response = teamService.update(LoginUser.of(UserTest.CEO), team.getId(), teamRequest);
@@ -90,18 +74,6 @@ class TeamServiceTest extends MockBeans {
         assertThat(response.getName()).isEqualTo(TeamTest.SECOND_TEAM.getName());
     }
 
-    @Test
-    void update_team_with_already_existing_name_is_invalid() {
-        // given
-        TeamRequest teamRequest = new TeamRequest(TeamTest.SECOND_TEAM.getName(), TeamTest.FIRST_TEAM.getCompanyId());
-
-        // when
-        when(teamRepository.existsByName(anyString())).thenReturn(true);
-        when(teamRepository.findByName(anyString())).thenReturn(Optional.of(TeamTest.SECOND_TEAM));
-        assertThatThrownBy(() -> teamService.update(LoginUser.of(UserTest.CEO), team.getId(), teamRequest))
-            .isInstanceOf(TeamNameAlreadyInUseException.class)
-            .hasMessageContaining(TEAM_NAME_IS_ALREADY_IN_USE_EXCEPTION);
-    }
 
     private void equals(TeamResponse response, Team team) {
         assertThat(response.getId()).isEqualTo(team.getId());
