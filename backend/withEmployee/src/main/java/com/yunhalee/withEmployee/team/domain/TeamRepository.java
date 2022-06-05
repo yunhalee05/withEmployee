@@ -14,9 +14,9 @@ import java.util.List;
 public
 interface TeamRepository extends JpaRepository<Team, Integer> {
 
-    boolean existsByName(String name);
-
-    Optional<Team> findByName(String name);
+//    boolean existsByNameAndCompany(String name, Company company);
+//
+//    Optional<Team> findByNameAndCompany(String name, Company company);
 
     @Query(value = "SELECT DISTINCT t FROM Team t INNER JOIN FETCH t.company c LEFT JOIN FETCH t.users u")
     List<Team> findAllTeams();
