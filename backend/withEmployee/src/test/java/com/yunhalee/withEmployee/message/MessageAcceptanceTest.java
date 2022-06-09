@@ -101,7 +101,7 @@ public class MessageAcceptanceTest extends AcceptanceTest {
             .header("Authorization", "Bearer " + token)
             .contentType("multipart/form-data")
             .multiPart("multipartFile", imageFile, "image/jpeg")
-            .when().post("/messages/image")
+            .when().post("/api/messages/image")
             .then().log().all()
             .extract();
     }

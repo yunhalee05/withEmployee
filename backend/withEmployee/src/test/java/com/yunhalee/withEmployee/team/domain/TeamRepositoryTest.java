@@ -1,46 +1,25 @@
 package com.yunhalee.withEmployee.team.domain;
 
 import com.yunhalee.withEmployee.company.domain.Company;
-import com.yunhalee.withEmployee.company.domain.CompanyRepository;
 import com.yunhalee.withEmployee.company.domain.CompanyTest;
-import com.yunhalee.withEmployee.team.exception.TeamNameAlreadyInUseException;
 import com.yunhalee.withEmployee.user.domain.User;
-import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.user.domain.UserTest;
+import com.yunhalee.withEmployee.RepositoryTest;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@TestPropertySource(locations = "/config/application-test.properties")
-@DataJpaTest
-@RunWith(SpringRunner.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class TeamRepositoryTest {
+public class TeamRepositoryTest extends RepositoryTest {
 
     public static final int TEAM_PER_PAGE = 3;
-
-    @Autowired
-    private TeamRepository teamRepository;
-
-    @Autowired
-    private CompanyRepository companyRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     private Team firstTeam;
     private Team secondTeam;

@@ -2,34 +2,17 @@ package com.yunhalee.withEmployee.conversation.domain;
 
 import com.yunhalee.withEmployee.user.domain.Role;
 import com.yunhalee.withEmployee.user.domain.User;
-import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.user.domain.UserTest;
+import com.yunhalee.withEmployee.RepositoryTest;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
-
-@TestPropertySource(locations = "/config/application-test.properties")
-@DataJpaTest
-@RunWith(SpringRunner.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class ConversationRepositoryTest {
-
-    @Autowired
-    private ConversationRepository conversationRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+public class ConversationRepositoryTest extends RepositoryTest {
 
     private Conversation firstConversation;
     private Conversation secondConversation;
@@ -50,14 +33,14 @@ public class ConversationRepositoryTest {
 
     @Test
     public void find_by_user() {
-        List<Conversation> conversations = conversationRepository.findByUsers(ceo);
+        List<Conversation> conversations = conversationRepository.findAllByUsers(ceo);
         assertThat(conversations.equals(Arrays.asList(firstConversation, thirdConversation))).isTrue();
     }
 
 
     @Test
     public void find_by_user_id() {
-        List<Conversation> conversations = conversationRepository.findByUserId(ceo.getId());
+        List<Conversation> conversations = conversationRepository.findALLByUserId(ceo.getId());
         assertThat(conversations.equals(Arrays.asList(firstConversation, thirdConversation))).isTrue();
     }
 

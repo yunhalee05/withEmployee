@@ -23,11 +23,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@Transactional
 class TeamServiceTest extends MockBeans {
-
-    private static final String TEAM_NAME_IS_ALREADY_IN_USE_EXCEPTION = "This team name is already in use.";
-    private static final String NAME_IS_EMPTY_EXCEPTION = "Name could not be empty.";
 
     @InjectMocks
     private TeamService teamService = new TeamService(teamRepository, companyService, userService);
@@ -48,7 +44,6 @@ class TeamServiceTest extends MockBeans {
     @Test
     void create_team() {
         // when
-//        when(teamRepository.existsByNameAndCompany(anyString(), any())).thenReturn(false);
         when(companyService.findCompanyById(anyInt())).thenReturn(TeamTest.FIRST_TEAM.getCompany());
         when(teamRepository.save(any())).thenReturn(team);
         when(userService.simpleUserResponses(any())).thenReturn(new ArrayList<>());
@@ -65,7 +60,6 @@ class TeamServiceTest extends MockBeans {
         TeamRequest teamRequest = new TeamRequest(TeamTest.SECOND_TEAM.getName(), TeamTest.FIRST_TEAM.getCompanyId());
 
         // when
-//        when(teamRepository.existsByNameAndCompany(anyString(), any())).thenReturn(false);
         when(teamRepository.findById(any())).thenReturn(Optional.of(team));
         when(userService.simpleUserResponses(any())).thenReturn(new ArrayList<>());
         TeamResponse response = teamService.update(LoginUser.of(UserTest.CEO), team.getId(), teamRequest);
