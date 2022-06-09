@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 class CompanyServiceTest extends MockBeans {
 
     private static final String COMPANY_NAME_IS_ALREADY_IN_USE_EXCEPTION = "This company name is already in use.";

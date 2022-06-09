@@ -14,8 +14,8 @@ public interface ConversationRepository extends CrudRepository<Conversation, Int
 
 
     @Query(value = "SELECT c FROM Conversation c LEFT JOIN FETCH c.users u LEFT JOIN FETCH u.companies p WHERE u.id = :id")
-    List<Conversation> findByUserId(Integer id);
+    List<Conversation> findALLByUserId(Integer id);
 
-    List<Conversation> findByUsers(User user);
+    List<Conversation> findAllByUsers(User user);
 
 }

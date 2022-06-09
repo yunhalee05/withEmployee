@@ -113,7 +113,7 @@ public class CompanyAcceptanceTest extends AcceptanceTest {
     }
 
     public static ExtractableResponse<Response> find_companies_by_ceo_request(Integer ceoId) {
-        return find_request("users/" + ceoId + "/companies", "");
+        return find_request("/users/" + ceoId + "/companies", "");
     }
 
     public static void check_companies_by_ceo_found(ExtractableResponse<Response> response) {

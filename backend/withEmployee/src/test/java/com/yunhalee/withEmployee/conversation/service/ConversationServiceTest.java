@@ -16,7 +16,9 @@ import com.yunhalee.withEmployee.user.domain.UserTest;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -27,8 +29,7 @@ class ConversationServiceTest extends MockBeans {
     private static final String USER_NOT_AUTHORIZED_EXCEPTION = "User don't have authorization.";
 
     @InjectMocks
-    private ConversationService conversationService = new ConversationService(
-        conversationRepository, userService);
+    private ConversationService conversationService = new ConversationService(conversationRepository, userService);
 
 
     private ConversationRequest request;
@@ -64,8 +65,9 @@ class ConversationServiceTest extends MockBeans {
         // then
         assertThat(response.getId()).isEqualTo(conversation.getId());
         assertThat(response.getUsers().size()).isEqualTo(2);
-        assertThat(response.getUsers().get(0).getEmail()).isEqualTo(UserTest.MEMBER.getEmail());
-        assertThat(response.getUsers().get(1).getEmail()).isEqualTo(UserTest.CEO.getEmail());
+        List<String> emails = response.getUsers().stream().map(user -> user.getEmail()).collect(Collectors.toList());
+        assertThat(emails.contains(UserTest.MEMBER.getEmail())).isTrue();
+        assertThat(emails.contains(UserTest.CEO.getEmail())).isTrue();
     }
 
 

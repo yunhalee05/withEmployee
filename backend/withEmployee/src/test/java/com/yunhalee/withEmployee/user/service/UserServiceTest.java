@@ -1,6 +1,11 @@
 package com.yunhalee.withEmployee.user.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 import com.yunhalee.withEmployee.MockBeans;
 import com.yunhalee.withEmployee.security.jwt.UserTokenResponse;
@@ -21,17 +26,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
-import static org.assertj.core.api.Assertions.assertThat;
-
-@Transactional
-class UserServiceTest extends MockBeans {
+class UserServiceTest extends MockBeans{
 
     private static final String DUPLICATED_EMAIL_EXCEPTION = "This email is already in use.";
     private static final String USER_NOT_FOUND_EXCEPTION = "This User doesn't exist";
@@ -49,7 +46,6 @@ class UserServiceTest extends MockBeans {
         "test_image",
         "image/png",
         new byte[10]);
-
 
     @InjectMocks
     private UserService userService = new UserService(TEST_UPLOAD_FOLDER,

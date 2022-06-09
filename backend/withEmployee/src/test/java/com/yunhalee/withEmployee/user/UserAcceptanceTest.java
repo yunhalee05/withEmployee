@@ -45,7 +45,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .contentType("multipart/form-data")
             .multiPart("multipartFile", imageFile, "image/jpeg")
             .multiPart("userRequest", requestFile, "application/json")
-            .when().post("/users")
+            .when().post("/api/users")
             .then().log().all()
             .extract();
     }
@@ -70,7 +70,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
             .contentType("multipart/form-data")
             .multiPart("multipartFile", updateImageFile, "image/jpeg")
             .multiPart("userRequest", updateRequestFile, "application/json")
-            .when().post(uri)
+            .when().post("/api" + uri)
             .then().log().all()
             .extract();
     }

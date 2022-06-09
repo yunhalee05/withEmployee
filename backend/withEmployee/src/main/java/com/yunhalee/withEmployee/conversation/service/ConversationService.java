@@ -34,7 +34,7 @@ public class ConversationService {
     @Transactional(readOnly = true)
     public ConversationResponses listAll(Integer userId) {
         User user = userService.findUserById(userId);
-        List<Conversation> conversations = conversationRepository.findByUsers(user);
+        List<Conversation> conversations = conversationRepository.findAllByUsers(user);
         return ConversationResponses.of(conversations.stream()
             .map(conversation -> ConversationResponse.of(conversation, ceoResponses(conversation.getUsers())))
             .collect(Collectors.toList()));

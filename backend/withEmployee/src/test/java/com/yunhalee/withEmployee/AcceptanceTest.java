@@ -1,5 +1,7 @@
 package com.yunhalee.withEmployee;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.yunhalee.withEmployee.util.DatabaseCleanup;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -12,8 +14,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @TestPropertySource(locations = "/config/application-test.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -46,7 +46,7 @@ public class AcceptanceTest {
             .header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
-            .when().post(uri)
+            .when().post("/api" + uri)
             .then().log().all()
             .extract();
     }
@@ -57,7 +57,7 @@ public class AcceptanceTest {
             .header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(request)
-            .when().post(uri)
+            .when().post("/api" + uri)
             .then().log().all()
             .extract();
     }
@@ -67,7 +67,7 @@ public class AcceptanceTest {
             .given().log().all()
             .header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().post(uri)
+            .when().post("/api" + uri)
             .then().log().all()
             .extract();
     }
@@ -77,7 +77,7 @@ public class AcceptanceTest {
             .given().log().all()
             .header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get(uri)
+            .when().get("/api" + uri)
             .then().log().all()
             .extract();
     }
@@ -87,7 +87,7 @@ public class AcceptanceTest {
             .given().log().all()
             .header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().delete(uri)
+            .when().delete("/api" + uri)
             .then().log().all()
             .extract();
     }
@@ -107,6 +107,5 @@ public class AcceptanceTest {
     public static void check_unauthorized_response(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
     }
-
 
 }

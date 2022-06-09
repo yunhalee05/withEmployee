@@ -1,40 +1,24 @@
 package com.yunhalee.withEmployee.company.domain;
 
 import com.yunhalee.withEmployee.user.domain.User;
-import com.yunhalee.withEmployee.user.domain.UserRepository;
 import com.yunhalee.withEmployee.user.domain.UserTest;
+import com.yunhalee.withEmployee.RepositoryTest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@TestPropertySource(locations = "/config/application-test.properties")
-@DataJpaTest
-@RunWith(SpringRunner.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class CompanyRepositoryTest {
+public class CompanyRepositoryTest extends RepositoryTest {
 
     public static final int COMPANY_PER_PAGE = 3;
-
-    @Autowired
-    CompanyRepository companyRepository;
-
-    @Autowired
-    UserRepository userRepository;
 
     private Company firstCompany;
     private Company secondCompany;
@@ -42,7 +26,6 @@ public class CompanyRepositoryTest {
     private Company fourthCompany;
     private Company fifthCompany;
     private User ceo;
-
 
     @Before
     public void setUp() {
