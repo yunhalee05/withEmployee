@@ -51,7 +51,7 @@
           <ul>
             <li>
               <h4>Challenge : </h4>
-              <p>프로그램이 실행될 때 공통적으로 사용되는 공통모듈이 발생하였습니다. </p>
+              <p>프로그램이 실행될 때 메소드의 깊이(레벨)와 종료시 거리는 시간등을 로그로 나타내는 공통적으로 동일하게 사용되는 모듈이 발생하였습니다. </p>
             </li>
             <li>
               <h4>Solution : </h4>
@@ -332,6 +332,8 @@
     <h2 id="structure">🧱 Structure</h2>
 </div>
 
+
+
 ```bash
 📦SocialMediaApp
 ├── 🗂backend
@@ -342,94 +344,204 @@
 │       │   │   │   └── com
 │       │   │   │       └── yunhalee
 │       │   │   │           └── withEmployee
-│       │   │   │               ├── FileUploadUtils.java
-│       │   │   │               ├── Repository
-│       │   │   │               │   ├── CompanyRepository.java
-│       │   │   │               │   ├── ConversationRepository.java
-│       │   │   │               │   ├── MessageRepository.java
-│       │   │   │               │   ├── RoleRepository.java
-│       │   │   │               │   ├── TeamRepository.java
-│       │   │   │               │   └── UserRepository.java
 │       │   │   │               ├── WithEmployeeApplication.java
+│       │   │   │               ├── aop
+│       │   │   │               │   ├── LogAop.java
+│       │   │   │               │   ├── LogConfig.java
+│       │   │   │               │   ├── LogTrace.java
+│       │   │   │               │   ├── ThreadLogTrace.java
+│       │   │   │               │   ├── TraceId.java
+│       │   │   │               │   └── TraceStatus.java
+│       │   │   │               ├── common
+│       │   │   │               │   ├── controller
+│       │   │   │               │   │   ├── MainController.java
+│       │   │   │               │   │   └── SocketController.java
+│       │   │   │               │   ├── domain
+│       │   │   │               │   │   └── BaseTimeEntity.java
+│       │   │   │               │   └── exception
+│       │   │   │               │       ├── ErrorResponse.java
+│       │   │   │               │       ├── GlobalExceptionHandler.java
+│       │   │   │               │       └── exceptions
+│       │   │   │               │           ├── AuthException.java
+│       │   │   │               │           ├── BadRequestException.java
+│       │   │   │               │           ├── EntityNotFoundException.java
+│       │   │   │               │           └── InvalidValueException.java
+│       │   │   │               ├── company
+│       │   │   │               │   ├── controller
+│       │   │   │               │   │   └── CompanyController.java
+│       │   │   │               │   ├── domain
+│       │   │   │               │   │   ├── Company.java
+│       │   │   │               │   │   └── CompanyRepository.java
+│       │   │   │               │   ├── dto
+│       │   │   │               │   │   ├── CompanyListResponse.java
+│       │   │   │               │   │   ├── CompanyListResponses.java
+│       │   │   │               │   │   ├── CompanyRequest.java
+│       │   │   │               │   │   ├── CompanyResponse.java
+│       │   │   │               │   │   ├── CompanyResponses.java
+│       │   │   │               │   │   └── SimpleCompanyResponse.java
+│       │   │   │               │   ├── exception
+│       │   │   │               │   │   ├── CompanyNameAlreadyInUseException.java
+│       │   │   │               │   │   ├── CompanyNameEmptyException.java
+│       │   │   │               │   │   └── CompanyNotFoundException.java
+│       │   │   │               │   └── service
+│       │   │   │               │       └── CompanyService.java
 │       │   │   │               ├── config
+│       │   │   │               │   ├── CacheConfig.java
 │       │   │   │               │   ├── WebConfig.java
 │       │   │   │               │   └── WebSocketConfig.java
-│       │   │   │               ├── controller
-│       │   │   │               │   ├── CompanyController.java
-│       │   │   │               │   ├── ConversationController.java
-│       │   │   │               │   ├── MainController.java
-│       │   │   │               │   ├── MessageController.java
-│       │   │   │               │   ├── SocketController.java
-│       │   │   │               │   ├── TeamController.java
-│       │   │   │               │   └── UserController.java
-│       │   │   │               ├── dto
-│       │   │   │               │   ├── CompanyCreateDTO.java
-│       │   │   │               │   ├── CompanyDTO.java
-│       │   │   │               │   ├── CompanyListByPageDTO.java
-│       │   │   │               │   ├── CompanyListDTO.java
-│       │   │   │               │   ├── CompanyTestDTO.java
-│       │   │   │               │   ├── ConversationListDTO.java
-│       │   │   │               │   ├── MessageDTO.java
-│       │   │   │               │   ├── TeamDTO.java
-│       │   │   │               │   ├── TeamListByPageDTO.java
-│       │   │   │               │   ├── TeamListDTO.java
-│       │   │   │               │   ├── UserDTO.java
-│       │   │   │               │   └── UserListByPageDTO.java
-│       │   │   │               ├── entity
-│       │   │   │               │   ├── BaseTimeEntity.java
-│       │   │   │               │   ├── Company.java
-│       │   │   │               │   ├── Conversation.java
-│       │   │   │               │   ├── Message.java
-│       │   │   │               │   ├── Role.java
-│       │   │   │               │   ├── Team.java
-│       │   │   │               │   └── User.java
-│       │   │   │               ├── exception
-│       │   │   │               │   ├── ErrorResponse.java
-│       │   │   │               │   ├── GlobalExceptionHandler.java
-│       │   │   │               │   └── UserNotFoundException.java
+│       │   │   │               ├── conversation
+│       │   │   │               │   ├── controller
+│       │   │   │               │   │   └── ConversationController.java
+│       │   │   │               │   ├── domain
+│       │   │   │               │   │   ├── Conversation.java
+│       │   │   │               │   │   └── ConversationRepository.java
+│       │   │   │               │   ├── dto
+│       │   │   │               │   │   ├── ConversationRequest.java
+│       │   │   │               │   │   ├── ConversationResponse.java
+│       │   │   │               │   │   └── ConversationResponses.java
+│       │   │   │               │   ├── exception
+│       │   │   │               │   │   └── ConversationNotFoundException.java
+│       │   │   │               │   └── service
+│       │   │   │               │       └── ConversationService.java
+│       │   │   │               ├── message
+│       │   │   │               │   ├── controller
+│       │   │   │               │   │   └── MessageController.java
+│       │   │   │               │   ├── domain
+│       │   │   │               │   │   ├── Message.java
+│       │   │   │               │   │   └── MessageRepository.java
+│       │   │   │               │   ├── dto
+│       │   │   │               │   │   ├── MessageRequest.java
+│       │   │   │               │   │   ├── MessageResponse.java
+│       │   │   │               │   │   ├── MessageResponses.java
+│       │   │   │               │   │   └── MessageUserResponse.java
+│       │   │   │               │   ├── exception
+│       │   │   │               │   │   └── MessageNotFoundException.java
+│       │   │   │               │   └── service
+│       │   │   │               │       └── MessageService.java
 │       │   │   │               ├── security
-│       │   │   │               │   ├── JwtAuthenticaationController.java
-│       │   │   │               │   ├── JwtAuthenticationEntryPoint.java
-│       │   │   │               │   ├── JwtRequest.java
-│       │   │   │               │   ├── JwtRequestFilter.java
-│       │   │   │               │   ├── JwtResponse.java
-│       │   │   │               │   ├── JwtTokenUtil.java
-│       │   │   │               │   ├── JwtUserDetails.java
-│       │   │   │               │   ├── JwtUserDetailsService.java
-│       │   │   │               │   └── WebSecurityConfig.java
-│       │   │   │               └── service
-│       │   │   │                   ├── CompanyService.java
-│       │   │   │                   ├── ConversationService.java
-│       │   │   │                   ├── MessageService.java
-│       │   │   │                   ├── TeamService.java
-│       │   │   │                   └── UserService.java
+│       │   │   │               │   ├── AuthenticationPrincipal.java
+│       │   │   │               │   ├── AuthenticationPrincipalArgumentResolver.java
+│       │   │   │               │   ├── AuthenticationPrincipalConfig.java
+│       │   │   │               │   ├── WebSecurityConfig.java
+│       │   │   │               │   └── jwt
+│       │   │   │               │       ├── JwtAuthenticationController.java
+│       │   │   │               │       ├── JwtAuthenticationEntryPoint.java
+│       │   │   │               │       ├── JwtRequest.java
+│       │   │   │               │       ├── JwtRequestFilter.java
+│       │   │   │               │       ├── JwtResponse.java
+│       │   │   │               │       ├── JwtTokenUtil.java
+│       │   │   │               │       ├── JwtUserDetails.java
+│       │   │   │               │       ├── JwtUserDetailsService.java
+│       │   │   │               │       ├── LoginUser.java
+│       │   │   │               │       └── UserTokenResponse.java
+│       │   │   │               ├── team
+│       │   │   │               │   ├── controller
+│       │   │   │               │   │   └── TeamController.java
+│       │   │   │               │   ├── domain
+│       │   │   │               │   │   ├── Team.java
+│       │   │   │               │   │   └── TeamRepository.java
+│       │   │   │               │   ├── dto
+│       │   │   │               │   │   ├── SimpleTeamResponse.java
+│       │   │   │               │   │   ├── SimpleTeamResponses.java
+│       │   │   │               │   │   ├── TeamRequest.java
+│       │   │   │               │   │   ├── TeamResponse.java
+│       │   │   │               │   │   └── TeamResponses.java
+│       │   │   │               │   ├── exception
+│       │   │   │               │   │   ├── TeamNameAlreadyInUseException.java
+│       │   │   │               │   │   ├── TeamNameEmptyException.java
+│       │   │   │               │   │   └── TeamNotFoundException.java
+│       │   │   │               │   └── service
+│       │   │   │               │       └── TeamService.java
+│       │   │   │               ├── user
+│       │   │   │               │   ├── controller
+│       │   │   │               │   │   └── UserController.java
+│       │   │   │               │   ├── domain
+│       │   │   │               │   │   ├── Role.java
+│       │   │   │               │   │   ├── User.java
+│       │   │   │               │   │   └── UserRepository.java
+│       │   │   │               │   ├── dto
+│       │   │   │               │   │   ├── CeoResponse.java
+│       │   │   │               │   │   ├── MemberResponse.java
+│       │   │   │               │   │   ├── SimpleUserResponse.java
+│       │   │   │               │   │   ├── UserCompanyResponse.java
+│       │   │   │               │   │   ├── UserRequest.java
+│       │   │   │               │   │   ├── UserResponse.java
+│       │   │   │               │   │   ├── UserResponses.java
+│       │   │   │               │   │   └── UserTeamResponse.java
+│       │   │   │               │   ├── exception
+│       │   │   │               │   │   ├── DuplicatedEmailException.java
+│       │   │   │               │   │   └── UserNotFoundException.java
+│       │   │   │               │   └── service
+│       │   │   │               │       └── UserService.java
+│       │   │   │               └── util
+│       │   │   │                   └── FileUploadService.java
 │       │   │   └── resources
-│       │   │       ├── application.properties
+│       │   │       ├── config
+│       │   │       │   ├── application-local.properties
+│       │   │       │   ├── application-prod.properties
+│       │   │       │   ├── application-test.properties
+│       │   │       │   └── application.properties
 │       │   │       ├── static
 │       │   │       └── templates
 │       │   └── test
-│       │       └── java
-│       │           └── com
-│       │               └── yunhalee
-│       │                   └── withEmployee
-│       │                       ├── CompanyRepositoryTests.java
-│       │                       ├── CompanyServiceTests.java
-│       │                       ├── ConversationRepositoryTests.java
-│       │                       ├── ConversationServiceTests.java
-│       │                       ├── MessageRepositoryTests.java
-│       │                       ├── MessageServiceTests.java
-│       │                       ├── PasswordEncoderTest.java
-│       │                       ├── RoleRepositoryTests.java
-│       │                       ├── TeamRepositoryTests.java
-│       │                       ├── TeamServiceTests.java
-│       │                       ├── UserRepositoryTests.java
-│       │                       ├── UserServiceTests.java
-│       │                       └── WithEmployeeApplicationTests.java
+│       │       ├── java
+│       │           └── com
+│       │               └── yunhalee
+│       │                   └── withEmployee
+│       │                       ├── AcceptanceTest.java
+│       │                       ├── MockBeans.java
+│       │                       ├── RepositoryTest.java
+│       │                       ├── WithEmployeeApplicationTests.java
+│       │                       ├── company
+│       │                       │   ├── CompanyAcceptanceTest.java
+│       │                       │   ├── domain
+│       │                       │   │   ├── CompanyRepositoryTest.java
+│       │                       │   │   └── CompanyTest.java
+│       │                       │   └── service
+│       │                       │       └── CompanyServiceTest.java
+│       │                       ├── conversation
+│       │                       │   ├── ConversationAcceptanceTest.java
+│       │                       │   ├── domain
+│       │                       │   │   ├── ConversationRepositoryTest.java
+│       │                       │   │   └── ConversationTest.java
+│       │                       │   └── service
+│       │                       │       └── ConversationServiceTest.java
+│       │                       ├── message
+│       │                       │   ├── MessageAcceptanceTest.java
+│       │                       │   ├── domain
+│       │                       │   │   ├── MessageRepositoryTests.java
+│       │                       │   │   └── MessageTest.java
+│       │                       │   └── service
+│       │                       │       └── MessageServiceTest.java
+│       │                       ├── security
+│       │                       │   ├── AuthAcceptanceTest.java
+│       │                       │   └── PasswordEncoderTest.java
+│       │                       ├── team
+│       │                       │   ├── TeamAcceptanceTest.java
+│       │                       │   ├── domain
+│       │                       │   │   ├── TeamRepositoryTest.java
+│       │                       │   │   └── TeamTest.java
+│       │                       │   └── service
+│       │                       │       └── TeamServiceTest.java
+│       │                       ├── user
+│       │                       │   ├── UserAcceptanceTest.java
+│       │                       │   ├── domain
+│       │                       │   │   ├── UserRepositoryTest.java
+│       │                       │   │   └── UserTest.java
+│       │                       │   └── service
+│       │                       │       └── UserServiceTest.java
+│       │                       └── util
+│       │                           ├── DatabaseCleanup.java
+│       │                           └── FileUploadServiceTest.java
 │       ├── messageUploads
-│       ├── pom.xml
-│       ├── profileUploads
-├── 🗂client
+│       └── profileUploads
+├── 🗂frontend
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
 │   ├── src
+│   │   ├── App.js
+│   │   ├── SocketClient.js
 │   │   ├── _actions
 │   │   │   ├── authActions.js
 │   │   │   ├── companyActions.js
@@ -458,9 +570,10 @@
 │   │   │   ├── AddMemberModal.js
 │   │   │   ├── AddTeamModal.js
 │   │   │   ├── CompanyCard.js
-│   │   │   ├── CreateCompany.js
 │   │   │   ├── EditProfileModal.js
+│   │   │   ├── Error.js
 │   │   │   ├── Header.js
+│   │   │   ├── Loading.js
 │   │   │   ├── SearchCompanyCard.js
 │   │   │   ├── SearchUserCard.js
 │   │   │   ├── TeamCard.js
@@ -472,7 +585,16 @@
 │   │   │       ├── Display.js
 │   │   │       └── MessageCard.js
 │   │   ├── customRouter
+│   │   │   ├── AdminRouter.js
+│   │   │   ├── CeoRouter.js
 │   │   │   └── PrivateRouter.js
+│   │   ├── images
+│   │   │   ├── Ellipse\ 1.png
+│   │   │   ├── Ellipse\ 2.png
+│   │   │   ├── home.png
+│   │   │   ├── message.png
+│   │   │   ├── user.svg
+│   │   │   └── users.svg
 │   │   ├── screens
 │   │   │   ├── CeoCompanyScreen.js
 │   │   │   ├── CompanyListScreen.js
@@ -489,6 +611,7 @@
 │   │   ├── styles
 │   │   │   ├── CompanyCard.css
 │   │   │   ├── CompanyScreen.css
+│   │   │   ├── Error.css
 │   │   │   ├── Form.css
 │   │   │   ├── HomeScreen.css
 │   │   │   ├── List.css
@@ -497,12 +620,18 @@
 │   │   │   ├── SearchUserCard.css
 │   │   │   ├── TeamCard.css
 │   │   │   ├── UserCard.css
-│   │   │   └── header.css
-│   │   ├── images
-│   │   ├── index.css
-│   │   ├── index.js
-│   │   ├── App.js
-│   │   ├── SocketClient.js
+│   │   │   ├── header.css
+│   │   │   └── loading.css
 │   │   └── utils.js
-└── profileUploads
+│   └── yarn.lock
+├── k6
+│   ├── main
+│   │   ├── load.js
+│   │   ├── smoke.js
+│   │   └── stress.js
+│   └── update
+│       ├── load.js
+│       ├── smoke.js
+│       └── stress.js
+└── nginx.conf
 ```
