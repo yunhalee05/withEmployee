@@ -12,7 +12,8 @@
     </p>
     <br/>
     <br/>
-    <a href="https://with-employee-with-you.herokuapp.com/"><strong>with-employee-with-you</strong></a>
+    <!-- <a href="https://with-employee-with-you.herokuapp.com/"><strong>with-employee-with-you</strong></a> -->
+    <a href="https://withemployee.n-e.kr/"><strong>withEmployee 사이트로 이동</strong></a>
 </div>
     <br/>
     <br/>
@@ -56,7 +57,7 @@
             <li>
               <h4>Solution : </h4>
               <p>
-                발생된 횡단관심사를 비지니스 로직에서 분리하기 위해 SpringAOP를 사용하였습니다. <strong><em>@Aspect</em></strong> 어노테이션을 이용하였으며 적용대상은 <strong><em>@PointCut</em></strong>으로 Controller, Service, Repository 클래스로 제한하였으며 구현부 어드바이스를 통해 로그레벨을 출력하도록 하였습니다. 구현부에 사용될 TraceId는 요청이 구분되지 않아 동시성 문제가 발생하지 않도록 ThreadLocal에 담아 구분되도록 하였습니다. 
+                발생된 횡단관심사를 비지니스 로직에서 분리하기 위해 SpringAOP를 사용하였습니다. <strong><em>@Aspect</em></strong> 어노테이션을 이용하였으며 적용대상은 <strong><em>@PointCut</em></strong>으로 Controller, Service, Repository 클래스로 제한하였으며 구현부 어드바이스를 통해 로그레벨을 출력하도록 하였습니다. 구현부에 사용될 TraceId는 요청이 구분되지 않아 동시성 문제가 발생하지 않도록 ThreadLocal에 담아 구분되도록 하였습니다. <a href="https://dodop-blog.tistory.com/346"><strong> AOP 적용사항 확인하기</strong></a>
               </p>
             </li>
           </ul>       
@@ -71,7 +72,22 @@
             <li>
               <h4>Solution : </h4>
               <p>
-                객체별로 인수테스트를 통하여 객체가 <strong><em>원하는 시나리오대로 응답을 하는지 확인</em></strong>하고 사업부의 목적에 부합하는 결과를 나타내도록 구현하였습니다. 또한 인수테스트는 공통적으로 사용되는 설정 부분 및 로직 부분은 AcceptanceTest라는 추상 클래스에 함꼐 구현하여 이를 활용하여 반복 부분이 발생하지 않도록 하였습니다.
+                객체별로 인수테스트를 통하여 객체가 <strong><em>원하는 시나리오대로 응답을 하는지 확인</em></strong>하고 사업부의 목적에 부합하는 결과를 나타내도록 구현하였습니다. 또한 인수테스트는 공통적으로 사용되는 설정 부분 및 로직 부분은 AcceptanceTest라는 추상 클래스에 함꼐 구현하여 이를 활용하여 반복 부분이 발생하지 않도록 하였습니다. <a href="https://dodop-blog.tistory.com/347"><strong> 인수테스트 구현 및 테스트 리팩토링 확인하기</strong></a>
+              </p>
+            </li>
+          </ul>       
+      </li>
+      <li>
+        <h3>✔️ 리팩토링 및 성능개선</h3> 
+          <ul>
+            <li>
+              <h4>Challenge : </h4>
+              <p>기존 코드에서 팀을 업데이트시 같은 회사 내에 변경하고자하는 이름을 가진 팀이 있는지 확인 후 변경을 적용하기 위해 1)회사에 같은 이름을 가진 팀이 있는지 여부 확인 및 조회, 2)기존 이름으로 그대로 변경요청하는 경우를 위해 요청하는 팀 아이디와 조회된 결과의 아이디가 같은지 비교하는 쿼리가 추가적으로 발생하였습니다.  </p>
+            </li>
+            <li>
+              <h4>Solution : </h4>
+              <p>
+                이를 해결하기 위해 인덱스 설계를 통해 company_id와 name에 대해 unique제약을 걸어줌으로서 불필요한 쿼리가 실행되는 것을 방지하도록 하고 이를 통해 회사정보와 팀 이름을 이용하여 팀을 조회하고자 할 때 인덱스를 사용하여 조회하도록 변경하였습니다. 성능 개선을 위해 추가로 리버스 프록시에 gzip 및 캐시설정, 서버에서는 redis 캐시를 이용하여 기존의 성능점수인 96점에서 99점으로의 성능 개선을 보였으며 FirstView( 2.977S -> 2.639S), FCP(2.748S -> 2.240S), SI(2.994S -> 2.494S), LCP(3.031S -> 2.517S)의 개선과 Total Byte를 556KB에서 266KB으로 줄이는 결과를 이루었습니다. <a href="https://dodop-blog.tistory.com/339"><strong> 리팩토링 및 성능개선 확인하기</strong></a>
               </p>
             </li>
           </ul>       
