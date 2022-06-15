@@ -1,29 +1,25 @@
 package com.yunhalee.withEmployee.team.service;
 
-import com.yunhalee.withEmployee.MockBeans;
+import com.yunhalee.withEmployee.ServiceTest;
 import com.yunhalee.withEmployee.security.jwt.LoginUser;
 import com.yunhalee.withEmployee.team.domain.Team;
 import com.yunhalee.withEmployee.team.domain.TeamTest;
 import com.yunhalee.withEmployee.team.dto.TeamRequest;
 import com.yunhalee.withEmployee.team.dto.TeamResponse;
-import com.yunhalee.withEmployee.team.exception.TeamNameAlreadyInUseException;
-import com.yunhalee.withEmployee.team.exception.TeamNameEmptyException;
 import com.yunhalee.withEmployee.user.domain.UserTest;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-class TeamServiceTest extends MockBeans {
+class TeamServiceTest extends ServiceTest {
 
     @InjectMocks
     private TeamService teamService = new TeamService(teamRepository, companyService, userService);

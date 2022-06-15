@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.yunhalee.withEmployee.MockBeans;
+import com.yunhalee.withEmployee.ServiceTest;
 import com.yunhalee.withEmployee.message.domain.Message;
 import com.yunhalee.withEmployee.message.domain.MessageTest;
 import com.yunhalee.withEmployee.message.dto.MessageRequest;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 
-class MessageServiceTest extends MockBeans {
+class MessageServiceTest extends ServiceTest {
 
     @InjectMocks
     private MessageService messageService = new MessageService(messageRepository,

@@ -7,7 +7,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.yunhalee.withEmployee.MockBeans;
+import com.yunhalee.withEmployee.ServiceTest;
 import com.yunhalee.withEmployee.common.exception.exceptions.AuthException;
 import com.yunhalee.withEmployee.company.domain.Company;
 import com.yunhalee.withEmployee.company.domain.CompanyTest;
@@ -23,9 +23,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.springframework.transaction.annotation.Transactional;
 
-class CompanyServiceTest extends MockBeans {
+class CompanyServiceTest extends ServiceTest {
 
     private static final String COMPANY_NAME_IS_ALREADY_IN_USE_EXCEPTION = "This company name is already in use.";
     private static final String NAME_IS_EMPTY_EXCEPTION = "Name could not be empty.";

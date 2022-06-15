@@ -7,7 +7,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
-import com.yunhalee.withEmployee.MockBeans;
+import com.yunhalee.withEmployee.ServiceTest;
 import com.yunhalee.withEmployee.security.jwt.UserTokenResponse;
 import com.yunhalee.withEmployee.user.domain.Role;
 import com.yunhalee.withEmployee.user.domain.User;
@@ -28,7 +28,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-class UserServiceTest extends MockBeans{
+class UserServiceTest extends ServiceTest {
 
     private static final String DUPLICATED_EMAIL_EXCEPTION = "This email is already in use.";
     private static final String USER_NOT_FOUND_EXCEPTION = "This User doesn't exist";

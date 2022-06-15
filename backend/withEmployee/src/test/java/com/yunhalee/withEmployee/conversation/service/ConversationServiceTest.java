@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.yunhalee.withEmployee.MockBeans;
+import com.yunhalee.withEmployee.ServiceTest;
 import com.yunhalee.withEmployee.common.exception.exceptions.AuthException;
 import com.yunhalee.withEmployee.conversation.domain.Conversation;
 import com.yunhalee.withEmployee.conversation.domain.ConversationTest;
@@ -14,7 +14,6 @@ import com.yunhalee.withEmployee.conversation.dto.ConversationResponse;
 import com.yunhalee.withEmployee.security.jwt.LoginUser;
 import com.yunhalee.withEmployee.user.domain.UserTest;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 
 
-class ConversationServiceTest extends MockBeans {
+class ConversationServiceTest extends ServiceTest {
 
     private static final String USER_NOT_AUTHORIZED_EXCEPTION = "User don't have authorization.";
 
