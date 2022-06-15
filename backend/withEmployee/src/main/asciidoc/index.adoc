@@ -9,4 +9,6 @@ Yunha Lee;
 :operation-curl-request-title: Example request
 :operation-http-response-title: Example response
 
+include::auth.adoc[]
 include::users.adoc[]
+include::teams.adoc[]

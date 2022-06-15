@@ -1,4 +1,4 @@
-package com.yunhalee.withEmployee.company.api;
+package com.yunhalee.withEmployee.user.api;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -8,11 +8,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestP
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.yunhalee.withEmployee.ApiTest;
 import com.yunhalee.withEmployee.company.domain.CompanyTest;
+import com.yunhalee.withEmployee.security.api.AuthApiTest;
 import com.yunhalee.withEmployee.security.jwt.UserTokenResponse;
 import com.yunhalee.withEmployee.team.domain.TeamTest;
 import com.yunhalee.withEmployee.user.domain.UserTest;
@@ -29,46 +29,34 @@ import org.springframework.mock.web.MockMultipartFile;
 
 public class UserApiTest extends ApiTest {
 
-    private static final MockMultipartFile multipartFile = new MockMultipartFile("multipartFile",
+    private static final MockMultipartFile MULTIPART_FILE = new MockMultipartFile("multipartFile",
         "image.png", "image/png", "image data".getBytes());
-    private static final MockMultipartFile userRequest = new MockMultipartFile(
+    private static final MockMultipartFile USER_REQUEST = new MockMultipartFile(
         "userRequest",
         "",
         "application/json",
         "{\"name\": \"testMember\",\"email\": \"testMember@example.com\",\"password\": \"123456\",\"description\": \"This is testMember\",\"phoneNumber\": \"01000000000\",\"ceo\": \"false\"}"
             .getBytes());
-    private static final UserTokenResponse userTokenResponse = UserTokenResponse
-        .of(SimpleUserResponse.of(UserTest.MEMBER), "token");
+    private static final UserTokenResponse USER_TOKEN_RESPONSE = UserTokenResponse.of(SimpleUserResponse.of(UserTest.MEMBER), "token");
 
 
     @Test
     void create() throws Exception {
-        this.mockMvc.perform(multipart("/api/users").file(multipartFile).file(userRequest)
+        this.mockMvc.perform(multipart("/api/users").file(MULTIPART_FILE).file(USER_REQUEST)
             .accept(MediaType.MULTIPART_FORM_DATA))
             .andExpect(status().isCreated())
-            .andDo(print())
             .andDo(document("user-create", requestPartBody("userRequest")));
     }
 
     @Test
     void update() throws Exception {
-        when(userService.update(any(), any(), any())).thenReturn(userTokenResponse);
-        this.mockMvc.perform(multipart("/api/users/{id}", 1L).file(multipartFile).file(userRequest)
+        when(userService.update(any(), any(), any())).thenReturn(USER_TOKEN_RESPONSE);
+        this.mockMvc.perform(multipart("/api/users/{id}", 1L).file(MULTIPART_FILE).file(
+            USER_REQUEST)
             .header(HttpHeaders.AUTHORIZATION, "Bearer token")
             .accept(MediaType.MULTIPART_FORM_DATA, MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andDo(document("user-update",
-                responseFields(
-                    fieldWithPath("user").description("user information response"),
-                    fieldWithPath("user.id").description("user id"),
-                    fieldWithPath("user.name").description("updated user name"),
-                    fieldWithPath("user.email").description("updated user email"),
-                    fieldWithPath("user.description").description("updated user description"),
-                    fieldWithPath("user.phoneNumber").description("updated user phoneNumber"),
-                    fieldWithPath("user.imageUrl").description("updated user image url"),
-                    fieldWithPath("user.role").description("user role"),
-                    fieldWithPath("token").description("token")
-                )
+            .andDo(document("user-update", AuthApiTest.userTokenResponseFields()
             ));
     }
 
@@ -105,8 +93,7 @@ public class UserApiTest extends ApiTest {
                     fieldWithPath("users.[].teams").description("teams where user belong"),
                     fieldWithPath("users.[].teams.[].id").description("team id"),
                     fieldWithPath("users.[].teams.[].name").description("team name"),
-                    fieldWithPath("users.[].teams.[].company")
-                        .description("the company where the team belong"),
+                    fieldWithPath("users.[].teams.[].company").description("the company where the team belong"),
                     fieldWithPath("users.[].companies").description("companies where user works"),
                     fieldWithPath("users.[].companies.[].id").description("company id"),
                     fieldWithPath("users.[].companies.[].name").description("company name")
@@ -136,8 +123,7 @@ public class UserApiTest extends ApiTest {
                     fieldWithPath("teams").description("teams where user belong"),
                     fieldWithPath("teams.[].id").description("team id"),
                     fieldWithPath("teams.[].name").description("team name"),
-                    fieldWithPath("teams.[].company")
-                        .description("the company where the team belong"),
+                    fieldWithPath("teams.[].company").description("the company where the team belong"),
                     fieldWithPath("companies").description("companies where user works"),
                     fieldWithPath("companies.[].id").description("company id"),
                     fieldWithPath("companies.[].name").description("company name")

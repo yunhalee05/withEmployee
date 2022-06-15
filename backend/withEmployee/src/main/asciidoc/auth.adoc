@@ -1,0 +1,29 @@
+ifndef::snippets[]
+:snippets: ../../../target/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+[[authentication]]
+== Auth
+
+[[authentication_login]]
+=== 사용자 로그인
+==== Request
+include::{snippets}/auth-login-with-email-and-password/http-request.adoc[]
+==== Response
+include::{snippets}/auth-login-with-email-and-password/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/auth-login-with-email-and-password/response-fields.adoc[]
+
+[[authentication_login_with_token]]
+=== 사용자 로그인 with 토큰
+==== Request
+include::{snippets}/auth-login-with-token/http-request.adoc[]
+==== Response
+include::{snippets}/auth-login-with-token/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/auth-login-with-token/response-fields.adoc[]

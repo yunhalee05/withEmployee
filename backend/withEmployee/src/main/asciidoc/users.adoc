@@ -10,7 +10,7 @@ endif::[]
 [[resources_users]]
 == User
 
-[[resources_user_update]]
+[[resources_users_get_all]]
 === 모든 사용자 조회
 ==== Request
 include::{snippets}/user-get-all/http-request.adoc[]
@@ -19,7 +19,7 @@ include::{snippets}/user-get-all/http-response.adoc[]
 ==== Response Field Description
 include::{snippets}/user-get-all/response-fields.adoc[]
 
-[[resources_user_update]]
+[[resources_user_get]]
 === 단일 사용자 조회
 ==== Request
 include::{snippets}/user-get/http-request.adoc[]
