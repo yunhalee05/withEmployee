@@ -2,6 +2,7 @@ package com.yunhalee.withEmployee;
 
 import com.yunhalee.withEmployee.company.service.CompanyService;
 import com.yunhalee.withEmployee.conversation.service.ConversationService;
+import com.yunhalee.withEmployee.message.service.MessageService;
 import com.yunhalee.withEmployee.security.jwt.JwtUserDetailsService;
 import com.yunhalee.withEmployee.team.service.TeamService;
 import com.yunhalee.withEmployee.user.service.UserService;
@@ -41,5 +42,8 @@ public abstract class ApiTest {
 
     @MockBean
     protected TeamService teamService;
+
+    @MockBean
+    protected MessageService messageService;
 
 }

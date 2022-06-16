@@ -79,5 +79,3 @@ include::{snippets}/company-update/response-fields.adoc[]
 include::{snippets}/company_delete/http-request.adoc[]
 ==== Response
 include::{snippets}/company_delete/http-response.adoc[]
-==== Response Field Description
-include::{snippets}/company_delete/response-fields.adoc[]

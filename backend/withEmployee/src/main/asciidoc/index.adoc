@@ -13,3 +13,6 @@ include::auth.adoc[]
 include::users.adoc[]
 include::teams.adoc[]
 include::companies.adoc[]
+include::conversations.adoc[]
+include::messages.adoc[]
+

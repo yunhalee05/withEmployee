@@ -1,0 +1,37 @@
+ifndef::snippets[]
+:snippets: ../../../target/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+[[resources_conversations]]
+== Conversation
+
+[[resources_conversations_get_all_by_user_id]]
+=== 사용자가 포함된 모든 채팅방 조회 by 사용자 id
+==== Request
+include::{snippets}/conversations-get-all-by-user-id/http-request.adoc[]
+==== Response
+include::{snippets}/conversations-get-all-by-user-id/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/conversations-get-all-by-user-id/response-fields.adoc[]
+
+[[resources_conversation_create]]
+=== 채팅방 생성
+==== Request
+include::{snippets}/conversation-create/http-request.adoc[]
+==== Response
+include::{snippets}/conversation-create/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/conversation-create/response-fields.adoc[]
+
+[[resources_conversations_delete]]
+=== 채팅방 삭제
+==== Request
+include::{snippets}/conversation-delete/http-request.adoc[]
+==== Response
+include::{snippets}/conversation-delete/http-response.adoc[]
+

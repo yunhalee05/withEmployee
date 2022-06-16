@@ -1,0 +1,43 @@
+ifndef::snippets[]
+:snippets: ../../../target/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+[[resources_messages]]
+== Message
+
+[[resources_messages_get_all_by_conversation_id]]
+=== 채팅방의 모든 메세지 조회 by 채팅방 id
+==== Request
+include::{snippets}/messages-get-all-by-conversation-id/http-request.adoc[]
+==== Response
+include::{snippets}/messages-get-all-by-conversation-id/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/messages-get-all-by-conversation-id/response-fields.adoc[]
+
+[[resources_messages_create]]
+=== 메세지 생성
+==== Request
+include::{snippets}/messages-create/http-request.adoc[]
+==== Response
+include::{snippets}/messages-create/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/messages-create/response-fields.adoc[]
+
+[[resources_messages_delete]]
+=== 메세지 삭제
+==== Request
+include::{snippets}/messages-delete/http-request.adoc[]
+==== Response
+include::{snippets}/messages-delete/http-response.adoc[]
+
+[[resources_messages_save_image]]
+=== 메세지 이미지 저장
+==== Request
+include::{snippets}/messages-save-image/http-request.adoc[]
+==== Response
+include::{snippets}/messages-save-image/http-response.adoc[]

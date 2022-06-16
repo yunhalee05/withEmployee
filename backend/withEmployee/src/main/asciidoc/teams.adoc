@@ -61,8 +61,6 @@ include::{snippets}/team-update/response-fields.adoc[]
 include::{snippets}/team-delete/http-request.adoc[]
 ==== Response
 include::{snippets}/team-delete/http-response.adoc[]
-==== Response Field Description
-include::{snippets}/team-delete/response-fields.adoc[]
 
 [[resources_teams_add_member]]
 === 팀 멤버 추가
@@ -79,6 +77,5 @@ include::{snippets}/team-add-member/response-fields.adoc[]
 include::{snippets}/team-subtract-member/http-request.adoc[]
 ==== Response
 include::{snippets}/team-subtract-member/http-response.adoc[]
-==== Response Field Description
-include::{snippets}/team-subtract-member/response-fields.adoc[]
+
 
