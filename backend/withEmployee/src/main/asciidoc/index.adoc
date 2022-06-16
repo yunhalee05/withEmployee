@@ -12,3 +12,4 @@ Yunha Lee;
 include::auth.adoc[]
 include::users.adoc[]
 include::teams.adoc[]
+include::companies.adoc[]
