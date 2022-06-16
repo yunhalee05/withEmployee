@@ -48,6 +48,21 @@
         </p>
       </li>
       <li>
+        <h3>✔️ API 문서화(Spring Rest Docs)</h3> 
+          <ul>
+            <li>
+              <h4>Challenge : </h4>
+              <p>프로젝트의 크기가 커짐에 따라 작성한 코드의 API를 문서화하여 정리하는 작업이 필요하였습니다.  </p>
+            </li>
+            <li>
+              <h4>Solution : </h4>
+              <p>
+                API를 문서화 하기위해 Spring Rest Docs를 사용하도록 하였습니다. spring-restdocs-asciidoctor을 통해 생성된 snippets을 이용해 문서를 만들어내는 API 문서화를 통해 API를 정리하여 각각의 API에 대하여 Request, Response를 확인할 수 있도록 구현하였습니다. <a href="https://yunhalee05.github.io/withEmployeeRestDocs.github.io/index.html"><strong> API 문서 확인하기 </strong></a>
+              </p>
+            </li>
+          </ul>       
+      </li>
+      <li>
         <h3>✔️ SpringAOP(@Aspect)</h3> 
           <ul>
             <li>
