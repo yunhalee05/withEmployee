@@ -1,0 +1,84 @@
+ifndef::snippets[]
+:snippets: ../../../target/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+[[resources_teams]]
+== Team
+
+[[resources_teams_get_all]]
+=== 모든 팀 조회 by 페이지
+==== Request
+include::{snippets}/team-get-all/http-request.adoc[]
+==== Response
+include::{snippets}/team-get-all/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/team-get-all/response-fields.adoc[]
+
+[[resources_teams_get_by_id]]
+=== 단일 팀 조회 by 팀 ID
+==== Request
+include::{snippets}/team-get-by-id/http-request.adoc[]
+==== Response
+include::{snippets}/team-get-by-id/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/team-get-by-id/response-fields.adoc[]
+
+[[resources_teams_get_all_by_user_id]]
+=== 사용자가 속한 모든 팀 조회
+==== Request
+include::{snippets}/team-get-all-by-user-id/http-request.adoc[]
+==== Response
+include::{snippets}/team-get-all-by-user-id/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/team-get-all-by-user-id/response-fields.adoc[]
+
+[[resources_teams_create]]
+=== 팀 등록
+==== Request
+include::{snippets}/team-create/http-request.adoc[]
+==== Response
+include::{snippets}/team-create/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/team-create/response-fields.adoc[]
+
+[[resources_teams_update]]
+=== 팀 정보 수정
+==== Request
+include::{snippets}/team-update/http-request.adoc[]
+==== Response
+include::{snippets}/team-update/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/team-update/response-fields.adoc[]
+
+[[resources_teams_delete]]
+=== 팀 삭제
+==== Request
+include::{snippets}/team-delete/http-request.adoc[]
+==== Response
+include::{snippets}/team-delete/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/team-delete/response-fields.adoc[]
+
+[[resources_teams_add_member]]
+=== 팀 멤버 추가
+==== Request
+include::{snippets}/team-add-member/http-request.adoc[]
+==== Response
+include::{snippets}/team-add-member/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/team-add-member/response-fields.adoc[]
+
+[[resources_teams_subtract_member]]
+=== 팀 멤버 삭제
+==== Request
+include::{snippets}/team-subtract-member/http-request.adoc[]
+==== Response
+include::{snippets}/team-subtract-member/http-response.adoc[]
+==== Response Field Description
+include::{snippets}/team-subtract-member/response-fields.adoc[]
+

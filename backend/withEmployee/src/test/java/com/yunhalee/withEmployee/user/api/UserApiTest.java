@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 
 public class UserApiTest extends ApiTest {
 
@@ -56,8 +57,7 @@ public class UserApiTest extends ApiTest {
             .header(HttpHeaders.AUTHORIZATION, "Bearer token")
             .accept(MediaType.MULTIPART_FORM_DATA, MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andDo(document("user-update", AuthApiTest.userTokenResponseFields()
-            ));
+            .andDo(document("user-update", AuthApiTest.userTokenResponseFields()));
     }
 
     @Test
@@ -78,28 +78,8 @@ public class UserApiTest extends ApiTest {
             .header(HttpHeaders.AUTHORIZATION, "Bearer token")
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andDo(document("user-get-all",
-                responseFields(
-                    fieldWithPath("totalElement").description("total number of users"),
-                    fieldWithPath("totalPage").description("total page of users"),
-                    fieldWithPath("users").description("found user's information"),
-                    fieldWithPath("users.[].id").description("user id"),
-                    fieldWithPath("users.[].name").description("user name"),
-                    fieldWithPath("users.[].email").description("user email"),
-                    fieldWithPath("users.[].description").description("user description"),
-                    fieldWithPath("users.[].phoneNumber").description("user phoneNumber"),
-                    fieldWithPath("users.[].imageUrl").description("user image url"),
-                    fieldWithPath("users.[].role").description("user role"),
-                    fieldWithPath("users.[].teams").description("teams where user belong"),
-                    fieldWithPath("users.[].teams.[].id").description("team id"),
-                    fieldWithPath("users.[].teams.[].name").description("team name"),
-                    fieldWithPath("users.[].teams.[].company").description("the company where the team belong"),
-                    fieldWithPath("users.[].companies").description("companies where user works"),
-                    fieldWithPath("users.[].companies.[].id").description("company id"),
-                    fieldWithPath("users.[].companies.[].name").description("company name")
-                )));
+            .andDo(document("user-get-all", userResponsesFields()));
     }
-
 
     @Test
     void find_user() throws Exception {
@@ -111,23 +91,59 @@ public class UserApiTest extends ApiTest {
             .header(HttpHeaders.AUTHORIZATION, "Bearer token")
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andDo(document("user-get",
-                responseFields(
-                    fieldWithPath("id").description("user id"),
-                    fieldWithPath("name").description("user name"),
-                    fieldWithPath("email").description("user email"),
-                    fieldWithPath("description").description("user description"),
-                    fieldWithPath("phoneNumber").description("user phoneNumber"),
-                    fieldWithPath("imageUrl").description("user image url"),
-                    fieldWithPath("role").description("user role"),
-                    fieldWithPath("teams").description("teams where user belong"),
-                    fieldWithPath("teams.[].id").description("team id"),
-                    fieldWithPath("teams.[].name").description("team name"),
-                    fieldWithPath("teams.[].company").description("the company where the team belong"),
-                    fieldWithPath("companies").description("companies where user works"),
-                    fieldWithPath("companies.[].id").description("company id"),
-                    fieldWithPath("companies.[].name").description("company name")
-                )));
+            .andDo(document("user-get", userResponseFields()));
+    }
+
+    public static ResponseFieldsSnippet userResponsesFields() {
+        return responseFields(
+            fieldWithPath("totalElement").description("total number of users"),
+            fieldWithPath("totalPage").description("total page of users"),
+            fieldWithPath("users").description("found user's information"),
+            fieldWithPath("users.[].id").description("user id"),
+            fieldWithPath("users.[].name").description("user name"),
+            fieldWithPath("users.[].email").description("user email"),
+            fieldWithPath("users.[].description").description("user description"),
+            fieldWithPath("users.[].phoneNumber").description("user phoneNumber"),
+            fieldWithPath("users.[].imageUrl").description("user image url"),
+            fieldWithPath("users.[].role").description("user role"),
+            fieldWithPath("users.[].teams").description("teams where user belong"),
+            fieldWithPath("users.[].teams.[].id").description("team id"),
+            fieldWithPath("users.[].teams.[].name").description("team name"),
+            fieldWithPath("users.[].teams.[].company").description("the company where the team belong"),
+            fieldWithPath("users.[].companies").description("companies where user works"),
+            fieldWithPath("users.[].companies.[].id").description("company id"),
+            fieldWithPath("users.[].companies.[].name").description("company name")
+        );
+    }
+
+    public static ResponseFieldsSnippet simpleUserResponseFields() {
+        return responseFields(
+            fieldWithPath("id").description("member id"),
+            fieldWithPath("name").description("member name"),
+            fieldWithPath("email").description("member email"),
+            fieldWithPath("description").description("member description"),
+            fieldWithPath("phoneNumber").description("member phoneNumber"),
+            fieldWithPath("imageUrl").description("member image url"),
+            fieldWithPath(".role").description("member role"));
+    }
+
+    public static ResponseFieldsSnippet userResponseFields() {
+        return responseFields(
+            fieldWithPath("id").description("user id"),
+            fieldWithPath("name").description("user name"),
+            fieldWithPath("email").description("user email"),
+            fieldWithPath("description").description("user description"),
+            fieldWithPath("phoneNumber").description("user phoneNumber"),
+            fieldWithPath("imageUrl").description("user image url"),
+            fieldWithPath("role").description("user role"),
+            fieldWithPath("teams").description("teams where user belong"),
+            fieldWithPath("teams.[].id").description("team id"),
+            fieldWithPath("teams.[].name").description("team name"),
+            fieldWithPath("teams.[].company").description("the company where the team belong"),
+            fieldWithPath("companies").description("companies where user works"),
+            fieldWithPath("companies.[].id").description("company id"),
+            fieldWithPath("companies.[].name").description("company name")
+        );
     }
 
 }

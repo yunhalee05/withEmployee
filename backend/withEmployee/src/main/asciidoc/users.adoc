@@ -11,7 +11,7 @@ endif::[]
 == User
 
 [[resources_users_get_all]]
-=== 모든 사용자 조회
+=== 모든 사용자 조회 by 페이지
 ==== Request
 include::{snippets}/user-get-all/http-request.adoc[]
 ==== Response
