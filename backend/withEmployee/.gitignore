@@ -38,8 +38,6 @@ build/
 
 # .mvn
 .idea
-application.properties
-/src/main/resources/config
 
 # /frontend
 /messageUploads
