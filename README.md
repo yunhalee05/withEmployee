@@ -24,6 +24,7 @@
         
 - [__Improvement__](#improvement)
 - [__Challenges__](#challenges)
+- [__Infrastructure__](#infrastructure)
 - [__Tech Stack Used__](#tech)
 - [__Implementation__](#implementation)
 - [__Features__](#feature)
@@ -274,28 +275,32 @@
 </div>
     <br/>
     <br/>
-    <br/><div>
+    <br/>
+<div>
+    <h2 id="infrastructure">🔦 Product Infrastructure</h2>
+        <img src="https://user-images.githubusercontent.com/63947424/174598270-74c63965-db3f-4ab2-84b5-83ec458052b7.png">
+</div>
+<br/>
+<br/>
+<br/>
+<div>
     <h2 id="tech">🛠 Tech Stack Used</h2>
     <ul>
       <li>
         <h4>Frontend</h4> 
-        <img src="https://img.shields.io/badge/react-6cc1d9?style=for-the-badge&logo=react&logoColor=white">
-        <img src="https://img.shields.io/badge/redux-bb93e6?style=for-the-badge&logo=redux&logoColor=white">
-        <img src="https://img.shields.io/badge/stomp.js-e38046?style=for-the-badge&logo=socket.io&logoColor=white">
-        <img src="https://img.shields.io/badge/fontawesome-26324f?style=for-the-badge&logo=fontawesome&logoColor=white">
-        <img src="https://img.shields.io/badge/bootstrap-574370?style=for-the-badge&logo=bootstrap&logoColor=white">
+        <img src="https://user-images.githubusercontent.com/63947424/174610426-ce7a3455-08c4-4c5a-863e-4a083b8c50a1.png">
       </li>
       <li>
         <h4>Backend</h4> 
-        <img src="https://img.shields.io/badge/springboot-67a155?style=for-the-badge&logo=springboot&logoColor=white">
-        <img src="https://img.shields.io/badge/springsecurity-6aa667?style=for-the-badge&logo=springsecurity&logoColor=white">
-        <img src="https://img.shields.io/badge/mysql-e3ba68?style=for-the-badge&logo=mysql&logoColor=black">
-        <img src="https://img.shields.io/badge/jwt-2b2b2b?style=for-the-badge&logo=jsonwebtokens&logoColor=white">
-        <img src="https://img.shields.io/badge/websocket-e38046?style=for-the-badge&logo=socket.io&logoColor=white">
+        <img src="https://user-images.githubusercontent.com/63947424/174612823-9bd33c9b-ad2b-4906-9975-a1c543413236.png">
       </li>
       <li>
         <h4>Deploy</h4> 
-        <img src="https://img.shields.io/badge/heroku-ad7dac?style=for-the-badge&logo=heroku&logoColor=white">
+        <img src="https://user-images.githubusercontent.com/63947424/174612834-42e4b40e-6537-4d61-a12a-255097f01722.png">
+      </li>
+      <li>
+        <h4>Testing & Monitoring</h4> 
+        <img src="https://user-images.githubusercontent.com/63947424/174611304-8b9f4d54-d0b0-400f-aa2b-e18b9b41147d.png">
       </li>
     </ul>
 </div>
