@@ -14,6 +14,8 @@
     <br/>
     <!-- <a href="https://with-employee-with-you.herokuapp.com/"><strong>with-employee-with-you</strong></a> -->
     <a href="https://withemployee.n-e.kr/"><strong>withEmployee 사이트로 이동</strong></a>
+    <div>Test ID: <strong>user1@example.com</strong></div>
+    <div>Test PASSWORD: <strong>123456</strong></div>
 </div>
     <br/>
     <br/>
